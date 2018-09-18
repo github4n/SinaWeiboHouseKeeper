@@ -44,6 +44,8 @@ namespace SinaWeiboHouseKeeper
 
             this.FormClosed += HomePageView_FormClosed;
 
+            this.Text = login.DisplayName + " -" + this.Text;
+
         }
 
         #region 私有方法
@@ -156,7 +158,7 @@ namespace SinaWeiboHouseKeeper
         //退出应用
         private void HomePageView_FormClosed(object sender, FormClosedEventArgs e)
         {
-            IOTools.UserLog.WriteNormalLog("退出登录");
+            IOTools.UserLog.WriteNormalLog(this.LoginMessage.DisplayName + " 退出登录");
             Application.Exit();
         }
         //图文微博固定频率选择
