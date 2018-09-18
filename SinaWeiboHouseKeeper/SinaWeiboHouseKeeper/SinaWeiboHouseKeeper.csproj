@@ -109,6 +109,7 @@
     <Compile Include="HttpHelper.cs" />
     <Compile Include="IOTools\EMailTool.cs" />
     <Compile Include="IOTools\UserLog.cs" />
+    <Compile Include="IOTools\YunDaMaTool.cs" />
     <Compile Include="LoginView.cs">
       <SubType>Form</SubType>
     </Compile>
