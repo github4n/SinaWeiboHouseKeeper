@@ -44,21 +44,9 @@ namespace SinaWeiboHouseKeeper
 
             this.FormClosed += HomePageView_FormClosed;
 
-            GetUserName();
         }
 
         #region 私有方法
-        //获取用户名
-        private void GetUserName()
-        {
-            var userHomePageTxt = HttpHelper.Get("https://weibo.com", this.LoginMessage.MyCookies, true);
-
-            int indexStart = userHomePageTxt.IndexOf("$CONFIG['nick']='") + "$CONFIG['nick']='".Length;
-
-            userHomePageTxt = userHomePageTxt.Substring(indexStart);
-
-            userHomePageTxt = userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
-        }
         //清除图文框提示信息
         private void ClearImageWeiboErrorMessage()
         {

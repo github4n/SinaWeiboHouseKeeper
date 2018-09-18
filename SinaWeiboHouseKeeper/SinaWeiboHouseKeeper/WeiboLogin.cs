@@ -1,9 +1,13 @@
-﻿using System;
+﻿using SinaWeiboHouseKeeper.IOTools;
+using System;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Windows.Forms;
 
 namespace SinaWeiboHouseKeeper
 {
@@ -19,6 +23,27 @@ namespace SinaWeiboHouseKeeper
         /// </summary>
         public string Password { get; set; }
 
+        //微博昵称
+        private string displayName = "";
+        public string DisplayName
+        {
+            get
+            {
+                if (this.myCookies.Count == 0)
+                {
+                    return "";
+                }
+                else
+                {
+                    if (this.displayName.Equals(""))
+                    {
+                        this.displayName = this.GetDisplayName();
+                    }
+                    return this.displayName;
+                }
+            }
+        }
+
         //存放登陆后的cookie
         private CookieContainer myCookies = new CookieContainer();
 
@@ -26,6 +51,21 @@ namespace SinaWeiboHouseKeeper
         {
             get { return myCookies; }
         }
+
+        //--> 云打码参数
+        private const int YunDaMaAppId = 5826;
+        private const string YunDaMaAppKey = "0025c106cd2868a094253c9fb40a8982";
+        private const int YunDaMaCodeType = 1005;
+        private const int YunDaMaTimeOut = 60;
+        private string YunDaMaUserName = "";
+        private string YunDaMaPassword = "";
+        //<--
+
+        //-->更新cookies定时器
+        private Timer updateCookiesTimer = new Timer() { Interval = 60000};
+        private int updateCount = 0;
+        //<--
+
 
         private const string PUBKEY = "EB2A38568661887FA180BDDB5CABD5F21C7BFD59C090CB2D245A87AC253062882729293E5506350508E7F9AA3BB77F4333231490F915F6D63C55FE2F08A49B353F444AD3993CACC02DB784ABBB8E42A9B1BBFFFB38BE18D78E87A0E41B9B8F73A928EE0CCEE1F6739884B9777E4FE9E88A1BBE495927AC4A799B3181D6442443";
         private const string RSAKV = "1330428213";
@@ -53,6 +93,9 @@ namespace SinaWeiboHouseKeeper
             Encoding myEncoding = Encoding.GetEncoding("utf-8");
             byte[] suByte = myEncoding.GetBytes(HttpUtility.UrlEncode(username));
             su = Convert.ToBase64String(suByte);
+
+            updateCookiesTimer.Tick += UpdateCookiesTimer_Tick;
+            this.updateCookiesTimer.Enabled = true;
         }
 
         /// <summary>
@@ -181,5 +224,132 @@ namespace SinaWeiboHouseKeeper
             object obj = se.Run("getpass", new object[] { pwd, servertime, nonce, pubkey }, js);
             return obj.ToString();
         }
+
+        #region 自动更新cookie
+        //更新Cookies
+        public string UpdateCookies(out bool IsSuccess)
+        {
+            IsSuccess = true;
+
+            this.forcedpin = false;
+            string recode = this.End();
+            if (recode.Equals("0"))
+            {
+                return "Cookies更新成功";
+            }
+            else
+            {
+                this.forcedpin = true;
+                //五次尝试，失败后不再尝试登录
+                for (int i = 0; i < 5; i++)
+                {
+                    Image image = this.Start();
+                    //解码
+                    string code = this.YUDMDecode(image ,out int resultId);
+
+                    if (code.Equals(""))
+                    {
+                        continue;
+                    }
+
+                    //云打码解码登录
+                    string result = this.End(code);
+                    if (result.Equals("0"))
+                    {
+                        return String.Format("云打码解码第{0}次更新Cookies成功", i.ToString());
+                    }
+                    else
+                    {
+                        //登陆失败，验证码解码失败回报
+                        YunDaMaTool.YDM_EasyReport(YunDaMaUserName, YunDaMaPassword,YunDaMaAppId, YunDaMaAppKey, resultId, false);
+                    }
+                }
+                IsSuccess = false;
+                return "更新Cookies失败";
+            }
+        }
+
+        //MD5加密
+        public string MD5Encrypt(string password)
+        {
+            MD5CryptoServiceProvider md5Hasher = new MD5CryptoServiceProvider();
+            byte[] hashedDataBytes;
+            hashedDataBytes = md5Hasher.ComputeHash(Encoding.GetEncoding("gb2312").GetBytes(password));
+            StringBuilder tmp = new StringBuilder();
+            foreach (byte i in hashedDataBytes)
+            {
+                tmp.Append(i.ToString("x2"));
+            }
+            return tmp.ToString();
+        }
+
+        //云打码解码
+        private string YUDMDecode(Image img , out int resultId)
+        {
+            StringBuilder pCodeResult = new StringBuilder(new string(' ', 30));
+
+            if (YunDaMaPassword.Equals("") || YunDaMaUserName.Equals(""))
+            {
+                YunDaMaUserName = ConfigurationManager.AppSettings["YunDaMaUserName"];
+                YunDaMaPassword = ConfigurationManager.AppSettings["YunDaMaPasswordMd5"];
+            }
+
+            //保存文件到本地
+            string jpgPath = System.Environment.CurrentDirectory + "\\Source\\code.jpg";
+            if (!Directory.Exists(System.Environment.CurrentDirectory + "\\Source"))//若文件夹不存在则新建文件夹   
+            {
+                Directory.CreateDirectory(System.Environment.CurrentDirectory + "\\Source"); //新建文件夹   
+            }
+            img.Save(jpgPath, img.RawFormat);
+
+            //解码
+            resultId = YunDaMaTool.YDM_EasyDecodeByPath(YunDaMaUserName, YunDaMaPassword, YunDaMaAppId, YunDaMaAppKey, jpgPath, YunDaMaCodeType, YunDaMaTimeOut, pCodeResult);
+
+            if (resultId > 0)
+            {
+                return pCodeResult.ToString();
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        //更新cookies定时器
+        private void UpdateCookiesTimer_Tick(object sender, EventArgs e)
+        {
+            this.updateCount++;
+            if (this.updateCount >= 1200)
+            {
+                string result = this.UpdateCookies(out bool isSuccess);
+                this.updateCount = 0;
+                if (isSuccess)
+                {
+                    this.updateCookiesTimer.Enabled = false;
+                    //更新失败，邮件通知
+                    EMailTool.SendMail("运行错误", "Cookies更新失败，需要重新登陆！");
+                    UserLog.WriteNormalLog(this.DisplayName +" Cookies更新失败");
+                }
+                else
+                {
+                    UserLog.WriteNormalLog(this.DisplayName +" Cookies已更新");
+                }
+            }
+        }
+        #endregion
+
+        #region 获取昵称
+        //获取用户名
+        private string GetDisplayName()
+        {
+            var userHomePageTxt = HttpHelper.Get("https://weibo.com", this.myCookies, true);
+
+            int indexStart = userHomePageTxt.IndexOf("$CONFIG['nick']='") + "$CONFIG['nick']='".Length;
+
+            userHomePageTxt = userHomePageTxt.Substring(indexStart);
+
+            return userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
+        }
+        #endregion
     }
 }

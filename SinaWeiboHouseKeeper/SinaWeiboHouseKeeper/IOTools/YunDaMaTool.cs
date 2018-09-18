@@ -32,6 +32,18 @@ namespace SinaWeiboHouseKeeper.IOTools
         [DllImport("yundamaAPI.dll")]
         public static extern int YDM_UploadByPath(string lpFilePath, int nCodeType);
 
+        /// <summary>
+        /// 通过验证码文件路径解码
+        /// </summary>
+        /// <param name="lpUserName">用户名</param>
+        /// <param name="lpPassWord">密码（或密码的Md5值）</param>
+        /// <param name="nAppId">软件id</param>
+        /// <param name="lpAppKey">key（分成）</param>
+        /// <param name="lpFilePath">验证码文件路径</param>
+        /// <param name="nCodeType">验证码类型</param>
+        /// <param name="nTimeOut">超时时间（秒）</param>
+        /// <param name="pCodeResult">解码值</param>
+        /// <returns>验证码id，用以返回打码结果是否正确</returns>
         [DllImport("yundamaAPI.dll")]
         public static extern int YDM_EasyDecodeByPath(string lpUserName, string lpPassWord, int nAppId, string lpAppKey, string lpFilePath, int nCodeType, int nTimeOut, StringBuilder pCodeResult);
 
@@ -47,6 +59,12 @@ namespace SinaWeiboHouseKeeper.IOTools
         [DllImport("yundamaAPI.dll")]
         public static extern int YDM_GetResult(int nCaptchaId, StringBuilder pCodeResult);
 
+        /// <summary>
+        /// 报告解码结果是否正确
+        /// </summary>
+        /// <param name="nCaptchaId">验证码id</param>
+        /// <param name="bCorrect">错误：false 正确为true（可以不调用）</param>
+        /// <returns>报错成功返回0</returns>
         [DllImport("yundamaAPI.dll")]
         public static extern int YDM_Report(int nCaptchaId, bool bCorrect);
 

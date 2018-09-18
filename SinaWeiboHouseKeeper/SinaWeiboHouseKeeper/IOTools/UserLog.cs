@@ -17,15 +17,10 @@ namespace SinaWeiboHouseKeeper.IOTools
             {
                 if (logPath == null)
                 {
-                    //取bin目录上两级菜单
-                    string[] temp = System.Windows.Forms.Application.StartupPath.Split("\\".ToCharArray());
-                    for (int i = 0; i < temp.Length - 2; i++)
-                    {
-                        logPath += temp[i];
-                        logPath += "\\";
-                    }
+                    logPath = System.Environment.CurrentDirectory;
+
                     //创建默认日志文件夹
-                    if (!Directory.Exists(logPath += "LogData"))
+                    if (!Directory.Exists(logPath += "\\LogData"))
                     {
                         Directory.CreateDirectory(logPath);
                     }
