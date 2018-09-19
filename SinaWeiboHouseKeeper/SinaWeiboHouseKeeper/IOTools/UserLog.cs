@@ -17,7 +17,7 @@ namespace SinaWeiboHouseKeeper.IOTools
             {
                 if (logPath == null)
                 {
-                    logPath = System.Environment.CurrentDirectory;
+                    logPath = Environment.CurrentDirectory;
 
                     //创建默认日志文件夹
                     if (!Directory.Exists(logPath += "\\LogData"))
