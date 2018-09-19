@@ -148,7 +148,7 @@ namespace SinaWeiboHouseKeeper
             }
         }
         //发布视频微博
-        private void publisVideoWeibo()
+        private void PublisVideoWeibo()
         {
 
         }
@@ -419,7 +419,7 @@ namespace SinaWeiboHouseKeeper
         {
             if (this.videoWeiboCount <= 0)
             {
-                this.publisVideoWeibo();
+                this.PublisVideoWeibo();
                 this.UpdateCounter(false);
             }
             this.videoWeiboCount--;
