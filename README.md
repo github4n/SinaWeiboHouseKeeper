@@ -1,0 +1,3 @@
+# SinaWeiboHouseKeeper
+
+编译后需要将resources\dll中的sinaSSOEncoder和yundamaAPI.dll拷贝到的不过或release文件夹下
