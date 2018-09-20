@@ -26,7 +26,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         /// <param name="password">邮件密码</param> 
         /// <param name="server">邮件服务器</param> 
         /// <returns>send ok</returns> 
-        private static string SendMail(string username, string password, string fromname, string to, string title, string body)
+        private static void SendMail(string username, string password, string fromname, string to, string title, string body)
         {
             try
             {
@@ -60,11 +60,10 @@ namespace SinaWeiboHouseKeeper.IOTools
                 //超时时间 
                 smtp.Timeout = 10000;
                 smtp.Send(mail);
-                return "send ok";
             }
             catch (Exception exp)
             {
-                return exp.Message;
+                UserLog.WriteNormalLog("邮件发送失败" , exp.Message);
             }
         }
 
@@ -74,7 +73,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         /// <param name="title"></param>
         /// <param name="body"></param>
         /// <returns></returns>
-        public static string SendMail(string title, string body)
+        public static void SendMail(string title, string body)
         {
             if (UserName.Equals("") || Password.Equals("") || FromName.Equals("") || Receiver.Equals(""))
             {
@@ -83,7 +82,8 @@ namespace SinaWeiboHouseKeeper.IOTools
                 FromName = ConfigurationManager.AppSettings["EMailSenderDisplayName"];
                 Receiver = ConfigurationManager.AppSettings["EMailReceiverName"];
             }
-            return SendMail(UserName, Password, FromName, Receiver, title, body);
+
+            SendMail(UserName, Password, FromName, Receiver, title, body);
         }
     }
 }

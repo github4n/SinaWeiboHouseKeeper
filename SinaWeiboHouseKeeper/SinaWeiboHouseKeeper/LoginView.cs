@@ -83,7 +83,7 @@ namespace SinaWeiboHouseKeeper
             this.Hide();
             HomePageView homePage = new HomePageView(this.WBLogin);
             homePage.Show();
-            UserLog.WriteNormalLog(this.UserNameBox.Text + " 登陆成功");
+            UserLog.WriteNormalLog(this.WBLogin.DisplayName + " 登陆成功","账号：" + this.UserNameBox.Text);
         }
 
 

@@ -321,19 +321,17 @@ namespace SinaWeiboHouseKeeper
             this.updateCount++;
             if (this.updateCount >= 1200)
             {
+                this.updateCount = 0;
+
                 string result = this.UpdateCookies(out bool isSuccess);
                 this.updateCount = 0;
-                if (isSuccess)
+                if (!isSuccess)
                 {
-                    this.updateCookiesTimer.Enabled = false;
                     //更新失败，邮件通知
                     EMailTool.SendMail("运行错误", "Cookies更新失败，需要重新登陆！");
-                    UserLog.WriteNormalLog(this.DisplayName +" Cookies更新失败");
                 }
-                else
-                {
-                    UserLog.WriteNormalLog(this.DisplayName +" Cookies已更新");
-                }
+
+                UserLog.WriteNormalLog(this.DisplayName + " " + result);
             }
         }
         #endregion

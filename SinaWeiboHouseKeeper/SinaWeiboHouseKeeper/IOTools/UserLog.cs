@@ -57,8 +57,12 @@ namespace SinaWeiboHouseKeeper.IOTools
                 return LogPath + "\\" + LogName;
             }
         }
-        //记录日志
-        public static void WriteNormalLog(string news)
+        /// <summary>
+        /// 写入日志
+        /// </summary>
+        /// <param name="news">日志提要</param>
+        /// <param name="details">详细信息，可以不写</param>
+        public static void WriteNormalLog(string news,string details = "")
         {
             if (!File.Exists(FullPath))
             {
@@ -68,7 +72,10 @@ namespace SinaWeiboHouseKeeper.IOTools
             StringBuilder strBuilderErrorMessage = new StringBuilder();
 
             strBuilderErrorMessage.Append("[" + System.DateTime.Now.ToString() + "]" + " [" + news + "]\r\n");
-
+            if (!details.Equals(""))
+            {
+                strBuilderErrorMessage.Append(details + "\r\n");
+            }
             using (StreamWriter sw = File.AppendText(FullPath))
             {
                 sw.Write(strBuilderErrorMessage);

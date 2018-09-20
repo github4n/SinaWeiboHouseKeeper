@@ -15,3 +15,4 @@ F:\GitHubProject\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\
 F:\GitHubProject\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\obj\Debug\SinaWeiboHouseKeeper.csproj.CopyComplete
 F:\GitHubProject\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\obj\Debug\SinaWeiboHouseKeeper.exe
 F:\GitHubProject\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\obj\Debug\SinaWeiboHouseKeeper.pdb
+F:\GitHubProject\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\SinaWeiboHouseKeeper\obj\Debug\SinaWeiboHouseKeeper.csprojAssemblyReference.cache
