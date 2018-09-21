@@ -9,6 +9,7 @@ namespace SinaWeiboHouseKeeper.IOTools
 {
     public class UserLog
     {
+        #region 存储路径
         //日志文件存储位置
         private static string logPath;
         private static string LogPath
@@ -38,7 +39,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         {
             get
             {
-                if (logName == null)
+                if (logName == null || !logName.Equals(DateTime.Today.ToString("yyyyMMdd") + ".txt"))
                 {
                     logName = DateTime.Today.ToString("yyyyMMdd") + ".txt";
                 }
@@ -57,6 +58,8 @@ namespace SinaWeiboHouseKeeper.IOTools
                 return LogPath + "\\" + LogName;
             }
         }
+        #endregion
+
         /// <summary>
         /// 写入日志
         /// </summary>

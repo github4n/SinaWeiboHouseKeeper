@@ -256,7 +256,7 @@ namespace SinaWeiboHouseKeeper
                     string result = this.End(code);
                     if (result.Equals("0"))
                     {
-                        return String.Format("云打码解码第{0}次更新Cookies成功", i.ToString());
+                        return String.Format("云打码解码第{0}次更新Cookies成功", (i + 1).ToString());
                     }
                     else
                     {
@@ -324,7 +324,7 @@ namespace SinaWeiboHouseKeeper
                 this.updateCount = 0;
 
                 string result = this.UpdateCookies(out bool isSuccess);
-                this.updateCount = 0;
+
                 if (!isSuccess)
                 {
                     //更新失败，邮件通知
