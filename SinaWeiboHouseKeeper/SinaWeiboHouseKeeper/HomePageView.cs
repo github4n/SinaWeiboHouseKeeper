@@ -388,6 +388,10 @@ namespace SinaWeiboHouseKeeper
             {
                 List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text);
                 this.Weibos.AddRange(imageWeibos);
+
+                //-->test 0922
+                IOTools.SqliteTool.InsertData(this.Weibos);
+
                 string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + imageWeibos.Count.ToString() + "条";
                 this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
             }
