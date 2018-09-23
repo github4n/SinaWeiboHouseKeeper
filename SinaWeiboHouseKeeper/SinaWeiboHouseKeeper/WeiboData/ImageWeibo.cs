@@ -25,10 +25,20 @@ namespace SinaWeiboHouseKeeper.WeiboData
 
         public string[] Pictures { get; set; }
 
-
         public ImageWeibo()
         {
         }
+
+        #region
+        /// <summary>
+        /// 根据获取到的很有%7c形式的数据拆分为id数组
+        /// </summary>
+        /// <param name="str">pics string</param>
+        public void SetPicturesFromStr(string str)
+        {
+            this.Pictures = str.Split('#');
+        }
+        #endregion
 
         #region 私有方法
         /// <summary>

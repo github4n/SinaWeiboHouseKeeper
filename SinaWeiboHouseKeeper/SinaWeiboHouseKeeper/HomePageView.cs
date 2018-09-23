@@ -1,4 +1,5 @@
 ﻿using CCWin;
+using SinaWeiboHouseKeeper.IOTools;
 using SinaWeiboHouseKeeper.Views;
 using SinaWeiboHouseKeeper.WeiboData;
 using System;
@@ -32,9 +33,6 @@ namespace SinaWeiboHouseKeeper
 
         private Random rand = new Random();
 
-        //第一版暂用
-        List<ImageWeibo> Weibos = new List<ImageWeibo>();
-
         WeiboLogin LoginMessage { get; set; }
         public HomePageView(WeiboLogin login)
         {
@@ -46,6 +44,9 @@ namespace SinaWeiboHouseKeeper
 
             this.Text = login.DisplayName + " -" + this.Text;
 
+            //创建数据库
+            SqliteTool.CreateDataBase();
+            this.UpdateDisplayDataMessage();
         }
 
         #region 私有方法
@@ -128,10 +129,15 @@ namespace SinaWeiboHouseKeeper
         //发布图文微博
         private void PublishImageWeibo()
         {
-            if (this.Weibos.Count != 0)
+            if (SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo) != 0)
             {
-                ImageWeibo weibo = this.Weibos[0];
-                this.Weibos.Remove(weibo);
+                ImageWeibo weibo = SqliteTool.GetARoundImageWeiboIsNotPublished(SqliteTool.WeiboType.ImageWeibo);
+
+                if (weibo.Pictures == null || weibo.Pictures.Length == 0)
+                {
+                    UserLog.WriteNormalLog("获取微博失败，类型不明确");
+                    return;
+                }
 
                 //设置tags
                 string weiboText = this.isTagsBefore ?
@@ -139,7 +145,6 @@ namespace SinaWeiboHouseKeeper
                     weibo.WeiboMessage + this.tagsText;
 
                 WeiboOperate.SendAnImageWeibo(weiboText, weibo.Pictures);
-                this.label12.Text = "剩余微博数：" + this.Weibos.Count.ToString();
             }
             else
             {
@@ -151,6 +156,13 @@ namespace SinaWeiboHouseKeeper
         private void PublisVideoWeibo()
         {
 
+        }
+
+        //更新显示数据
+        private void UpdateDisplayDataMessage()
+        {
+            this.label12.Text = "当前数据库剩余图文微博数：" + SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo).ToString();
+            this.label12.Refresh();
         }
         #endregion
 
@@ -386,14 +398,19 @@ namespace SinaWeiboHouseKeeper
             //获取图文微博
             if (this.checkBoxGetImageWeibo.Checked)
             {
+                int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
                 List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text);
-                this.Weibos.AddRange(imageWeibos);
 
-                //-->test 0922
-                IOTools.SqliteTool.InsertData(this.Weibos);
+                IOTools.SqliteTool.InsertImageWebos(imageWeibos);
 
-                string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + imageWeibos.Count.ToString() + "条";
+                int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+
+                UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
+
+                string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString()+ "条";
                 this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
+
+                this.UpdateDisplayDataMessage();
             }
 
             //获取视频微博

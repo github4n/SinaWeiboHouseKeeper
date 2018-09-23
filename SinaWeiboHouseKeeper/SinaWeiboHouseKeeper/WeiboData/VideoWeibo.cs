@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SinaWeiboHouseKeeper.WeiboData
 {
-    class VideoWeibo
+    public class VideoWeibo
     {
     }
 }

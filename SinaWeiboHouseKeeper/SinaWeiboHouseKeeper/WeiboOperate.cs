@@ -39,9 +39,9 @@ namespace SinaWeiboHouseKeeper
         /// <param name="pics">图片id,最多可以发布9张图片</param>
         public static void SendAnImageWeibo(string message, string[] pics)
         {
-            if (message.Equals(""))
+            if (message.Equals("") || message.Equals("转发微博"))
             {
-                return;
+                message = "分享图片";
             }
 
             string picsString = "";
