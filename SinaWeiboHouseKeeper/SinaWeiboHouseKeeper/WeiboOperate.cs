@@ -119,6 +119,34 @@ namespace SinaWeiboHouseKeeper
             return imageWeibos;
         }
 
+
+        public static int FollowUsersFans(string uid,int count)
+        {
+            int followCount = 0;
+            for (int page = 1; page <= 5; page++)
+            {
+                //string url = String.Format(@"https://weibo.com/p/100505{0}/follow?relate=fans&from=100505&wvr=6&mod=headfans&current=fans#place", uid);
+                string url = String.Format(@"https://weibo.com/p/100505{0}/follow?relate=fans&page={1}#Pl_Official_HisRelation__59", uid, page);
+                string request = HttpHelper.Get(url, weibo.MyCookies, false);
+
+                //string regexString = "(\\\"uid=)[\\d]*?(&fnick=)(.)*?(&sex=)[\\w]";
+                string regexString = "(action-type=\\\\\"follow\\\\\")(.)*?(&f=1\\\\\">)";
+
+                MatchCollection matches = Regex.Matches(request, regexString);
+                foreach (Match match in matches)
+                {
+                    followCount++;
+                    //uid、昵称
+                    string[] fan = match.Value.Replace("action-type=\\\"follow\\\" action-data=\\\"refer_sort=fanslist&refer_flag=fanslist&uid=", "").Replace("&fnick=", "&").Replace("&f=1\\\">", "").Split('&');
+                    FollowUser(fan[0], fan[1]);
+                    if (followCount >= count)
+                    {
+                        return followCount;
+                    }
+                }
+            }
+            return followCount;
+        }
         #endregion
 
         #region 私有方法
@@ -227,6 +255,32 @@ namespace SinaWeiboHouseKeeper
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
+
+        /// <summary>
+        /// 关注用户
+        /// </summary>
+        /// <param name="uid">用户id</param>
+        /// <param name="nickName">昵称</param>
+        private static void FollowUser(string uid, string nickName)
+        {
+            string data = String.Format("uid={0}&objectid=&f=1&extra=&refer_sort=&refer_flag=1005050001_&location=page_100505_home&oid={0}&wforce=1&nogroup=1&fnick={1}&refer_lflag=1005050005_&refer_from=profile_headerv6&template=7&special_focus=1&isrecommend=1&is_special=0&redirect_url=%252Fp%252F1005056676557674%252Fmyfollow%253Fgid%253D4279893657022870%2523place&_t=0", uid, nickName);
+            string url = @"https://weibo.com/aj/f/followed?ajwvr=6&__rnd=" + GetTimeStamp();
+
+            string s = HttpHelper.SendDataByPost(url, weibo.MyCookies, data);
+        }
+
+        /// <summary>
+        /// 取消关注用户
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="nickName"></param>
+        private static void CancelFollowUser(string uid, string nickName)
+        {
+            string data = String.Format("uid={0}&objectid=&f=1&extra=&refer_sort=&refer_flag=1005050001_&location=page_100505_home&oid={0}&wforce=1&nogroup=1&fnick={1}&refer_lflag=1005050005_&refer_from=profile_headerv6&template=7&special_focus=1&isrecommend=1&is_special=0&redirect_url=%2Fp%2F1005056676557674%2Fmyfollow%3Fgid%3D4279893657022870%23place", uid, nickName);
+            string url = @"https://weibo.com/aj/f/unfollow?ajwvr=6";
+
+            string s = HttpHelper.SendDataByPost(url, weibo.MyCookies, data);
         }
         #endregion
     }

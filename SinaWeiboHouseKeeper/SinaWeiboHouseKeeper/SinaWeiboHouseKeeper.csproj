@@ -148,6 +148,7 @@
     </Compile>
     <Compile Include="HttpHelper.cs" />
     <Compile Include="IOTools\EMailTool.cs" />
+    <Compile Include="IOTools\MD5EncryptTool.cs" />
     <Compile Include="IOTools\SqliteTool.cs" />
     <Compile Include="IOTools\UserLog.cs" />
     <Compile Include="IOTools\YunDaMaTool.cs" />

@@ -47,6 +47,11 @@ namespace SinaWeiboHouseKeeper
             //创建数据库
             SqliteTool.CreateDataBase();
             this.UpdateDisplayDataMessage();
+
+            //WeiboOperate.FollowUser("2634043271", "爱吃芒果荔枝的萌宝");
+
+            //WeiboOperate.CancelFollowUser("2634043271", "爱吃芒果荔枝的萌宝");
+            WeiboOperate.FollowUsersFans("6050947081", 100);
         }
 
         #region 私有方法
