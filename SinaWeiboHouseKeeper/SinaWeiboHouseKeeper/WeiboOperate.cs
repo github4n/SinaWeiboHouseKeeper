@@ -120,6 +120,12 @@ namespace SinaWeiboHouseKeeper
         }
 
 
+        /// <summary>
+        /// 关注特定用户的粉丝
+        /// </summary>
+        /// <param name="uid">uid</param>
+        /// <param name="count">最大关注数</param>
+        /// <returns>实际关注数</returns>
         public static int FollowUsersFans(string uid,int count)
         {
             int followCount = 0;
@@ -146,6 +152,48 @@ namespace SinaWeiboHouseKeeper
                 }
             }
             return followCount;
+        }
+
+        //
+        public static void UnFollowMyFans(int count)
+        {
+            string url = String.Format("https://weibo.com/{0}/follow?from=page_100505&wvr=6&mod=headfollow#place",weibo.UserId);
+            string request = HttpHelper.Get(url, weibo.MyCookies, false);
+
+            string regexString = "(关注<\\\\/span><em class=\\\\\"num S_txt1\\\\\">)[\\d]*?(<\\\\/em>)";
+            MatchCollection matches = Regex.Matches(request, regexString);
+            int followersCount = 0;
+            foreach (Match match in matches)
+            {
+                followersCount = Convert.ToInt32(match.Value.Replace("关注<\\/span><em class=\\\"num S_txt1\\\">", "").Replace("<\\/em>", ""));
+            }
+
+            if (followersCount > 0)
+            {
+                int endPage = followersCount / 30 + 1;
+                for (; endPage > 0; endPage--)
+                {
+                    url = String.Format("https://weibo.com/p/1005056676557674/myfollow?t=1&cfs=&Pl_Official_RelationMyfollow__92_page={0}#Pl_Official_RelationMyfollow__92", endPage);
+                    request = HttpHelper.Get(url, weibo.MyCookies, false);
+                    regexString = "(uid=)[\\d]*?(&nick=)(.)*?(>私信)";
+                    matches = Regex.Matches(request, regexString);
+
+                    foreach (Match match in matches)
+                    {
+                        count--;
+                        string[] users = match.Value.Replace("uid=", "").Replace("\\\">私信", "").Replace("&nick=", "#").Split('#');
+                        CancelFollowUser(users[0], users[1]);
+                        if (count <= 0)
+                        {
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
         }
         #endregion
 

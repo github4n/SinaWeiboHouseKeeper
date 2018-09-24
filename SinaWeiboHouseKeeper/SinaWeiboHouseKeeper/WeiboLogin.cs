@@ -44,6 +44,9 @@ namespace SinaWeiboHouseKeeper
             }
         }
 
+        //uid
+        public string UserId { get; set; }
+
         //存放登陆后的cookie
         private CookieContainer myCookies = new CookieContainer();
 
@@ -328,7 +331,12 @@ namespace SinaWeiboHouseKeeper
         {
             var userHomePageTxt = HttpHelper.Get("https://weibo.com", this.myCookies, true);
 
-            int indexStart = userHomePageTxt.IndexOf("$CONFIG['nick']='") + "$CONFIG['nick']='".Length;
+            //获取用户uid
+            int indexStart = userHomePageTxt.IndexOf("$CONFIG['uid']='") + "$CONFIG['uid']='".Length;
+            userHomePageTxt = userHomePageTxt.Substring(indexStart);
+            this.UserId = userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
+
+            indexStart = userHomePageTxt.IndexOf("$CONFIG['nick']='") + "$CONFIG['nick']='".Length;
 
             userHomePageTxt = userHomePageTxt.Substring(indexStart);
 
