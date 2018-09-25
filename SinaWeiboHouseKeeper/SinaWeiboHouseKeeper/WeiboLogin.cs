@@ -1,5 +1,6 @@
 ﻿using SinaWeiboHouseKeeper.IOTools;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
 using System.IO;
@@ -46,6 +47,9 @@ namespace SinaWeiboHouseKeeper
 
         //uid
         public string UserId { get; set; }
+
+        //是否已经爬取微博
+        private bool isGettedWeibo = false;
 
         //存放登陆后的cookie
         private CookieContainer myCookies = new CookieContainer();
@@ -225,6 +229,7 @@ namespace SinaWeiboHouseKeeper
             js += "function getpass(pwd,servicetime,nonce,rsaPubkey){var RSAKey=new sinaSSOEncoder.RSAKey();RSAKey.setPublic(rsaPubkey,'10001');var password=RSAKey.encrypt([servicetime,nonce].join('\\t')+'\\n'+pwd);return password;}";
             ScriptEngine se = new ScriptEngine(ScriptLanguage.JavaScript);
             object obj = se.Run("getpass", new object[] { pwd, servertime, nonce, pubkey }, js);
+            sr.Close();
             return obj.ToString();
         }
 
@@ -339,6 +344,21 @@ namespace SinaWeiboHouseKeeper
             {
                 WeiboOperate.UnFollowMyFans(30);
                 UserLog.WriteNormalLog("取消关注30人");
+            }
+
+            //每隔三天从已存储的用户列表中获取微博，凌晨三点
+            if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour == 4 && isGettedWeibo == false)
+            {
+                isGettedWeibo = true;
+                List<string> uids = SqliteTool.GetAllUid();
+                foreach (string uid in uids)
+                {
+                    WeiboOperate.GetImageWeibos(uid, out string oid);
+                }
+            }
+            else if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour == 6 && isGettedWeibo == true)
+            {
+                isGettedWeibo = false;
             }
         }
         #endregion

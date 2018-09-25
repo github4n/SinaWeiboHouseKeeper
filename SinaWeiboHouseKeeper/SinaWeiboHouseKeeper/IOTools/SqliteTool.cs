@@ -197,7 +197,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         /// </summary>
         /// <param name="uid">个性域名或id，爬取微博用</param>
         /// <param name="oid">真实id，获取粉丝用</param>
-        public static void InsertUid(string uid,string oid)
+        public static void InsertUidAndOid(string uid,string oid)
         {
             if (DataBaseConnection.State != System.Data.ConnectionState.Open)
             {
@@ -234,7 +234,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         }
 
         //获取所有用户uid，用来获取微博
-        public static List<string> GetAllOid()
+        public static List<string> GetAllUid()
         {
             List<string> uids = new List<string>();
             if (DataBaseConnection.State != System.Data.ConnectionState.Open)

@@ -419,7 +419,7 @@ namespace SinaWeiboHouseKeeper
                 //uid可以正常获取数据时说明有效，存入数据库
                 if (endCount - StartCount > 0)
                 {
-                    SqliteTool.InsertUid(this.textBoxGetWeibo.Text,oid);
+                    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text,oid);
                 }
 
                 this.UpdateDisplayDataMessage();
