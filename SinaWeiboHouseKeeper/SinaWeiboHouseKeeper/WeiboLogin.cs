@@ -307,6 +307,7 @@ namespace SinaWeiboHouseKeeper
         //更新cookies定时器
         private void UpdateCookiesTimer_Tick(object sender, EventArgs e)
         {
+            //更新Cookies
             this.updateCount++;
             if (this.updateCount >= 1200)
             {
@@ -321,6 +322,23 @@ namespace SinaWeiboHouseKeeper
                 }
 
                 UserLog.WriteNormalLog(this.DisplayName + " " + result);
+            }
+
+            //关注  每24小时关注5次，每次关注50人
+            if (this.updateCount % 288 == 0)
+            {
+                string oid = SqliteTool.GetRandomOid();
+                if (!oid.Equals(""))
+                {
+                    int count = WeiboOperate.FollowUsersFans(oid, 50);
+                    UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}",oid));
+                }  
+            }
+            //取消关注 24小时取消关注4次多，每次取消30人
+            if (this.updateCount%320 == 0)
+            {
+                WeiboOperate.UnFollowMyFans(30);
+                UserLog.WriteNormalLog("取消关注30人");
             }
         }
         #endregion

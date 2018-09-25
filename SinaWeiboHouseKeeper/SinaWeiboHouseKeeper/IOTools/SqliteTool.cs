@@ -95,7 +95,6 @@ namespace SinaWeiboHouseKeeper.IOTools
 
                     }
                 }
-
                 reader.Close();
                 DataBaseConnection.Close();
             }
@@ -108,7 +107,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         }
 
         //获取随机可发布微博
-        public static ImageWeibo GetARoundImageWeiboIsNotPublished(WeiboType type)
+        public static ImageWeibo GetARandomImageWeiboIsNotPublished(WeiboType type)
         {
             ImageWeibo weibo = new ImageWeibo();
 
@@ -192,6 +191,69 @@ namespace SinaWeiboHouseKeeper.IOTools
 
             return weiboCount;
         }
+
+        /// <summary>
+        /// 插入被爬取用户的信息
+        /// </summary>
+        /// <param name="uid">个性域名或id，爬取微博用</param>
+        /// <param name="oid">真实id，获取粉丝用</param>
+        public static void InsertUid(string uid,string oid)
+        {
+            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            {
+                DataBaseConnection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = DataBaseConnection;
+
+                command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
+                command.ExecuteNonQuery();
+
+                DataBaseConnection.Close();
+            }
+        }
+
+        //获取一个随机用户的oid,用来获取粉丝
+        public static string GetRandomOid()
+        {
+            string uid = "";
+            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            {
+                DataBaseConnection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = DataBaseConnection;
+                command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM() limit 1";
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                reader.Read();
+                uid = reader.GetString(1);
+
+                reader.Close();
+                DataBaseConnection.Close();
+            }
+            return uid;
+        }
+
+        //获取所有用户uid，用来获取微博
+        public static List<string> GetAllOid()
+        {
+            List<string> uids = new List<string>();
+            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            {
+                DataBaseConnection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = DataBaseConnection;
+                command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM()";
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    uids.Add(reader.GetString(0));
+                }
+                reader.Close();
+                DataBaseConnection.Close();
+            }
+            return uids;
+        }
         #endregion
 
         #region 私有方法
@@ -207,7 +269,6 @@ namespace SinaWeiboHouseKeeper.IOTools
                 //判断imageweibos table是否已经存在
                 command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = 'imageweibos'";
                 command.ExecuteNonQuery();
-
                 SQLiteDataReader reader = command.ExecuteReader();
                 reader.Read();
                 int count = reader.GetInt32(0);
@@ -217,12 +278,11 @@ namespace SinaWeiboHouseKeeper.IOTools
                     //图文微博
                     command.CommandText = "Create Table imageweibos (imageids varchar(200),weibotext varchar(300),ispublished bool)";
                     command.ExecuteNonQuery();
-
                 }
+
                 //判断video table是否已经存在
                 command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = 'videoweibos'";
                 command.ExecuteNonQuery();
-
                 reader = command.ExecuteReader();
                 reader.Read();
                 count = reader.GetInt32(0);
@@ -231,6 +291,20 @@ namespace SinaWeiboHouseKeeper.IOTools
                 {
                     //视频微博
                     command.CommandText = "Create Table videoweibos (videoids varchar(200),weibotext varchar(300),ispublished bool)";
+                    command.ExecuteNonQuery();
+                }
+
+                //判断users table是否已经存在
+                command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = 'users'";
+                command.ExecuteNonQuery();
+                reader = command.ExecuteReader();
+                reader.Read();
+                count = reader.GetInt32(0);
+                reader.Close();
+                if (count == 0)
+                {
+                    //创建users表，用来存储被爬取用户
+                    command.CommandText = "Create Table users (uid varchar(20),oid varchar(20),isdeleted bool)";
                     command.ExecuteNonQuery();
                 }
             }

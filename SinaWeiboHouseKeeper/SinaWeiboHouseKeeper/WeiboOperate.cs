@@ -82,11 +82,12 @@ namespace SinaWeiboHouseKeeper
         }
 
         /// <summary>
-        /// 根据用户id获取其符合条件的微博
+        /// 根据uid或个性域名获取图文微博
         /// </summary>
-        /// <param name="userId">用户id或个性域名</param>
+        /// <param name="userId">个性域名或uid</param>
+        /// <param name="oid">真实id，爬取粉丝用</param>
         /// <returns></returns>
-        public static List<ImageWeibo> GetImageWeibos(string userId)
+        public static List<ImageWeibo> GetImageWeibos(string userId,out string oid)
         {
             List<ImageWeibo> imageWeibos = new List<ImageWeibo>();
 
@@ -96,6 +97,17 @@ namespace SinaWeiboHouseKeeper
             if (Int64.TryParse(userId, out x))
             {
                 lastUserId = @"u/" + userId;
+                oid = userId;
+            }
+            else
+            {
+                string homeUrl = String.Format("https://weibo.com/{0}?from=usercardnew&refer_flag=0000020001_&is_hot=1", userId);
+                string request = HttpHelper.Get(homeUrl, weibo.MyCookies, false);
+
+                //获取用户oid（个性域名用户）
+                int indexStart = request.IndexOf("$CONFIG['oid']='") + "$CONFIG['oid']='".Length;
+                request = request.Substring(indexStart);
+                oid = request.Substring(0, request.IndexOf("';"));
             }
 
 
@@ -154,7 +166,7 @@ namespace SinaWeiboHouseKeeper
             return followCount;
         }
 
-        //
+        //取消关注
         public static void UnFollowMyFans(int count)
         {
             string url = String.Format("https://weibo.com/{0}/follow?from=page_100505&wvr=6&mod=headfollow#place",weibo.UserId);

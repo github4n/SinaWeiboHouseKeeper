@@ -51,9 +51,7 @@ namespace SinaWeiboHouseKeeper
             //WeiboOperate.FollowUser("2634043271", "爱吃芒果荔枝的萌宝");
 
             //WeiboOperate.CancelFollowUser("2634043271", "爱吃芒果荔枝的萌宝");
-            //WeiboOperate.FollowUsersFans("6050947081", 100);
-
-            WeiboOperate.UnFollowMyFans(30);
+            //WeiboOperate.FollowUsersFans("6515965103", 100);
         }
 
         #region 私有方法
@@ -138,7 +136,7 @@ namespace SinaWeiboHouseKeeper
         {
             if (SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo) != 0)
             {
-                ImageWeibo weibo = SqliteTool.GetARoundImageWeiboIsNotPublished(SqliteTool.WeiboType.ImageWeibo);
+                ImageWeibo weibo = SqliteTool.GetARandomImageWeiboIsNotPublished(SqliteTool.WeiboType.ImageWeibo);
 
                 if (weibo.Pictures == null || weibo.Pictures.Length == 0)
                 {
@@ -406,7 +404,8 @@ namespace SinaWeiboHouseKeeper
             if (this.checkBoxGetImageWeibo.Checked)
             {
                 int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
-                List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text);
+                
+                List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text,out string oid);
 
                 IOTools.SqliteTool.InsertImageWebos(imageWeibos);
 
@@ -416,6 +415,12 @@ namespace SinaWeiboHouseKeeper
 
                 string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString()+ "条";
                 this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
+
+                //uid可以正常获取数据时说明有效，存入数据库
+                if (endCount - StartCount > 0)
+                {
+                    SqliteTool.InsertUid(this.textBoxGetWeibo.Text,oid);
+                }
 
                 this.UpdateDisplayDataMessage();
             }
