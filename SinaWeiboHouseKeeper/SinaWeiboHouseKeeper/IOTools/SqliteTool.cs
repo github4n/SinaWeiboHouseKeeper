@@ -20,21 +20,30 @@ namespace SinaWeiboHouseKeeper.IOTools
         }
 
         //数据库路径
-        private static string DataBasePath = Environment.CurrentDirectory + "\\DataBase\\Weibos.db";
-        private static SQLiteConnection DataBaseConnection = new SQLiteConnection("data source = " + DataBasePath);
+        //private static string DataBasePath = Environment.CurrentDirectory + "\\DataBase\\Weibos.db";
+        //private static SQLiteConnection DataBaseConnection = new SQLiteConnection("data source = " + DataBasePath);
+        private static string DataBasePath { get; set; }
+        private static SQLiteConnection DataBaseConnection { get; set; }
 
         #region 公开方法
-        //创建数据库
-        public static void CreateDataBase()
+        /// <summary>
+        /// 根据登录用户昵称存储数据库
+        /// </summary>
+        /// <param name="username">用户昵称</param>
+        public static void CreateDataBase(string username)
         {
+
+            DataBasePath = Environment.CurrentDirectory + String.Format("\\Users\\{0}\\DataBase", username) + "\\Weibos.db";
+
             if (!File.Exists(DataBasePath))
             {
-                if (!Directory.Exists(Environment.CurrentDirectory + "\\DataBase"))
+                if (!Directory.Exists(Environment.CurrentDirectory + String.Format("\\Users\\{0}\\DataBase",username)))
                 {
-                    Directory.CreateDirectory(Environment.CurrentDirectory + "\\DataBase");
+                    Directory.CreateDirectory(Environment.CurrentDirectory + String.Format("\\Users\\{0}\\DataBase", username));
                 }
                 File.Create(DataBasePath).Close();
             }
+            DataBaseConnection = new SQLiteConnection("data source = " + DataBasePath);
             CreateTables();
         }
 

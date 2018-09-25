@@ -97,10 +97,10 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>3C08F08C98AD3D2C29D43764796FAD80B9B874D0</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>789DB841C16982C80B2108C005BB1BF8E69C5243</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SinaWeiboHouseKeeper_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>SinaWeiboHouseKeeper_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -228,7 +228,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SinaWeiboHouseKeeper_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
