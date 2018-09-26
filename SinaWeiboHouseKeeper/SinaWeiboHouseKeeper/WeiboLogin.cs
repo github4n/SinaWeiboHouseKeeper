@@ -1,4 +1,5 @@
 ﻿using SinaWeiboHouseKeeper.IOTools;
+using SinaWeiboHouseKeeper.WeiboData;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Windows.Forms;
 
@@ -68,9 +70,13 @@ namespace SinaWeiboHouseKeeper
         private string YunDaMaPassword = "";
         //<--
 
-        //-->更新cookies定时器
-        private Timer updateCookiesTimer = new Timer() { Interval = 60000};
+        //--> 更新cookies定时器
+        private System.Windows.Forms.Timer updateCookiesTimer = new System.Windows.Forms.Timer() { Interval = 60000};
         private int updateCount = 0;
+        //<--
+
+        //--> 多线程
+        Thread threadSQL { get; set; }
         //<--
 
 
@@ -309,7 +315,7 @@ namespace SinaWeiboHouseKeeper
             }
         }
 
-        //更新cookies定时器
+        //更新cookies定时器、关注、取消关注、定时爬取微博内容
         private void UpdateCookiesTimer_Tick(object sender, EventArgs e)
         {
             //更新Cookies
@@ -332,31 +338,24 @@ namespace SinaWeiboHouseKeeper
             //关注  每24小时关注5次，每次关注50人
             if (this.updateCount % 288 == 0)
             {
-                string oid = SqliteTool.GetRandomOid();
-                if (!oid.Equals(""))
-                {
-                    int count = WeiboOperate.FollowUsersFans(oid, 50);
-                    UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}",oid));
-                }  
+                threadSQL = new Thread(new ThreadStart(ThreadFollow));
+                threadSQL.Start();
             }
             //取消关注 24小时取消关注4次多，每次取消30人
             if (this.updateCount%320 == 0)
             {
-                WeiboOperate.UnFollowMyFans(30);
-                UserLog.WriteNormalLog("取消关注30人");
+                threadSQL = new Thread(new ThreadStart(ThreadUnFollow));
+                threadSQL.Start();
             }
 
-            //每隔三天从已存储的用户列表中获取微博，凌晨三点
-            if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour == 4 && isGettedWeibo == false)
+            //每隔三天从已存储的用户列表中获取微博
+            if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour >= 4 && this.updateCount == 960 && isGettedWeibo == false)
             {
-                isGettedWeibo = true;
-                List<string> uids = SqliteTool.GetAllUid();
-                foreach (string uid in uids)
-                {
-                    WeiboOperate.GetImageWeibos(uid, out string oid);
-                }
+                this.isGettedWeibo = true;
+                threadSQL = new Thread(new ThreadStart(ThreadGetWeibo));
+                threadSQL.Start();
             }
-            else if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour == 6 && isGettedWeibo == true)
+            else if (isGettedWeibo == true)
             {
                 isGettedWeibo = false;
             }
@@ -381,5 +380,38 @@ namespace SinaWeiboHouseKeeper
             return userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
         }
         #endregion
+
+        #region 多线程方法
+        //关注线程
+        private static void ThreadFollow()
+        {
+            string oid = SqliteTool.GetRandomOid();
+            if (!oid.Equals(""))
+            {
+                int count = WeiboOperate.FollowUsersFans(oid, 50);
+                UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}", oid));
+            }
+        }
+        //取消关注
+        private static void ThreadUnFollow()
+        {
+            WeiboOperate.UnFollowMyFans(30);
+            UserLog.WriteNormalLog("取消关注30人");
+        }
+        //爬取用户微博线程
+        private static void ThreadGetWeibo()
+        {
+            List<string> uids = SqliteTool.GetAllUid();
+            foreach (string uid in uids)
+            {
+                int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(uid, out string oid);
+                SqliteTool.InsertImageWebos(imageWeibos);
+                int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                UserLog.WriteNormalLog(String.Format("后台爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", uid));
+            }
+        }
+        #endregion
+
     }
 }

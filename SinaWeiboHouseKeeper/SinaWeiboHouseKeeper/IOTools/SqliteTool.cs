@@ -221,7 +221,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 reader.Read();
                 int count = reader.GetInt32(0);
                 reader.Close();
-                if (count > 0)
+                if (count == 0)
                 {
                     command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
                     command.ExecuteNonQuery();
@@ -234,19 +234,26 @@ namespace SinaWeiboHouseKeeper.IOTools
         public static string GetRandomOid()
         {
             string uid = "";
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            try
             {
-                DataBaseConnection.Open();
-                SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
-                command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM() limit 1";
-                command.ExecuteNonQuery();
-                SQLiteDataReader reader = command.ExecuteReader();
-                reader.Read();
-                uid = reader.GetString(1);
+                if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+                {
+                    DataBaseConnection.Open();
+                    SQLiteCommand command = new SQLiteCommand();
+                    command.Connection = DataBaseConnection;
+                    command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM() limit 1";
+                    command.ExecuteNonQuery();
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    uid = reader.GetString(1);
 
-                reader.Close();
-                DataBaseConnection.Close();
+                    reader.Close();
+                    DataBaseConnection.Close();
+                }
+            }
+            catch
+            {
+                UserLog.WriteNormalLog("获取用户oid失败，本次关注失败！");
             }
             return uid;
         }
