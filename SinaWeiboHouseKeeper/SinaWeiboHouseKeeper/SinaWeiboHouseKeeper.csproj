@@ -97,7 +97,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>789DB841C16982C80B2108C005BB1BF8E69C5243</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6C6C86E4E98E8871CCB6E4CF727138A00A1F8745</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>SinaWeiboHouseKeeper_1_TemporaryKey.pfx</ManifestKeyFile>

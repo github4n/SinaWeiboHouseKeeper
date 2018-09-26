@@ -61,6 +61,19 @@ namespace SinaWeiboHouseKeeper.IOTools
         #endregion
 
         /// <summary>
+        /// 创建用户文件夹
+        /// </summary>
+        /// <param name="userName"></param>
+        public static void CreateUserLog(string userName)
+        {
+            logPath = Environment.CurrentDirectory + "\\Users\\" + userName + "\\LogData";
+            if (!Directory.Exists(logPath))
+            {
+                Directory.CreateDirectory(logPath);
+            }
+        }
+
+        /// <summary>
         /// 写入日志
         /// </summary>
         /// <param name="news">日志提要</param>

@@ -189,7 +189,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                     DataBaseConnection.Close();
                     return 0;
                 }
-                    command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
                 SQLiteDataReader reader = command.ExecuteReader();
                 reader.Read();
@@ -214,9 +214,18 @@ namespace SinaWeiboHouseKeeper.IOTools
                 SQLiteCommand command = new SQLiteCommand();
                 command.Connection = DataBaseConnection;
 
-                command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
+                //判断是否已存在
+                command.CommandText = String.Format("SELECT COUNT(*) FROM users WHERE uid = {0}",uid);
                 command.ExecuteNonQuery();
-
+                SQLiteDataReader reader = command.ExecuteReader();
+                reader.Read();
+                int count = reader.GetInt32(0);
+                reader.Close();
+                if (count > 0)
+                {
+                    command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
+                    command.ExecuteNonQuery();
+                }
                 DataBaseConnection.Close();
             }
         }
