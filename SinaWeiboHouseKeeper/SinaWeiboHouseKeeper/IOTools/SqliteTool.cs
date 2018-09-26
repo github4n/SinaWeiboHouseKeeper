@@ -215,7 +215,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 command.Connection = DataBaseConnection;
 
                 //判断是否已存在
-                command.CommandText = String.Format("SELECT COUNT(*) FROM users WHERE uid = {0}",uid);
+                command.CommandText = String.Format("SELECT COUNT(*) FROM users WHERE uid = '{0}'",uid);
                 command.ExecuteNonQuery();
                 SQLiteDataReader reader = command.ExecuteReader();
                 reader.Read();
