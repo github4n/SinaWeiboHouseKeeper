@@ -46,6 +46,11 @@ namespace SinaWeiboHouseKeeper
                 message = "分享图片";
             }
 
+            if (IsMessageHaveAD(message))
+            {
+                UserLog.WriteNormalLog("发布失败，含广告", "微博内容：" + message);
+            }
+
             string picsString = "";
 
             if (pics.Length != 0)
