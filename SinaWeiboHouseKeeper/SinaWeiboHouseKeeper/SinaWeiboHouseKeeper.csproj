@@ -165,6 +165,7 @@
       <DependentUpon>HomePageView.cs</DependentUpon>
     </Compile>
     <Compile Include="HttpHelper.cs" />
+    <Compile Include="IOTools\AppConfigRWTool.cs" />
     <Compile Include="IOTools\EMailTool.cs" />
     <Compile Include="IOTools\MD5EncryptTool.cs" />
     <Compile Include="IOTools\SqliteTool.cs" />

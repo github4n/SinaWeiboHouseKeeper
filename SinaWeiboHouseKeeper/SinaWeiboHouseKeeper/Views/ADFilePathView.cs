@@ -1,7 +1,9 @@
 ﻿using CCWin;
+using SinaWeiboHouseKeeper.IOTools;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,23 +15,10 @@ namespace SinaWeiboHouseKeeper.Views
 {
     public partial class ADFilePathView : Skin_DevExpress
     {
-        public string FilePath
-        {
-            get
-            {
-                return this.textBox1.Text;
-            }
-            set
-            {
-                this.textBox1.Text = value;
-            }
-        }
-
-        private string fileName = "";
-
         public ADFilePathView()
         {
             InitializeComponent();
+            this.textBox1.Text = ConfigurationManager.AppSettings["FilterADPath"];
         }
 
         private void buttonSelect_Click(object sender, EventArgs e)
@@ -38,21 +27,19 @@ namespace SinaWeiboHouseKeeper.Views
             open.Filter = "txt文件|*.txt";
             open.Title = "选择广告特征词文件";
             var res = open.ShowDialog();
-            this.fileName = open.FileName;
             this.textBox1.Text = open.FileName;
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
         {
-            this.fileName = "";
             this.Close();
         }
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (!this.fileName.Equals(""))
+            if (!this.textBox1.Text.Equals(""))
             {
-                WeiboOperate.filterADFilePath = this.fileName;
+                AppConfigRWTool.WriteConfig("FilterADPath", this.textBox1.Text);
             }
         }
     }

@@ -1,7 +1,9 @@
 ﻿using Sgml;
+using SinaWeiboHouseKeeper.IOTools;
 using SinaWeiboHouseKeeper.WeiboData;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,7 +22,7 @@ namespace SinaWeiboHouseKeeper
         private static WeiboLogin weibo;
 
         //广告过滤文件路径
-        public static string filterADFilePath = "";
+        public static string filterADFilePath = ConfigurationManager.AppSettings["FilterADPath"];
 
         public static WeiboLogin Weibo
         {
@@ -287,23 +289,31 @@ namespace SinaWeiboHouseKeeper
         private static bool IsMessageHaveAD(string message)
         {
             bool isHave = false;
-            if (!filterADFilePath.Equals(""))
+            try
             {
-                using (StreamReader sr = new StreamReader(filterADFilePath, Encoding.Default))
+                if (!filterADFilePath.Equals(""))
                 {
-                    string line = sr.ReadToEnd();
-                    string[] keyWords = line.Split('%');
-                    foreach (string keyWord in keyWords)
+                    using (StreamReader sr = new StreamReader(filterADFilePath, Encoding.Default))
                     {
-                        if (message.IndexOf(keyWord) > -1)
+                        string line = sr.ReadToEnd();
+                        string[] keyWords = line.Split('%');
+                        foreach (string keyWord in keyWords)
                         {
-                            isHave = true;
-                            break;
+                            if (message.IndexOf(keyWord) > -1)
+                            {
+                                isHave = true;
+                                break;
+                            }
                         }
+                        sr.Close();
                     }
-                    sr.Close();
                 }
             }
+            catch (Exception ex)
+            {
+                UserLog.WriteNormalLog("广告过滤文件无法正常读取", ex.Message);
+            }
+
             return isHave;
         }
 

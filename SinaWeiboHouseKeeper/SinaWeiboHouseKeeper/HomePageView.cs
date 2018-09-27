@@ -462,7 +462,6 @@ namespace SinaWeiboHouseKeeper
         private void ADFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ADFilePathView adFilePath = new ADFilePathView();
-            adFilePath.FilePath = WeiboOperate.filterADFilePath;
             adFilePath.ShowDialog();
         }
         #endregion

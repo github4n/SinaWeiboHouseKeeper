@@ -389,6 +389,11 @@ namespace SinaWeiboHouseKeeper
             if (!oid.Equals(""))
             {
                 int count = WeiboOperate.FollowUsersFans(oid, 50);
+                if (count < 50)
+                {
+                    count += WeiboOperate.FollowUsersFans(SqliteTool.GetRandomOid(), 50 - count);
+                }
+                
                 UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}", oid));
             }
         }
