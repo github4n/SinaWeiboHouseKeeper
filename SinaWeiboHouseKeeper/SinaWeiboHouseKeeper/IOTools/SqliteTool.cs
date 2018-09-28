@@ -60,48 +60,55 @@ namespace SinaWeiboHouseKeeper.IOTools
 
                 foreach (ImageWeibo weibo in imageWeibos)
                 {
-                    string weiboText = weibo.WeiboMessage;
-                    string[] pics = weibo.Pictures;
-                    string picsString = "";
-                    if (pics.Length != 0)
+                    try
                     {
-                        picsString += pics[0];
-                        for (int i = 1; i < (pics.Length < 9 ? pics.Length : 9); i++)
+                        string weiboText = weibo.WeiboMessage;
+                        string[] pics = weibo.Pictures;
+                        string picsString = "";
+                        if (pics.Length != 0)
                         {
-                            //字符串间以“#”间隔
-                            picsString += ("#" + pics[i]);
+                            picsString += pics[0];
+                            for (int i = 1; i < (pics.Length < 9 ? pics.Length : 9); i++)
+                            {
+                                //字符串间以“#”间隔
+                                picsString += ("#" + pics[i]);
+                            }
                         }
-                    }
 
-                    command.CommandText = String.Format("SELECT COUNT(*) FROM imageweibos WHERE imageids = '{0}'", picsString);
-                    command.ExecuteNonQuery();
-
-                    reader = command.ExecuteReader();
-
-                    reader.Read();
-                    int count = reader.GetInt32(0);
-                    reader.Close();
-                    if (count == 0)
-                    {
-                        command.CommandText = String.Format("INSERT INTO imageweibos VALUES('{0}','{1}',false)", picsString, weiboText);
+                        command.CommandText = String.Format("SELECT COUNT(*) FROM imageweibos WHERE imageids = '{0}'", picsString);
                         command.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        command.CommandText = String.Format( "SELECT rowid,* From imageweibos WHERE imageids = '{0}'",picsString);
-                        command.ExecuteNonQuery();
+
                         reader = command.ExecuteReader();
-                        reader.Read();
-                        int rowid = reader.GetInt32(0);
-                        string dbText = reader.GetString(2);
 
+                        reader.Read();
+                        int count = reader.GetInt32(0);
                         reader.Close();
-                        if(dbText.Length < weiboText.Length)
+                        if (count == 0)
                         {
-                            command.CommandText = String.Format("UPDATE imageweibos SET weibotext = '{0}' WHERE rowid = {1}", weiboText, rowid.ToString());
+                            command.CommandText = String.Format("INSERT INTO imageweibos VALUES('{0}','{1}',false)", picsString, weiboText);
                             command.ExecuteNonQuery();
                         }
+                        else
+                        {
+                            command.CommandText = String.Format("SELECT rowid,* From imageweibos WHERE imageids = '{0}'", picsString);
+                            command.ExecuteNonQuery();
+                            reader = command.ExecuteReader();
+                            reader.Read();
+                            int rowid = reader.GetInt32(0);
+                            string dbText = reader.GetString(2);
 
+                            reader.Close();
+                            if (dbText.Length < weiboText.Length)
+                            {
+                                command.CommandText = String.Format("UPDATE imageweibos SET weibotext = '{0}' WHERE rowid = {1}", weiboText, rowid.ToString());
+                                command.ExecuteNonQuery();
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        UserLog.WriteNormalLog("插入图片微博失败", ex.Message);
                     }
                 }
                 reader.Close();
@@ -208,25 +215,32 @@ namespace SinaWeiboHouseKeeper.IOTools
         /// <param name="oid">真实id，获取粉丝用</param>
         public static void InsertUidAndOid(string uid,string oid)
         {
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            try
             {
-                DataBaseConnection.Open();
-                SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
-
-                //判断是否已存在
-                command.CommandText = String.Format("SELECT COUNT(*) FROM users WHERE uid = '{0}'",uid);
-                command.ExecuteNonQuery();
-                SQLiteDataReader reader = command.ExecuteReader();
-                reader.Read();
-                int count = reader.GetInt32(0);
-                reader.Close();
-                if (count == 0)
+                if (DataBaseConnection.State != System.Data.ConnectionState.Open)
                 {
-                    command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
+                    DataBaseConnection.Open();
+                    SQLiteCommand command = new SQLiteCommand();
+                    command.Connection = DataBaseConnection;
+
+                    //判断是否已存在
+                    command.CommandText = String.Format("SELECT COUNT(*) FROM users WHERE uid = '{0}'", uid);
                     command.ExecuteNonQuery();
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    int count = reader.GetInt32(0);
+                    reader.Close();
+                    if (count == 0)
+                    {
+                        command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
+                        command.ExecuteNonQuery();
+                    }
+                    DataBaseConnection.Close();
                 }
-                DataBaseConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                UserLog.WriteNormalLog("插入oid失败",ex.Message);
             }
         }
 
