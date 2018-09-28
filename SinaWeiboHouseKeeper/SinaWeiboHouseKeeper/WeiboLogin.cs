@@ -342,7 +342,7 @@ namespace SinaWeiboHouseKeeper
                 threadSQL.Start();
             }
             //取消关注 24小时取消关注4次多，每次取消30人
-            if (this.updateCount%320 == 0)
+            if (this.updateCount % 320 == 0)
             {
                 threadSQL = new Thread(new ThreadStart(ThreadUnFollow));
                 threadSQL.Start();
@@ -366,18 +366,26 @@ namespace SinaWeiboHouseKeeper
         //获取用户名
         private string GetDisplayName()
         {
-            var userHomePageTxt = HttpHelper.Get("https://weibo.com", this.myCookies, true);
+            try
+            {
+                var userHomePageTxt = HttpHelper.Get("https://weibo.com", this.myCookies, true);
+                //获取用户uid
+                int indexStart = userHomePageTxt.IndexOf("$CONFIG['uid']='") + "$CONFIG['uid']='".Length;
+                userHomePageTxt = userHomePageTxt.Substring(indexStart);
+                this.UserId = userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
 
-            //获取用户uid
-            int indexStart = userHomePageTxt.IndexOf("$CONFIG['uid']='") + "$CONFIG['uid']='".Length;
-            userHomePageTxt = userHomePageTxt.Substring(indexStart);
-            this.UserId = userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
+                indexStart = userHomePageTxt.IndexOf("$CONFIG['nick']='") + "$CONFIG['nick']='".Length;
 
-            indexStart = userHomePageTxt.IndexOf("$CONFIG['nick']='") + "$CONFIG['nick']='".Length;
+                userHomePageTxt = userHomePageTxt.Substring(indexStart);
 
-            userHomePageTxt = userHomePageTxt.Substring(indexStart);
-
-            return userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
+                return userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
+            }
+            catch (Exception ex)
+            {
+                UserLog.WriteNormalLog(this.Username + "：获取昵称失败，可能是账号异常！");
+                EMailTool.SendMail("运行错误", this.Username + "：获取昵称失败，可能是账号操作频繁引起的异常，请检查是否需要解除锁定");
+            }
+            return "";
         }
         #endregion
 
