@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2ABEBCA9-2ED1-4621-941C-D219E2FFA987}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>WeiboHouseKeeper</RootNamespace>
-    <AssemblyName>WeiboHouseKeeper</AssemblyName>
+    <RootNamespace>WeiboControl</RootNamespace>
+    <AssemblyName>WeiboControl</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
