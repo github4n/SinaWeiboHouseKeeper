@@ -20,6 +20,7 @@ namespace WeiboHouseKeeper.View
 
 
         #region 事件
+
         #region 功能模块选中事件
         private void checkBoxImage_CheckedChanged(object sender, EventArgs e)
         {
@@ -54,6 +55,83 @@ namespace WeiboHouseKeeper.View
             else
             {
                 this.groupBoxFans.Enabled = false;
+            }
+        }
+        #endregion
+
+        #region 各功能效果设置
+        //图文微博发布频率设置事件
+        private void radioImageFixed_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.radioImageFixed.Checked)
+            {
+                this.textBoxImageFixed.Enabled = true;
+                this.textBoxImageRandom1.Enabled = false;
+                this.textBoxImageRandom2.Enabled = false;
+            }
+            else
+            {
+                this.textBoxImageFixed.Enabled = false;
+                this.textBoxImageRandom1.Enabled = true;
+                this.textBoxImageRandom2.Enabled = true;
+            }
+        }
+
+        //视频微博发布频率设置事件
+        private void radioVideoFixed_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.radioVideoFixed.Checked)
+            {
+                this.textBoxVideoFixed.Enabled = true;
+                this.textBoxVideoRandom1.Enabled = false;
+                this.textBoxVideoRandom2.Enabled = false;
+            }
+            else
+            {
+                this.textBoxVideoFixed.Enabled = false;
+                this.textBoxVideoRandom1.Enabled = true;
+                this.textBoxVideoRandom2.Enabled = true;
+            }
+        }
+
+        //自动关注效果设置事件
+        private void checkBoxAutoFollow_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxAutoFollow.Checked)
+            {
+                this.textBoxAutoFollowCount.Enabled = true;
+            }
+            else
+            {
+                this.textBoxAutoFollowCount.Enabled = false;
+            }
+        }
+
+        //自动取消关注效果设置
+        private void checkBoxAutoUnFollow_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxAutoUnFollow.Checked)
+            {
+                this.textBoxAutoUnFollowCount.Enabled = true;
+            }
+            else
+            {
+                this.textBoxAutoUnFollowCount.Enabled = false;
+            }
+        }
+
+        //休眠时间效果设置
+        private void checkBoxSleepTime_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.checkBoxSleepTime.Checked)
+            {
+                this.comboBox1.Enabled = true;
+                this.comboBox2.Enabled = true;
+            }
+            else
+            {
+                this.comboBox1.Enabled = false;
+                this.comboBox2.Enabled = false;
             }
         }
         #endregion
@@ -95,5 +173,7 @@ namespace WeiboHouseKeeper.View
             this.Close();
         }
         #endregion
+
+
     }
 }

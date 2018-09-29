@@ -60,8 +60,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.checkBoxAutoFollow = new System.Windows.Forms.CheckBox();
             this.checkBoxAutoUnFollow = new System.Windows.Forms.CheckBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxAutoFollowCount = new System.Windows.Forms.TextBox();
+            this.textBoxAutoUnFollowCount = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.checkBoxFans = new System.Windows.Forms.CheckBox();
@@ -186,6 +186,7 @@
             this.radioImageFixed.TabStop = true;
             this.radioImageFixed.Text = "固定频率";
             this.radioImageFixed.UseVisualStyleBackColor = true;
+            this.radioImageFixed.CheckedChanged += new System.EventHandler(this.radioImageFixed_CheckedChanged);
             // 
             // groupVideo
             // 
@@ -301,6 +302,7 @@
             this.radioVideoFixed.TabStop = true;
             this.radioVideoFixed.Text = "固定频率";
             this.radioVideoFixed.UseVisualStyleBackColor = true;
+            this.radioVideoFixed.CheckedChanged += new System.EventHandler(this.radioVideoFixed_CheckedChanged);
             // 
             // checkBoxImage
             // 
@@ -328,8 +330,8 @@
             // 
             this.groupBoxFans.Controls.Add(this.label7);
             this.groupBoxFans.Controls.Add(this.label4);
-            this.groupBoxFans.Controls.Add(this.textBox2);
-            this.groupBoxFans.Controls.Add(this.textBox1);
+            this.groupBoxFans.Controls.Add(this.textBoxAutoUnFollowCount);
+            this.groupBoxFans.Controls.Add(this.textBoxAutoFollowCount);
             this.groupBoxFans.Controls.Add(this.checkBoxAutoUnFollow);
             this.groupBoxFans.Controls.Add(this.checkBoxAutoFollow);
             this.groupBoxFans.Enabled = false;
@@ -431,6 +433,7 @@
             this.checkBoxSleepTime.TabIndex = 19;
             this.checkBoxSleepTime.Text = "启用休眠时间";
             this.checkBoxSleepTime.UseVisualStyleBackColor = true;
+            this.checkBoxSleepTime.CheckedChanged += new System.EventHandler(this.checkBoxSleepTime_CheckedChanged);
             // 
             // label6
             // 
@@ -452,6 +455,7 @@
             this.checkBoxAutoFollow.TabIndex = 0;
             this.checkBoxAutoFollow.Text = "自动关注";
             this.checkBoxAutoFollow.UseVisualStyleBackColor = true;
+            this.checkBoxAutoFollow.CheckedChanged += new System.EventHandler(this.checkBoxAutoFollow_CheckedChanged);
             // 
             // checkBoxAutoUnFollow
             // 
@@ -462,20 +466,23 @@
             this.checkBoxAutoUnFollow.TabIndex = 1;
             this.checkBoxAutoUnFollow.Text = "自动取消关注";
             this.checkBoxAutoUnFollow.UseVisualStyleBackColor = true;
+            this.checkBoxAutoUnFollow.CheckedChanged += new System.EventHandler(this.checkBoxAutoUnFollow_CheckedChanged);
             // 
-            // textBox1
+            // textBoxAutoFollowCount
             // 
-            this.textBox1.Location = new System.Drawing.Point(141, 20);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(33, 21);
-            this.textBox1.TabIndex = 2;
+            this.textBoxAutoFollowCount.Enabled = false;
+            this.textBoxAutoFollowCount.Location = new System.Drawing.Point(141, 20);
+            this.textBoxAutoFollowCount.Name = "textBoxAutoFollowCount";
+            this.textBoxAutoFollowCount.Size = new System.Drawing.Size(33, 21);
+            this.textBoxAutoFollowCount.TabIndex = 2;
             // 
-            // textBox2
+            // textBoxAutoUnFollowCount
             // 
-            this.textBox2.Location = new System.Drawing.Point(141, 49);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(33, 21);
-            this.textBox2.TabIndex = 3;
+            this.textBoxAutoUnFollowCount.Enabled = false;
+            this.textBoxAutoUnFollowCount.Location = new System.Drawing.Point(141, 49);
+            this.textBoxAutoUnFollowCount.Name = "textBoxAutoUnFollowCount";
+            this.textBoxAutoUnFollowCount.Size = new System.Drawing.Size(33, 21);
+            this.textBoxAutoUnFollowCount.TabIndex = 3;
             // 
             // label4
             // 
@@ -602,8 +609,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxAutoUnFollowCount;
+        private System.Windows.Forms.TextBox textBoxAutoFollowCount;
         private System.Windows.Forms.CheckBox checkBoxFans;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
