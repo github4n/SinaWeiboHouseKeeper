@@ -118,90 +118,41 @@ namespace WeiboHouseKeeper.View
         public string FixedTags { get; private set; }
 
         //tags前置or后置
-        public bool IsBackTag
-        {
-            get
-            {
-                return this.radioButtonTagsBack.Checked;
-            }
-        }
+        public bool IsBackTag { get; private set; }
 
         //是否启用图文微博
-        public bool IsImageWeiboEnabled
-        {
-            get
-            {
-                return this.checkBoxImage.Checked;
-            }
-        }
+        public bool IsImageWeiboEnabled { get; private set; }
 
         //是否启用视频微博
-        public bool IsVideoWeiboEnabled
-        {
-            get
-            {
-                return this.checkBoxVideo.Checked;
-            }
-        }
+        public bool IsVideoWeiboEnabled { get; private set; }
 
         //是否启用吸粉功能
-        public bool IsAutoFansEnabled
-        {
-            get
-            {
-                return this.checkBoxFans.Checked;
-            }
-        }
+        public bool IsAutoFansEnabled { get; private set; }
 
         //是否启用休眠时间
-        public bool IsSleepTimeEnabled
-        {
-            get
-            {
-                return this.checkBoxSleepTime.Checked;
-            }
-        }
+        public bool IsSleepTimeEnabled { get; private set; }
 
         //图片微博固定频率或者随机频率
-        public bool IsImageWeiboFixed
-        {
-            get
-            {
-                return this.radioImageFixed.Checked;
-            }
-        }
+        public bool IsImageWeiboFixed { get; private set; }
 
         //视频微博固定频率或者随机频率
-        public bool IsVideoWeiboFixed
-        {
-            get
-            {
-                return this.radioVideoFixed.Checked;
-            }
-        }
+        public bool IsVideoWeiboFixed { get; private set; }
 
         //自动关注启用
-        public bool IsAutoFollowEnabled
-        {
-            get
-            {
-                return this.checkBoxAutoFollow.Checked;
-            }
-        }
+        public bool IsAutoFollowEnabled { get; private set; }
 
         //自动取消关注启用
-        public bool IsAutoUnFollowEnabled
-        {
-            get
-            {
-                return this.checkBoxAutoUnFollow.Checked;
-            }
-        }
+        public bool IsAutoUnFollowEnabled { get; private set; }
+
         #endregion
 
         public WeiboSetView()
         {
             InitializeComponent();
+
+            //设置默认值
+            this.IsImageWeiboFixed = true;
+            this.IsVideoWeiboFixed = true;
         }
 
         #region 私有方法
@@ -406,15 +357,40 @@ namespace WeiboHouseKeeper.View
 
             if (this.IsBackTag)
             {
-                this.radioButtonTagsFront.Checked = true;
+                this.radioButtonTagsBack.Checked = true;
             }
             else
             {
-                this.radioButtonTagsBack.Checked = true;
+                this.radioButtonTagsFront.Checked = true;
             }
 
             this.comboBox1.SelectedIndex = this.SleepTmieStart;
             this.comboBox2.SelectedIndex = this.SleepTimeEnd;
+
+            this.checkBoxImage.Checked = this.IsImageWeiboEnabled;
+            this.checkBoxVideo.Checked = this.IsVideoWeiboEnabled;
+            this.checkBoxFans.Checked = this.IsAutoFansEnabled;
+            this.checkBoxSleepTime.Checked = this.IsSleepTimeEnabled;
+            this.checkBoxAutoFollow.Checked = this.IsAutoFollowEnabled;
+            this.checkBoxAutoUnFollow.Checked = this.IsAutoUnFollowEnabled;
+
+            if (this.IsImageWeiboFixed)
+            {
+                this.radioImageFixed.Checked = true;
+            }
+            else
+            {
+                this.radioImageRandom.Checked = true;
+            }
+
+            if (this.IsVideoWeiboFixed)
+            {
+                this.radioVideoFixed.Checked = true;
+            }
+            else
+            {
+                this.radioVideoRandom.Checked = true;
+            }
         }
         #endregion
 
@@ -557,12 +533,26 @@ namespace WeiboHouseKeeper.View
         private void buttonOK_Click(object sender, EventArgs e)
         {
             //图文微博设置模块校验
-            if (!this.IsImageWeiboSettingValid() || 
+            if (!this.IsImageWeiboSettingValid() ||
                 !this.IsVideoWeiboSettingValid() ||
-                !this.IsFansSettingValid() || 
+                !this.IsFansSettingValid() ||
                 !this.IsSleepTimeSettingValid())
             {
                 return;
+            }
+            else
+            {
+                this.IsImageWeiboEnabled = this.checkBoxImage.Checked;
+                this.IsVideoWeiboEnabled = this.checkBoxVideo.Checked;
+                this.IsAutoFansEnabled = this.checkBoxFans.Checked;
+                this.IsSleepTimeEnabled = this.checkBoxSleepTime.Checked;
+                this.IsAutoFollowEnabled = this.checkBoxAutoFollow.Checked;
+                this.IsAutoUnFollowEnabled = this.checkBoxAutoUnFollow.Checked;
+                this.IsImageWeiboFixed = this.radioImageFixed.Checked;
+                this.IsVideoWeiboFixed = this.radioVideoFixed.Checked;
+                this.IsBackTag = this.radioButtonTagsBack.Checked;
+
+                this.FixedTags = this.textBoxFixedTags.Text;
             }
 
             this.Close();

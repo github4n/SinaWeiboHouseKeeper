@@ -53,6 +53,8 @@
             this.checkBoxImage = new System.Windows.Forms.CheckBox();
             this.checkBoxVideo = new System.Windows.Forms.CheckBox();
             this.groupBoxFans = new System.Windows.Forms.GroupBox();
+            this.labelUnFollowError = new System.Windows.Forms.Label();
+            this.labelFollowError = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.textBoxAutoUnFollowCount = new System.Windows.Forms.TextBox();
@@ -67,13 +69,11 @@
             this.checkBoxFans = new System.Windows.Forms.CheckBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
-            this.labelFollowError = new System.Windows.Forms.Label();
-            this.labelUnFollowError = new System.Windows.Forms.Label();
             this.groupBoxTags = new System.Windows.Forms.GroupBox();
-            this.textBoxFixedTags = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.radioButtonTagsFront = new System.Windows.Forms.RadioButton();
             this.radioButtonTagsBack = new System.Windows.Forms.RadioButton();
+            this.radioButtonTagsFront = new System.Windows.Forms.RadioButton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBoxFixedTags = new System.Windows.Forms.TextBox();
             this.groupImage.SuspendLayout();
             this.groupVideo.SuspendLayout();
             this.groupBoxFans.SuspendLayout();
@@ -352,6 +352,28 @@
             this.groupBoxFans.TabStop = false;
             this.groupBoxFans.Text = "自动关注";
             // 
+            // labelUnFollowError
+            // 
+            this.labelUnFollowError.AutoSize = true;
+            this.labelUnFollowError.ForeColor = System.Drawing.Color.Red;
+            this.labelUnFollowError.Location = new System.Drawing.Point(222, 54);
+            this.labelUnFollowError.Name = "labelUnFollowError";
+            this.labelUnFollowError.Size = new System.Drawing.Size(149, 12);
+            this.labelUnFollowError.TabIndex = 16;
+            this.labelUnFollowError.Text = "输入内容必须为有效数字！";
+            this.labelUnFollowError.Visible = false;
+            // 
+            // labelFollowError
+            // 
+            this.labelFollowError.AutoSize = true;
+            this.labelFollowError.ForeColor = System.Drawing.Color.Red;
+            this.labelFollowError.Location = new System.Drawing.Point(222, 25);
+            this.labelFollowError.Name = "labelFollowError";
+            this.labelFollowError.Size = new System.Drawing.Size(149, 12);
+            this.labelFollowError.TabIndex = 15;
+            this.labelFollowError.Text = "输入内容必须为有效数字！";
+            this.labelFollowError.Visible = false;
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -543,28 +565,6 @@
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // labelFollowError
-            // 
-            this.labelFollowError.AutoSize = true;
-            this.labelFollowError.ForeColor = System.Drawing.Color.Red;
-            this.labelFollowError.Location = new System.Drawing.Point(222, 25);
-            this.labelFollowError.Name = "labelFollowError";
-            this.labelFollowError.Size = new System.Drawing.Size(149, 12);
-            this.labelFollowError.TabIndex = 15;
-            this.labelFollowError.Text = "输入内容必须为有效数字！";
-            this.labelFollowError.Visible = false;
-            // 
-            // labelUnFollowError
-            // 
-            this.labelUnFollowError.AutoSize = true;
-            this.labelUnFollowError.ForeColor = System.Drawing.Color.Red;
-            this.labelUnFollowError.Location = new System.Drawing.Point(222, 54);
-            this.labelUnFollowError.Name = "labelUnFollowError";
-            this.labelUnFollowError.Size = new System.Drawing.Size(149, 12);
-            this.labelUnFollowError.TabIndex = 16;
-            this.labelUnFollowError.Text = "输入内容必须为有效数字！";
-            this.labelUnFollowError.Visible = false;
-            // 
             // groupBoxTags
             // 
             this.groupBoxTags.Controls.Add(this.radioButtonTagsBack);
@@ -578,21 +578,16 @@
             this.groupBoxTags.TabStop = false;
             this.groupBoxTags.Text = "话题Tags";
             // 
-            // textBoxFixedTags
+            // radioButtonTagsBack
             // 
-            this.textBoxFixedTags.Location = new System.Drawing.Point(69, 21);
-            this.textBoxFixedTags.Name = "textBoxFixedTags";
-            this.textBoxFixedTags.Size = new System.Drawing.Size(226, 21);
-            this.textBoxFixedTags.TabIndex = 0;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(11, 26);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(53, 12);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "固定话题";
+            this.radioButtonTagsBack.AutoSize = true;
+            this.radioButtonTagsBack.Location = new System.Drawing.Point(141, 48);
+            this.radioButtonTagsBack.Name = "radioButtonTagsBack";
+            this.radioButtonTagsBack.Size = new System.Drawing.Size(47, 16);
+            this.radioButtonTagsBack.TabIndex = 5;
+            this.radioButtonTagsBack.TabStop = true;
+            this.radioButtonTagsBack.Text = "后置";
+            this.radioButtonTagsBack.UseVisualStyleBackColor = true;
             // 
             // radioButtonTagsFront
             // 
@@ -605,16 +600,21 @@
             this.radioButtonTagsFront.Text = "前置";
             this.radioButtonTagsFront.UseVisualStyleBackColor = true;
             // 
-            // radioButtonTagsBack
+            // label6
             // 
-            this.radioButtonTagsBack.AutoSize = true;
-            this.radioButtonTagsBack.Location = new System.Drawing.Point(141, 48);
-            this.radioButtonTagsBack.Name = "radioButtonTagsBack";
-            this.radioButtonTagsBack.Size = new System.Drawing.Size(47, 16);
-            this.radioButtonTagsBack.TabIndex = 5;
-            this.radioButtonTagsBack.TabStop = true;
-            this.radioButtonTagsBack.Text = "后置";
-            this.radioButtonTagsBack.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(11, 26);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "固定话题";
+            // 
+            // textBoxFixedTags
+            // 
+            this.textBoxFixedTags.Location = new System.Drawing.Point(69, 21);
+            this.textBoxFixedTags.Name = "textBoxFixedTags";
+            this.textBoxFixedTags.Size = new System.Drawing.Size(226, 21);
+            this.textBoxFixedTags.TabIndex = 0;
             // 
             // WeiboSetView
             // 
@@ -644,6 +644,7 @@
             this.Name = "WeiboSetView";
             this.ShowDrawIcon = false;
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "WeiboSetView";
             this.groupImage.ResumeLayout(false);
             this.groupImage.PerformLayout();
