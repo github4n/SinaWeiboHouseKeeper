@@ -13,86 +13,191 @@ namespace WeiboHouseKeeper.View
 {
     public partial class WeiboSetView : Skin_DevExpress
     {
+        #region 属性等
         //图文微博固定频率
         private uint imageWeiboFixedTime = 20;
-        public uint ImageWeiboFixedTime
+        public string ImageWeiboFixedTime
         {
             get
             {
-                return this.imageWeiboFixedTime;
+                return this.imageWeiboFixedTime.ToString();
             }
         }
 
         //图文微博随机频率下限
-        private uint imageWeiboRandomTimeMin = 0;
-        public uint ImageWeiboRandomTimeMin
+        private uint imageWeiboRandomTimeMin = 1;
+        public string ImageWeiboRandomTimeMin
         {
             get
             {
-                return this.imageWeiboRandomTimeMin;
+                return this.imageWeiboRandomTimeMin.ToString();
             }
         }
 
         //图文微博随机频率上限
         private uint imageWeiboRandomTimeMax = 60;
-        public uint ImageWeiboRandomTimeMax
+        public string ImageWeiboRandomTimeMax
         {
             get
             {
-                return this.imageWeiboRandomTimeMax;
+                return this.imageWeiboRandomTimeMax.ToString();
             }
         }
 
         //视频微博固定频率
         private uint videoWeiboFixedTime = 20;
-        public uint VideoWeiboFixedTime
+        public string VideoWeiboFixedTime
         {
             get
             {
-                return this.videoWeiboFixedTime;
+                return this.videoWeiboFixedTime.ToString();
             }
         }
 
         //视频微博随机频率下限
-        private uint videoWeiboRandomTimeMin = 0;
-        public uint VideoWeiboRandomTimeMin
+        private uint videoWeiboRandomTimeMin = 1;
+        public string VideoWeiboRandomTimeMin
         {
             get
             {
-                return this.videoWeiboRandomTimeMin;
+                return this.videoWeiboRandomTimeMin.ToString();
             }
         }
 
         //视频微博随机频率上限
         private uint videoWeiboRandomTimeMax = 60;
-        public uint VideoWeiboRandomTimeMax
+        public string VideoWeiboRandomTimeMax
         {
             get
             {
-                return this.videoWeiboRandomTimeMax;
+                return this.videoWeiboRandomTimeMax.ToString();
             }
         }
 
         //每次自动关注人数
-        private uint autoFollowConut = 0;
-        public uint AutoFollowCount
+        private uint autoFollowConut = 10;
+        public string AutoFollowCount
         {
             get
             {
-                return this.autoFollowConut;
+                return this.autoFollowConut.ToString();
             }
         }
 
         //每次自动取消关注数
-        private uint autoUnFollowCount = 0;
-        public uint AutoUnFollowCount
+        private uint autoUnFollowCount = 10;
+        public string AutoUnFollowCount
         {
             get
             {
-                return this.autoUnFollowCount;
+                return this.autoUnFollowCount.ToString();
             }
         }
 
+        //休眠时间起始
+        private int sleepStartIndex = 23;
+        public int SleepTmieStart
+        {
+            get
+            {
+                return this.sleepStartIndex;
+            }
+        }
+        //休眠时间结束
+        private int sleepEndIndex = 5;
+        public int SleepTimeEnd
+        {
+            get
+            {
+                return this.sleepEndIndex;
+            }
+        }
+
+        //固定tags
+        [DefaultValue("")]
+        public string FixedTags { get; private set; }
+
+        //tags前置or后置
+        public bool IsBackTag
+        {
+            get
+            {
+                return this.radioButtonTagsBack.Checked;
+            }
+        }
+
+        //是否启用图文微博
+        public bool IsImageWeiboEnabled
+        {
+            get
+            {
+                return this.checkBoxImage.Checked;
+            }
+        }
+
+        //是否启用视频微博
+        public bool IsVideoWeiboEnabled
+        {
+            get
+            {
+                return this.checkBoxVideo.Checked;
+            }
+        }
+
+        //是否启用吸粉功能
+        public bool IsAutoFansEnabled
+        {
+            get
+            {
+                return this.checkBoxFans.Checked;
+            }
+        }
+
+        //是否启用休眠时间
+        public bool IsSleepTimeEnabled
+        {
+            get
+            {
+                return this.checkBoxSleepTime.Checked;
+            }
+        }
+
+        //图片微博固定频率或者随机频率
+        public bool IsImageWeiboFixed
+        {
+            get
+            {
+                return this.radioImageFixed.Checked;
+            }
+        }
+
+        //视频微博固定频率或者随机频率
+        public bool IsVideoWeiboFixed
+        {
+            get
+            {
+                return this.radioVideoFixed.Checked;
+            }
+        }
+
+        //自动关注启用
+        public bool IsAutoFollowEnabled
+        {
+            get
+            {
+                return this.checkBoxAutoFollow.Checked;
+            }
+        }
+
+        //自动取消关注启用
+        public bool IsAutoUnFollowEnabled
+        {
+            get
+            {
+                return this.checkBoxAutoUnFollow.Checked;
+            }
+        }
+        #endregion
 
         public WeiboSetView()
         {
@@ -111,24 +216,37 @@ namespace WeiboHouseKeeper.View
             {
                 if (this.radioImageFixed.Checked && !this.radioImageRandom.Checked)
                 {
-                    if (!UInt32.TryParse(this.textBoxImageFixed.Text, out this.imageWeiboFixedTime))
+                    if (!UInt32.TryParse(this.textBoxImageFixed.Text, out uint outInt))
                     {
                         this.labelImageError1.Visible = true;
                         isValid = false;
                     }
+
+                    if (outInt > 0)
+                    {
+                        this.imageWeiboFixedTime = outInt;
+                    }
                 }
                 else if (!this.radioImageFixed.Checked && this.radioImageRandom.Checked)
                 {
-                    if (!UInt32.TryParse(this.textBoxImageRandom1.Text, out this.imageWeiboRandomTimeMin) ||
-                        !UInt32.TryParse(this.textBoxImageRandom2.Text, out this.imageWeiboRandomTimeMax))
+                    uint outInt1 = 0;
+                    uint outInt2 = 0;
+                    if (!UInt32.TryParse(this.textBoxImageRandom1.Text, out outInt1) ||
+                        !UInt32.TryParse(this.textBoxImageRandom2.Text, out outInt2))
                     {
                         this.labelImageError2.Visible = true;
                         isValid = false;
                     }
-                    else if (this.imageWeiboRandomTimeMin >= this.imageWeiboRandomTimeMax)
+                    else if (outInt1 >= outInt2)
                     {
                         this.labelImageError2.Visible = true;
                         isValid = false;
+                    }
+
+                    if(isValid)
+                    {
+                        this.imageWeiboRandomTimeMin = outInt1;
+                        this.imageWeiboRandomTimeMax = outInt2;
                     }
                 }
                 else
@@ -151,30 +269,106 @@ namespace WeiboHouseKeeper.View
             {
                 if (this.radioVideoFixed.Checked && !this.radioVideoRandom.Checked)
                 {
-                    if (!UInt32.TryParse(this.textBoxVideoFixed.Text, out this.videoWeiboFixedTime))
+                    if (!UInt32.TryParse(this.textBoxVideoFixed.Text, out uint outInt))
                     {
                         this.labelVideoError1.Visible = true;
                         isValid = false;
                     }
+
+                    if (outInt > 0)
+                    {
+                        this.videoWeiboFixedTime = outInt;
+                    }
                 }
                 else if (!this.radioVideoFixed.Checked && this.radioVideoRandom.Checked)
                 {
-                    if (!UInt32.TryParse(this.textBoxVideoRandom1.Text, out this.videoWeiboRandomTimeMin) ||
-                        !UInt32.TryParse(this.textBoxVideoRandom2.Text, out this.videoWeiboRandomTimeMax))
+                    uint outUint1 = 0;
+                    uint outUint2 = 0;
+                    if (!UInt32.TryParse(this.textBoxVideoRandom1.Text, out outUint1) ||
+                        !UInt32.TryParse(this.textBoxVideoRandom2.Text, out outUint2))
                     {
                         this.labelVideoError2.Visible = true;
                         isValid = false;
                     }
-                    else if (this.videoWeiboRandomTimeMin >= this.videoWeiboRandomTimeMax)
+                    else if (outUint1 >= outUint2)
                     {
                         this.labelVideoError2.Visible = true;
                         isValid = false;
+                    }
+
+                    if (isValid)
+                    {
+                        this.videoWeiboRandomTimeMin = outUint1;
+                        this.videoWeiboRandomTimeMax = outUint2;
                     }
                 }
                 else
                 {
                     this.labelVideoError1.Visible = true;
                     isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        /// <summary>
+        /// 吸粉模块设置有效性验证
+        /// </summary>
+        /// <returns></returns>
+        private bool IsFansSettingValid()
+        {
+            bool isValid = true;
+            if (this.checkBoxFans.Checked)
+            {
+                if (this.checkBoxAutoFollow.Checked)
+                {
+                    if (!UInt32.TryParse(this.textBoxAutoFollowCount.Text, out uint outInt))
+                    {
+                        this.labelFollowError.Visible = true;
+                        isValid = false;
+                    }
+
+                    if (outInt > 0)
+                    {
+                        this.autoFollowConut = outInt;
+                    }
+                }
+
+                if (this.checkBoxAutoUnFollow.Checked)
+                {
+                    if (!UInt32.TryParse(this.textBoxAutoUnFollowCount.Text, out uint outInt))
+                    {
+                        this.labelUnFollowError.Visible = true;
+                        isValid = false;
+                    }
+
+                    if (outInt > 0)
+                    {
+                        this.autoUnFollowCount = outInt;
+                    }
+                }
+            }
+            return isValid;
+        }
+
+        /// <summary>
+        /// 休眠时间设置有效性验证
+        /// </summary>
+        /// <returns></returns>
+        private bool IsSleepTimeSettingValid()
+        {
+            bool isValid = true;
+            if (this.checkBoxSleepTime.Checked)
+            {
+                if (this.comboBox1.SelectedItem == null || this.comboBox2.SelectedItem == null || this.comboBox1.SelectedIndex == this.comboBox2.SelectedIndex)
+                {
+                    this.labelSleepTimeError.Visible = true;
+                    isValid = false;
+                }
+                else
+                {
+                    this.sleepStartIndex = this.comboBox1.SelectedIndex;
+                    this.sleepEndIndex = this.comboBox2.SelectedIndex;
                 }
             }
             return isValid;
@@ -189,8 +383,57 @@ namespace WeiboHouseKeeper.View
             this.labelImageError2.Visible = false;
             this.labelVideoError1.Visible = false;
             this.labelVideoError2.Visible = false;
+            this.labelFollowError.Visible = false;
+            this.labelUnFollowError.Visible = false;
+            this.labelSleepTimeError.Visible = false;
         }
 
+        //窗口打开时初始化显示数据
+        private void DisplayDafaultData()
+        {
+            this.textBoxImageFixed.Text = this.ImageWeiboFixedTime;
+            this.textBoxImageRandom1.Text = this.ImageWeiboRandomTimeMin;
+            this.textBoxImageRandom2.Text = this.ImageWeiboRandomTimeMax;
+
+            this.textBoxVideoFixed.Text = this.VideoWeiboFixedTime;
+            this.textBoxVideoRandom1.Text = this.VideoWeiboRandomTimeMin;
+            this.textBoxVideoRandom2.Text = this.VideoWeiboRandomTimeMax;
+
+            this.textBoxAutoFollowCount.Text = this.AutoFollowCount;
+            this.textBoxAutoUnFollowCount.Text = this.AutoUnFollowCount;
+
+            this.textBoxFixedTags.Text = this.FixedTags;
+
+            if (this.IsBackTag)
+            {
+                this.radioButtonTagsFront.Checked = true;
+            }
+            else
+            {
+                this.radioButtonTagsBack.Checked = true;
+            }
+
+            this.comboBox1.SelectedIndex = this.SleepTmieStart;
+            this.comboBox2.SelectedIndex = this.SleepTimeEnd;
+        }
+        #endregion
+
+        #region 公有方法
+        /// <summary>
+        /// 显示设置界面
+        /// </summary>
+        /// <param name="nickName">用户昵称</param>
+        public void ShowSettingView( string nickName)
+        {
+            this.Text = nickName + " —— 设置";
+
+            //显示默认信息
+            this.DisplayDafaultData();
+            //清除错误提示
+            this.HideErrorPoint();
+
+            this.ShowDialog();
+        }
         #endregion
 
         #region 事件
@@ -314,31 +557,12 @@ namespace WeiboHouseKeeper.View
         private void buttonOK_Click(object sender, EventArgs e)
         {
             //图文微博设置模块校验
-            if (!this.IsImageWeiboSettingValid() || !this.IsVideoWeiboSettingValid())
+            if (!this.IsImageWeiboSettingValid() || 
+                !this.IsVideoWeiboSettingValid() ||
+                !this.IsFansSettingValid() || 
+                !this.IsSleepTimeSettingValid())
             {
                 return;
-            }
-            else
-            {
-                this.HideErrorPoint();
-            }
-
-            //视频微博设置模块校验
-            if (this.checkBoxVideo.Checked)
-            {
-
-            }
-
-            //吸粉模块校验
-            if (this.checkBoxFans.Checked)
-            {
-
-            }
-
-            //休眠事件校验
-            if (this.checkBoxSleepTime.Checked)
-            {
-
             }
 
             this.Close();

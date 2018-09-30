@@ -38,7 +38,7 @@ namespace WeiboHouseKeeper
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.WeiboSet.ShowDialog();
+            this.WeiboSet.ShowSettingView(" zzz");
             this.ShowDisplayMessage();
         }
 
@@ -48,7 +48,7 @@ namespace WeiboHouseKeeper
         /// </summary>
         private void ShowDisplayMessage()
         {
-            this.labelSleepTime.Text = "haha";
+
             this.Refresh();
         }
         #endregion

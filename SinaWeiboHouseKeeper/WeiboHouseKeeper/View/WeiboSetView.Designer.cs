@@ -53,23 +53,31 @@
             this.checkBoxImage = new System.Windows.Forms.CheckBox();
             this.checkBoxVideo = new System.Windows.Forms.CheckBox();
             this.groupBoxFans = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.textBoxAutoUnFollowCount = new System.Windows.Forms.TextBox();
+            this.textBoxAutoFollowCount = new System.Windows.Forms.TextBox();
+            this.checkBoxAutoUnFollow = new System.Windows.Forms.CheckBox();
+            this.checkBoxAutoFollow = new System.Windows.Forms.CheckBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.checkBoxSleepTime = new System.Windows.Forms.CheckBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.checkBoxAutoFollow = new System.Windows.Forms.CheckBox();
-            this.checkBoxAutoUnFollow = new System.Windows.Forms.CheckBox();
-            this.textBoxAutoFollowCount = new System.Windows.Forms.TextBox();
-            this.textBoxAutoUnFollowCount = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelSleepTimeError = new System.Windows.Forms.Label();
             this.checkBoxFans = new System.Windows.Forms.CheckBox();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOK = new System.Windows.Forms.Button();
+            this.labelFollowError = new System.Windows.Forms.Label();
+            this.labelUnFollowError = new System.Windows.Forms.Label();
+            this.groupBoxTags = new System.Windows.Forms.GroupBox();
+            this.textBoxFixedTags = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.radioButtonTagsFront = new System.Windows.Forms.RadioButton();
+            this.radioButtonTagsBack = new System.Windows.Forms.RadioButton();
             this.groupImage.SuspendLayout();
             this.groupVideo.SuspendLayout();
             this.groupBoxFans.SuspendLayout();
+            this.groupBoxTags.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupImage
@@ -87,7 +95,7 @@
             this.groupImage.Enabled = false;
             this.groupImage.Location = new System.Drawing.Point(50, 37);
             this.groupImage.Name = "groupImage";
-            this.groupImage.Size = new System.Drawing.Size(457, 88);
+            this.groupImage.Size = new System.Drawing.Size(389, 88);
             this.groupImage.TabIndex = 2;
             this.groupImage.TabStop = false;
             this.groupImage.Text = "图文微博";
@@ -203,7 +211,7 @@
             this.groupVideo.Enabled = false;
             this.groupVideo.Location = new System.Drawing.Point(50, 131);
             this.groupVideo.Name = "groupVideo";
-            this.groupVideo.Size = new System.Drawing.Size(457, 86);
+            this.groupVideo.Size = new System.Drawing.Size(389, 86);
             this.groupVideo.TabIndex = 3;
             this.groupVideo.TabStop = false;
             this.groupVideo.Text = "视频微博";
@@ -307,7 +315,7 @@
             // checkBoxImage
             // 
             this.checkBoxImage.AutoSize = true;
-            this.checkBoxImage.Location = new System.Drawing.Point(522, 77);
+            this.checkBoxImage.Location = new System.Drawing.Point(459, 77);
             this.checkBoxImage.Name = "checkBoxImage";
             this.checkBoxImage.Size = new System.Drawing.Size(48, 16);
             this.checkBoxImage.TabIndex = 4;
@@ -318,7 +326,7 @@
             // checkBoxVideo
             // 
             this.checkBoxVideo.AutoSize = true;
-            this.checkBoxVideo.Location = new System.Drawing.Point(522, 170);
+            this.checkBoxVideo.Location = new System.Drawing.Point(459, 170);
             this.checkBoxVideo.Name = "checkBoxVideo";
             this.checkBoxVideo.Size = new System.Drawing.Size(48, 16);
             this.checkBoxVideo.TabIndex = 5;
@@ -328,6 +336,8 @@
             // 
             // groupBoxFans
             // 
+            this.groupBoxFans.Controls.Add(this.labelUnFollowError);
+            this.groupBoxFans.Controls.Add(this.labelFollowError);
             this.groupBoxFans.Controls.Add(this.label7);
             this.groupBoxFans.Controls.Add(this.label4);
             this.groupBoxFans.Controls.Add(this.textBoxAutoUnFollowCount);
@@ -337,16 +347,71 @@
             this.groupBoxFans.Enabled = false;
             this.groupBoxFans.Location = new System.Drawing.Point(50, 223);
             this.groupBoxFans.Name = "groupBoxFans";
-            this.groupBoxFans.Size = new System.Drawing.Size(457, 81);
+            this.groupBoxFans.Size = new System.Drawing.Size(389, 81);
             this.groupBoxFans.TabIndex = 6;
             this.groupBoxFans.TabStop = false;
             this.groupBoxFans.Text = "自动关注";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(181, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 12);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "人/次";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(181, 25);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 12);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "人/次";
+            // 
+            // textBoxAutoUnFollowCount
+            // 
+            this.textBoxAutoUnFollowCount.Enabled = false;
+            this.textBoxAutoUnFollowCount.Location = new System.Drawing.Point(141, 49);
+            this.textBoxAutoUnFollowCount.Name = "textBoxAutoUnFollowCount";
+            this.textBoxAutoUnFollowCount.Size = new System.Drawing.Size(33, 21);
+            this.textBoxAutoUnFollowCount.TabIndex = 3;
+            // 
+            // textBoxAutoFollowCount
+            // 
+            this.textBoxAutoFollowCount.Enabled = false;
+            this.textBoxAutoFollowCount.Location = new System.Drawing.Point(141, 20);
+            this.textBoxAutoFollowCount.Name = "textBoxAutoFollowCount";
+            this.textBoxAutoFollowCount.Size = new System.Drawing.Size(33, 21);
+            this.textBoxAutoFollowCount.TabIndex = 2;
+            // 
+            // checkBoxAutoUnFollow
+            // 
+            this.checkBoxAutoUnFollow.AutoSize = true;
+            this.checkBoxAutoUnFollow.Location = new System.Drawing.Point(27, 51);
+            this.checkBoxAutoUnFollow.Name = "checkBoxAutoUnFollow";
+            this.checkBoxAutoUnFollow.Size = new System.Drawing.Size(96, 16);
+            this.checkBoxAutoUnFollow.TabIndex = 1;
+            this.checkBoxAutoUnFollow.Text = "自动取消关注";
+            this.checkBoxAutoUnFollow.UseVisualStyleBackColor = true;
+            this.checkBoxAutoUnFollow.CheckedChanged += new System.EventHandler(this.checkBoxAutoUnFollow_CheckedChanged);
+            // 
+            // checkBoxAutoFollow
+            // 
+            this.checkBoxAutoFollow.AutoSize = true;
+            this.checkBoxAutoFollow.Location = new System.Drawing.Point(27, 22);
+            this.checkBoxAutoFollow.Name = "checkBoxAutoFollow";
+            this.checkBoxAutoFollow.Size = new System.Drawing.Size(72, 16);
+            this.checkBoxAutoFollow.TabIndex = 0;
+            this.checkBoxAutoFollow.Text = "自动关注";
+            this.checkBoxAutoFollow.UseVisualStyleBackColor = true;
+            this.checkBoxAutoFollow.CheckedChanged += new System.EventHandler(this.checkBoxAutoFollow_CheckedChanged);
             // 
             // comboBox1
             // 
             this.comboBox1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.comboBox1.Enabled = false;
-            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox1.FormatString = "t";
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
@@ -374,7 +439,7 @@
             "21：00",
             "22：00",
             "23：00"});
-            this.comboBox1.Location = new System.Drawing.Point(164, 318);
+            this.comboBox1.Location = new System.Drawing.Point(164, 395);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(60, 20);
             this.comboBox1.TabIndex = 16;
@@ -382,7 +447,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(237, 324);
+            this.label5.Location = new System.Drawing.Point(237, 401);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(11, 12);
             this.label5.TabIndex = 17;
@@ -391,7 +456,6 @@
             // comboBox2
             // 
             this.comboBox2.Enabled = false;
-            this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox2.FormatString = "t";
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
@@ -419,7 +483,7 @@
             "21：00",
             "22：00",
             "23：00"});
-            this.comboBox2.Location = new System.Drawing.Point(258, 318);
+            this.comboBox2.Location = new System.Drawing.Point(258, 395);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(60, 20);
             this.comboBox2.TabIndex = 18;
@@ -427,7 +491,7 @@
             // checkBoxSleepTime
             // 
             this.checkBoxSleepTime.AutoSize = true;
-            this.checkBoxSleepTime.Location = new System.Drawing.Point(50, 320);
+            this.checkBoxSleepTime.Location = new System.Drawing.Point(50, 397);
             this.checkBoxSleepTime.Name = "checkBoxSleepTime";
             this.checkBoxSleepTime.Size = new System.Drawing.Size(96, 16);
             this.checkBoxSleepTime.TabIndex = 19;
@@ -435,77 +499,21 @@
             this.checkBoxSleepTime.UseVisualStyleBackColor = true;
             this.checkBoxSleepTime.CheckedChanged += new System.EventHandler(this.checkBoxSleepTime_CheckedChanged);
             // 
-            // label6
+            // labelSleepTimeError
             // 
-            this.label6.AutoSize = true;
-            this.label6.ForeColor = System.Drawing.Color.Red;
-            this.label6.Location = new System.Drawing.Point(334, 320);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(137, 12);
-            this.label6.TabIndex = 20;
-            this.label6.Text = "请选择合适的时间范围！";
-            this.label6.Visible = false;
-            // 
-            // checkBoxAutoFollow
-            // 
-            this.checkBoxAutoFollow.AutoSize = true;
-            this.checkBoxAutoFollow.Location = new System.Drawing.Point(27, 22);
-            this.checkBoxAutoFollow.Name = "checkBoxAutoFollow";
-            this.checkBoxAutoFollow.Size = new System.Drawing.Size(72, 16);
-            this.checkBoxAutoFollow.TabIndex = 0;
-            this.checkBoxAutoFollow.Text = "自动关注";
-            this.checkBoxAutoFollow.UseVisualStyleBackColor = true;
-            this.checkBoxAutoFollow.CheckedChanged += new System.EventHandler(this.checkBoxAutoFollow_CheckedChanged);
-            // 
-            // checkBoxAutoUnFollow
-            // 
-            this.checkBoxAutoUnFollow.AutoSize = true;
-            this.checkBoxAutoUnFollow.Location = new System.Drawing.Point(27, 51);
-            this.checkBoxAutoUnFollow.Name = "checkBoxAutoUnFollow";
-            this.checkBoxAutoUnFollow.Size = new System.Drawing.Size(96, 16);
-            this.checkBoxAutoUnFollow.TabIndex = 1;
-            this.checkBoxAutoUnFollow.Text = "自动取消关注";
-            this.checkBoxAutoUnFollow.UseVisualStyleBackColor = true;
-            this.checkBoxAutoUnFollow.CheckedChanged += new System.EventHandler(this.checkBoxAutoUnFollow_CheckedChanged);
-            // 
-            // textBoxAutoFollowCount
-            // 
-            this.textBoxAutoFollowCount.Enabled = false;
-            this.textBoxAutoFollowCount.Location = new System.Drawing.Point(141, 20);
-            this.textBoxAutoFollowCount.Name = "textBoxAutoFollowCount";
-            this.textBoxAutoFollowCount.Size = new System.Drawing.Size(33, 21);
-            this.textBoxAutoFollowCount.TabIndex = 2;
-            // 
-            // textBoxAutoUnFollowCount
-            // 
-            this.textBoxAutoUnFollowCount.Enabled = false;
-            this.textBoxAutoUnFollowCount.Location = new System.Drawing.Point(141, 49);
-            this.textBoxAutoUnFollowCount.Name = "textBoxAutoUnFollowCount";
-            this.textBoxAutoUnFollowCount.Size = new System.Drawing.Size(33, 21);
-            this.textBoxAutoUnFollowCount.TabIndex = 3;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(181, 25);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 12);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "人/次";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(181, 54);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 12);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "人/次";
+            this.labelSleepTimeError.AutoSize = true;
+            this.labelSleepTimeError.ForeColor = System.Drawing.Color.Red;
+            this.labelSleepTimeError.Location = new System.Drawing.Point(334, 397);
+            this.labelSleepTimeError.Name = "labelSleepTimeError";
+            this.labelSleepTimeError.Size = new System.Drawing.Size(137, 12);
+            this.labelSleepTimeError.TabIndex = 20;
+            this.labelSleepTimeError.Text = "请选择合适的时间范围！";
+            this.labelSleepTimeError.Visible = false;
             // 
             // checkBoxFans
             // 
             this.checkBoxFans.AutoSize = true;
-            this.checkBoxFans.Location = new System.Drawing.Point(522, 258);
+            this.checkBoxFans.Location = new System.Drawing.Point(459, 258);
             this.checkBoxFans.Name = "checkBoxFans";
             this.checkBoxFans.Size = new System.Drawing.Size(48, 16);
             this.checkBoxFans.TabIndex = 21;
@@ -515,9 +523,9 @@
             // 
             // buttonCancel
             // 
-            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(365, 349);
+            this.buttonCancel.Location = new System.Drawing.Point(313, 426);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(81, 35);
             this.buttonCancel.TabIndex = 22;
@@ -526,14 +534,87 @@
             // 
             // buttonOK
             // 
-            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonOK.Location = new System.Drawing.Point(479, 349);
+            this.buttonOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.buttonOK.Location = new System.Drawing.Point(411, 426);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(81, 35);
             this.buttonOK.TabIndex = 23;
             this.buttonOK.Text = "确认";
             this.buttonOK.UseVisualStyleBackColor = true;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
+            // 
+            // labelFollowError
+            // 
+            this.labelFollowError.AutoSize = true;
+            this.labelFollowError.ForeColor = System.Drawing.Color.Red;
+            this.labelFollowError.Location = new System.Drawing.Point(222, 25);
+            this.labelFollowError.Name = "labelFollowError";
+            this.labelFollowError.Size = new System.Drawing.Size(149, 12);
+            this.labelFollowError.TabIndex = 15;
+            this.labelFollowError.Text = "输入内容必须为有效数字！";
+            this.labelFollowError.Visible = false;
+            // 
+            // labelUnFollowError
+            // 
+            this.labelUnFollowError.AutoSize = true;
+            this.labelUnFollowError.ForeColor = System.Drawing.Color.Red;
+            this.labelUnFollowError.Location = new System.Drawing.Point(222, 54);
+            this.labelUnFollowError.Name = "labelUnFollowError";
+            this.labelUnFollowError.Size = new System.Drawing.Size(149, 12);
+            this.labelUnFollowError.TabIndex = 16;
+            this.labelUnFollowError.Text = "输入内容必须为有效数字！";
+            this.labelUnFollowError.Visible = false;
+            // 
+            // groupBoxTags
+            // 
+            this.groupBoxTags.Controls.Add(this.radioButtonTagsBack);
+            this.groupBoxTags.Controls.Add(this.radioButtonTagsFront);
+            this.groupBoxTags.Controls.Add(this.label6);
+            this.groupBoxTags.Controls.Add(this.textBoxFixedTags);
+            this.groupBoxTags.Location = new System.Drawing.Point(50, 310);
+            this.groupBoxTags.Name = "groupBoxTags";
+            this.groupBoxTags.Size = new System.Drawing.Size(389, 77);
+            this.groupBoxTags.TabIndex = 17;
+            this.groupBoxTags.TabStop = false;
+            this.groupBoxTags.Text = "话题Tags";
+            // 
+            // textBoxFixedTags
+            // 
+            this.textBoxFixedTags.Location = new System.Drawing.Point(69, 21);
+            this.textBoxFixedTags.Name = "textBoxFixedTags";
+            this.textBoxFixedTags.Size = new System.Drawing.Size(226, 21);
+            this.textBoxFixedTags.TabIndex = 0;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(11, 26);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(53, 12);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "固定话题";
+            // 
+            // radioButtonTagsFront
+            // 
+            this.radioButtonTagsFront.AutoSize = true;
+            this.radioButtonTagsFront.Location = new System.Drawing.Point(69, 48);
+            this.radioButtonTagsFront.Name = "radioButtonTagsFront";
+            this.radioButtonTagsFront.Size = new System.Drawing.Size(47, 16);
+            this.radioButtonTagsFront.TabIndex = 4;
+            this.radioButtonTagsFront.TabStop = true;
+            this.radioButtonTagsFront.Text = "前置";
+            this.radioButtonTagsFront.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonTagsBack
+            // 
+            this.radioButtonTagsBack.AutoSize = true;
+            this.radioButtonTagsBack.Location = new System.Drawing.Point(141, 48);
+            this.radioButtonTagsBack.Name = "radioButtonTagsBack";
+            this.radioButtonTagsBack.Size = new System.Drawing.Size(47, 16);
+            this.radioButtonTagsBack.TabIndex = 5;
+            this.radioButtonTagsBack.TabStop = true;
+            this.radioButtonTagsBack.Text = "后置";
+            this.radioButtonTagsBack.UseVisualStyleBackColor = true;
             // 
             // WeiboSetView
             // 
@@ -542,11 +623,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(596, 395);
+            this.CanResize = false;
+            this.ClientSize = new System.Drawing.Size(528, 468);
+            this.Controls.Add(this.groupBoxTags);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.checkBoxFans);
-            this.Controls.Add(this.label6);
+            this.Controls.Add(this.labelSleepTimeError);
             this.Controls.Add(this.checkBoxSleepTime);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label5);
@@ -568,6 +651,8 @@
             this.groupVideo.PerformLayout();
             this.groupBoxFans.ResumeLayout(false);
             this.groupBoxFans.PerformLayout();
+            this.groupBoxTags.ResumeLayout(false);
+            this.groupBoxTags.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -606,7 +691,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.CheckBox checkBoxSleepTime;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label labelSleepTimeError;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBoxAutoUnFollowCount;
@@ -614,5 +699,12 @@
         private System.Windows.Forms.CheckBox checkBoxFans;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOK;
+        private System.Windows.Forms.Label labelUnFollowError;
+        private System.Windows.Forms.Label labelFollowError;
+        private System.Windows.Forms.GroupBox groupBoxTags;
+        private System.Windows.Forms.TextBox textBoxFixedTags;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RadioButton radioButtonTagsBack;
+        private System.Windows.Forms.RadioButton radioButtonTagsFront;
     }
 }
