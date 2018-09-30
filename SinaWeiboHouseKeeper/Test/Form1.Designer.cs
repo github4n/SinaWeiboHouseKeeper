@@ -36,20 +36,20 @@
             // 
             this.userLable1.Location = new System.Drawing.Point(12, 12);
             this.userLable1.MaximumSize = new System.Drawing.Size(0, 170);
-            this.userLable1.MinimumSize = new System.Drawing.Size(449, 170);
+            this.userLable1.MinimumSize = new System.Drawing.Size(449, 190);
             this.userLable1.Name = "userLable1";
             this.userLable1.NickName = "groupBox1";
-            this.userLable1.Size = new System.Drawing.Size(449, 170);
+            this.userLable1.Size = new System.Drawing.Size(449, 190);
             this.userLable1.TabIndex = 0;
             // 
             // userLable2
             // 
-            this.userLable2.Location = new System.Drawing.Point(12, 188);
+            this.userLable2.Location = new System.Drawing.Point(12, 208);
             this.userLable2.MaximumSize = new System.Drawing.Size(0, 170);
-            this.userLable2.MinimumSize = new System.Drawing.Size(449, 170);
+            this.userLable2.MinimumSize = new System.Drawing.Size(449, 190);
             this.userLable2.Name = "userLable2";
             this.userLable2.NickName = "groupBox1";
-            this.userLable2.Size = new System.Drawing.Size(449, 170);
+            this.userLable2.Size = new System.Drawing.Size(449, 190);
             this.userLable2.TabIndex = 1;
             // 
             // Form1
