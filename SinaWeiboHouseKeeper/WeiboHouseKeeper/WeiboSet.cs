@@ -18,5 +18,15 @@ namespace WeiboControl
         public int RandomFrequencyMin { get; set; }
         //随机频率上限
         public int RandomFrequencyMax { get; set; }
+        //随机频率
+        public int RandomFrequency { get; private set; }
+
+        private Random random = new Random();
+
+        //重置随机频率
+        public void ReSetRandomFrequency()
+        {
+            this.RandomFrequency = random.Next(this.RandomFrequencyMin, this.RandomFrequencyMax);
+        }
     }
 }

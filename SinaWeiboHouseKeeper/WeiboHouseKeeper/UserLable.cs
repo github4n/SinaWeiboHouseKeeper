@@ -36,12 +36,12 @@ namespace WeiboHouseKeeper
         private bool IsSleepTimeSetted;
         private int SleepTimeStart;
         private int SleepTimeEnd;
-
-        public UserLable()
-        {
-            InitializeComponent();
-        }
-
+        //微博发布计时器
+        private Timer ImageWeiboTimer = new Timer() { Interval = 60000 };
+        private Timer VideoWeiboTimer = new Timer() { Interval = 60000 };
+        //计时器计数
+        private int ImageWeiboCounter = 0;
+        private int VideoWeiboCounter = 0;
         /// <summary>
         /// 微博昵称
         /// </summary>
@@ -58,15 +58,73 @@ namespace WeiboHouseKeeper
 
         }
 
+
+        public UserLable()
+        {
+            InitializeComponent();
+            this.ImageWeiboTimer.Tick += ImageWeiboTimer_Tick;
+            this.VideoWeiboTimer.Tick += VideoWeiboTimer_Tick;
+        }
+
+
+
         #region 事件
-        //设置事件
+        //视频微博发布事件
+        private void VideoWeiboTimer_Tick(object sender, EventArgs e)
+        {
+            this.VideoWeiboCounter++;
+            if (this.VideoWeiboSet.IsRandomPublish)
+            {
+                if (this.VideoWeiboCounter >= this.VideoWeiboSet.RandomFrequency)
+                {
+                    this.VideoWeiboCounter = 0;
+                    //发布微博
+                    this.PublishAVideoWeibo();
+                    this.VideoWeiboSet.ReSetRandomFrequency();
+                }
+            }
+            else
+            {
+                if (this.VideoWeiboCounter >= this.VideoWeiboSet.FixedFrequency)
+                {
+                    this.VideoWeiboCounter = 0;
+                    //发布微博
+                    this.PublishAVideoWeibo();
+                }
+            }
+        }
+        //图文微博发布事件
+        private void ImageWeiboTimer_Tick(object sender, EventArgs e)
+        {
+            this.ImageWeiboCounter++;
+            if (this.ImageWeiboSet.IsRandomPublish)
+            {
+                if (this.ImageWeiboCounter >= this.ImageWeiboSet.RandomFrequency)
+                {
+                    this.ImageWeiboCounter = 0;
+                    //发布微博
+                    this.PublishAnImageWeibo();
+                    this.ImageWeiboSet.ReSetRandomFrequency();
+                }
+            }
+            else
+            {
+                if (this.ImageWeiboCounter >= this.ImageWeiboSet.FixedFrequency)
+                {
+                    this.ImageWeiboCounter = 0;
+                    //发布微博
+                    this.PublishAnImageWeibo();
+                }
+            }
+        }
+        //设置按钮事件
         private void button1_Click(object sender, EventArgs e)
         {
             this.WeiboSet.ShowSettingView(" zzz");
             this.ShowDisplayMessage();
             this.UpdateSettings();
         }
-        //发布事件
+        //发布按钮事件
         private void buttonPublish_Click(object sender, EventArgs e)
         {
             if (this.ImageWeiboSet.IsEnabled || this.VideoWeiboSet.IsEnabled)
@@ -75,22 +133,27 @@ namespace WeiboHouseKeeper
                 {
                     this.buttonPublish.Text = "停止发布";
                     this.buttonPublish.BackColor = Color.Lime;
-
                     this.buttonSet.Enabled = false;
+
+                    this.StartPublish();
                 }
                 else
                 {
                     this.buttonPublish.Text = "开始发布";
                     this.buttonPublish.BackColor = Color.Gainsboro;
                     this.buttonSet.Enabled = true;
+
+                    this.EndPublish();
                 }
             }
             else
             {
                 return;
             }
+
+
         }
-        //退出登录事件
+        //退出登录按钮事件
         private void buttonLogOut_Click(object sender, EventArgs e)
         {
 
@@ -98,6 +161,50 @@ namespace WeiboHouseKeeper
         #endregion
 
         #region 私有方法
+
+        /// <summary>
+        /// 发布一条图文微博
+        /// </summary>
+        private void PublishAnImageWeibo()
+        {
+            //发布一条图文微博
+        }
+
+        /// <summary>
+        /// 发布一条视频微博
+        /// </summary>
+        private void PublishAVideoWeibo()
+        {
+            //发布一条视频微博
+        }
+
+        /// <summary>
+        /// 开始发布微博
+        /// </summary>
+        private void StartPublish()
+        {
+            if (this.ImageWeiboSet.IsEnabled)
+            {
+                this.ImageWeiboSet.ReSetRandomFrequency();
+                this.ImageWeiboTimer.Enabled = true;
+            }
+
+            if (this.VideoWeiboSet.IsEnabled)
+            {
+                this.VideoWeiboSet.ReSetRandomFrequency();
+                this.VideoWeiboTimer.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// 停止发布微博
+        /// </summary>
+        private void EndPublish()
+        {
+            this.ImageWeiboTimer.Enabled = false;
+            this.VideoWeiboTimer.Enabled = false;
+        }
+
         /// <summary>
         /// 更新设置数据
         /// </summary>
