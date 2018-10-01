@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLable));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.labelAutoUnFollow = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.labelAutoFollow = new System.Windows.Forms.Label();
             this.labelVideoCount = new System.Windows.Forms.Label();
             this.labelSleepTime = new System.Windows.Forms.Label();
@@ -46,8 +48,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.labelAutoUnFollow = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -81,6 +81,24 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // labelAutoUnFollow
+            // 
+            this.labelAutoUnFollow.AutoSize = true;
+            this.labelAutoUnFollow.Location = new System.Drawing.Point(237, 158);
+            this.labelAutoUnFollow.Name = "labelAutoUnFollow";
+            this.labelAutoUnFollow.Size = new System.Drawing.Size(41, 12);
+            this.labelAutoUnFollow.TabIndex = 17;
+            this.labelAutoUnFollow.Text = "未开启";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(98, 158);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(89, 12);
+            this.label7.TabIndex = 16;
+            this.label7.Text = "自动取消关注：";
             // 
             // labelAutoFollow
             // 
@@ -142,34 +160,37 @@
             // buttonLogOut
             // 
             this.buttonLogOut.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonLogOut.BackColor = System.Drawing.Color.Gainsboro;
             this.buttonLogOut.Location = new System.Drawing.Point(347, 126);
             this.buttonLogOut.Name = "buttonLogOut";
             this.buttonLogOut.Size = new System.Drawing.Size(81, 35);
             this.buttonLogOut.TabIndex = 15;
             this.buttonLogOut.Text = "退出";
-            this.buttonLogOut.UseVisualStyleBackColor = true;
+            this.buttonLogOut.UseVisualStyleBackColor = false;
             this.buttonLogOut.Click += new System.EventHandler(this.buttonLogOut_Click);
             // 
             // buttonPublish
             // 
             this.buttonPublish.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonPublish.BackColor = System.Drawing.Color.Gainsboro;
             this.buttonPublish.Location = new System.Drawing.Point(347, 80);
             this.buttonPublish.Name = "buttonPublish";
             this.buttonPublish.Size = new System.Drawing.Size(81, 35);
             this.buttonPublish.TabIndex = 14;
             this.buttonPublish.Text = "开始发布";
-            this.buttonPublish.UseVisualStyleBackColor = true;
+            this.buttonPublish.UseVisualStyleBackColor = false;
             this.buttonPublish.Click += new System.EventHandler(this.buttonPublish_Click);
             // 
             // buttonSet
             // 
             this.buttonSet.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.buttonSet.BackColor = System.Drawing.Color.Gainsboro;
             this.buttonSet.Location = new System.Drawing.Point(347, 32);
             this.buttonSet.Name = "buttonSet";
             this.buttonSet.Size = new System.Drawing.Size(81, 35);
             this.buttonSet.TabIndex = 13;
             this.buttonSet.Text = "设置";
-            this.buttonSet.UseVisualStyleBackColor = true;
+            this.buttonSet.UseVisualStyleBackColor = false;
             this.buttonSet.Click += new System.EventHandler(this.button1_Click);
             // 
             // label6
@@ -234,24 +255,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(60, 60);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(98, 158);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(89, 12);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "自动取消关注：";
-            // 
-            // labelAutoUnFollow
-            // 
-            this.labelAutoUnFollow.AutoSize = true;
-            this.labelAutoUnFollow.Location = new System.Drawing.Point(237, 158);
-            this.labelAutoUnFollow.Name = "labelAutoUnFollow";
-            this.labelAutoUnFollow.Size = new System.Drawing.Size(41, 12);
-            this.labelAutoUnFollow.TabIndex = 17;
-            this.labelAutoUnFollow.Text = "未开启";
             // 
             // UserLable
             // 
