@@ -32,7 +32,7 @@ namespace SinaWeiboHouseKeeper
         {
             get
             {
-                if (this.myCookies.Count == 0)
+                if (this.myCookies == null || this.myCookies.Count == 0)
                 {
                     return "";
                 }

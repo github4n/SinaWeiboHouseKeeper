@@ -156,6 +156,10 @@ namespace SinaWeiboHouseKeeper
                         this.PasswordBox.Enabled = true;
                         this.CancelButton.Enabled = true;
                     }
+                    else if (result == "4069")
+                    {
+                        MessageBox.Show("体验期已过，请验证邮箱", "提示");
+                    }
                     else
                     {
                         MessageBox.Show("未知错误", "提示");
