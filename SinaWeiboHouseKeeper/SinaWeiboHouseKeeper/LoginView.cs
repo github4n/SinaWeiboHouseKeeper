@@ -95,8 +95,7 @@ namespace SinaWeiboHouseKeeper
         //取消按键
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            //this.Close();
-            this.ClosePage();
+            this.Close();
         }
 
         //登录验证

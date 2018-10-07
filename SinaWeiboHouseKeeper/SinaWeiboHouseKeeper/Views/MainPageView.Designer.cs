@@ -169,6 +169,7 @@
             this.buttonStartGetWeibo.TabIndex = 15;
             this.buttonStartGetWeibo.Text = "开始获取";
             this.buttonStartGetWeibo.UseVisualStyleBackColor = false;
+            this.buttonStartGetWeibo.Click += new System.EventHandler(this.buttonStartGetWeibo_Click);
             // 
             // checkBoxGetVideoWeibo
             // 

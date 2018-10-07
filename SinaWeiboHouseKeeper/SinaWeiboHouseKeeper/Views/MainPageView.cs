@@ -55,25 +55,39 @@ namespace SinaWeiboHouseKeeper.Views
         {
             throw new NotImplementedException();
         }
-
+        //更新数据库事件
         private void UpdateSQLiteEvent(object sender)
         {
             throw new NotImplementedException();
         }
-
+        //日志记录事件
         private void WriteLogEvent(object sender, string title, string message)
         {
             throw new NotImplementedException();
         }
-
+        //发送邮件事件
         private void SendEmailEvent(object sender, string message)
         {
-            throw new NotImplementedException();
+            EMailTool.SendMail(((UserLable)sender).DisplayName + "运行错误", message);
         }
         //更新cookie事件
         private void UpdateCookiesEvent(object sender)
         {
-            
+            string username = ((UserLable)sender).UserName;
+            string password = ((UserLable)sender).Password;
+
+            WeiboLogin login = new WeiboLogin(username, password, false);
+
+            string result = login.UpdateCookies(out bool IsSuccess);
+            if (IsSuccess)
+            {
+                ((UserLable)sender).Cookies = login.MyCookies;
+            }
+            else
+            {
+                EMailTool.SendMail("更新cookies失败", String.Format("账号【{0}({1})】更新cookies失败，请检查服务器运行状态！", username, ((UserLable)sender).DisplayName));
+            }
+            //记录日志
         }
         //发布微博事件
         private void PublishWeiboEvent(object sender, bool isImageWeibo)
@@ -107,7 +121,7 @@ namespace SinaWeiboHouseKeeper.Views
                 string weiboText = userLable.IsFrontTagsSet ?
                     userLable.Tags + weibo.WeiboMessage :
                     weibo.WeiboMessage + userLable.Tag;
-                IOTools.WeiboOperateTool.SendAnImageWeibo(userLable.Cookies, weibo.WeiboMessage, weibo.Pictures);
+                WeiboOperateTool.SendAnImageWeibo(userLable.Cookies, weibo.WeiboMessage, weibo.Pictures);
             }
             else
             {
@@ -120,5 +134,56 @@ namespace SinaWeiboHouseKeeper.Views
 
         }
         #endregion
+
+        private void buttonStartGetWeibo_Click(object sender, EventArgs e)
+        {
+            if (!this.checkBoxGetImageWeibo.Checked && !this.checkBoxGetVideoWeibo.Checked || this.textBoxGetWeibo.Text.Equals(""))
+            {
+                return;
+            }
+
+            //关闭操作功能
+            this.checkBoxGetImageWeibo.Enabled = false;
+            this.checkBoxGetVideoWeibo.Enabled = false;
+            this.textBoxGetWeibo.Enabled = false;
+            this.buttonStartGetWeibo.Enabled = false;
+
+            //获取图文微博
+            if (this.checkBoxGetImageWeibo.Checked)
+            {
+                //int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+
+                //List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text,out string oid);
+
+                //IOTools.SqliteTool.InsertImageWebos(imageWeibos);
+
+                //int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+
+                //UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
+
+                //string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString()+ "条";
+                //this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
+
+                ////uid可以正常获取数据时说明有效，存入数据库
+                //if (endCount - StartCount > 0)
+                //{
+                //    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text,oid);
+                //}
+
+                //this.UpdateDisplayDataMessage();
+            }
+
+            //获取视频微博
+            if (this.checkBoxGetImageWeibo.Checked)
+            {
+
+            }
+
+            //重启界面操作
+            this.checkBoxGetImageWeibo.Enabled = true;
+            this.checkBoxGetVideoWeibo.Enabled = true;
+            this.textBoxGetWeibo.Enabled = true;
+            this.buttonStartGetWeibo.Enabled = true;
+        }
     }
 }

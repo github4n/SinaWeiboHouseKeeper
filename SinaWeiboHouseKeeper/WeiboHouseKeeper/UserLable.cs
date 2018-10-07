@@ -48,7 +48,7 @@ namespace WeiboHouseKeeper
         private bool IsVideoWeiboEnabled;
 
         public string UserName { get; private set; }
-        private string Password { get; set; }
+        public string Password { get; private set; }
         public CookieContainer Cookies { get; set; }
         public string DisplayName { get; private set; }
 
