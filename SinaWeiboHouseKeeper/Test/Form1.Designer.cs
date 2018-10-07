@@ -49,7 +49,6 @@
             this.userLable1.MaximumSize = new System.Drawing.Size(0, 170);
             this.userLable1.MinimumSize = new System.Drawing.Size(449, 190);
             this.userLable1.Name = "userLable1";
-            this.userLable1.NickName = "groupBox1";
             this.userLable1.Size = new System.Drawing.Size(449, 190);
             this.userLable1.TabIndex = 0;
             // 

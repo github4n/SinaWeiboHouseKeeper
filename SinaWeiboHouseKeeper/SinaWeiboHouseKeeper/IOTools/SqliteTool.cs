@@ -22,8 +22,14 @@ namespace SinaWeiboHouseKeeper.IOTools
         //数据库路径
         //private static string DataBasePath = Environment.CurrentDirectory + "\\DataBase\\Weibos.db";
         //private static SQLiteConnection DataBaseConnection = new SQLiteConnection("data source = " + DataBasePath);
-        private static string DataBasePath { get; set; }
-        private static SQLiteConnection DataBaseConnection { get; set; }
+        //private static string DataBasePath { get; set; }
+        //private static SQLiteConnection DataBaseConnection { get; set; }
+
+        private static SQLiteConnection DataBaseConnection(string name)
+        {
+            string path = Environment.CurrentDirectory + String.Format("\\Users\\{0}\\DataBase", name) + "\\Weibos.db";
+            return new SQLiteConnection("data source = " + path);
+        }
 
         #region 公开方法
         /// <summary>
@@ -33,7 +39,7 @@ namespace SinaWeiboHouseKeeper.IOTools
         public static void CreateDataBase(string username)
         {
 
-            DataBasePath = Environment.CurrentDirectory + String.Format("\\Users\\{0}\\DataBase", username) + "\\Weibos.db";
+            string DataBasePath = Environment.CurrentDirectory + String.Format("\\Users\\{0}\\DataBase", username) + "\\Weibos.db";
 
             if (!File.Exists(DataBasePath))
             {
@@ -43,18 +49,19 @@ namespace SinaWeiboHouseKeeper.IOTools
                 }
                 File.Create(DataBasePath).Close();
             }
-            DataBaseConnection = new SQLiteConnection("data source = " + DataBasePath);
-            CreateTables();
+            //DataBaseConnection = new SQLiteConnection("data source = " + DataBasePath);
+            CreateTables(username);
         }
 
         //插入图片微博
-        public static void InsertImageWebos(List<ImageWeibo> imageWeibos)
+        public static void InsertImageWebos(List<ImageWeibo> imageWeibos,string userName)
         {
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            SQLiteConnection connection = DataBaseConnection(userName);
+            if (connection.State != System.Data.ConnectionState.Open)
             {
-                DataBaseConnection.Open();
+                connection.Open();
                 SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
+                command.Connection = connection;
 
                 SQLiteDataReader reader = null;
 
@@ -112,7 +119,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                     }
                 }
                 reader.Close();
-                DataBaseConnection.Close();
+                connection.Close();
             }
         }
 
@@ -123,15 +130,15 @@ namespace SinaWeiboHouseKeeper.IOTools
         }
 
         //获取随机可发布微博
-        public static ImageWeibo GetARandomImageWeiboIsNotPublished(WeiboType type)
+        public static ImageWeibo GetARandomImageWeiboIsNotPublished(WeiboType type, string userName)
         {
             ImageWeibo weibo = new ImageWeibo();
-
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            SQLiteConnection connection = DataBaseConnection(userName);
+            if (connection.State != System.Data.ConnectionState.Open)
             {
-                DataBaseConnection.Open();
+                connection.Open();
                 SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
+                command.Connection = connection;
 
                 //获取随机一条未发布的微博
                 //根据类型获取剩余微博
@@ -145,7 +152,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 }
                 else
                 {
-                    DataBaseConnection.Close();
+                    connection.Close();
                     return weibo;
                 }
                 command.ExecuteNonQuery();
@@ -162,7 +169,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 command.CommandText = "UPDATE imageweibos SET ispublished = true WHERE rowid = " + rowid;
                 command.ExecuteNonQuery();
 
-                DataBaseConnection.Close();
+                connection.Close();
             }
 
             return weibo;
@@ -173,14 +180,15 @@ namespace SinaWeiboHouseKeeper.IOTools
         /// </summary>
         /// <param name="type">微博类型</param>
         /// <returns></returns>
-        public static int GetLaveWeiboCount(WeiboType type)
+        public static int GetLaveWeiboCount(WeiboType type, string userName)
         {
             int weiboCount = 0;
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            SQLiteConnection connection = DataBaseConnection(userName);
+            if (connection.State != System.Data.ConnectionState.Open)
             {
-                DataBaseConnection.Open();
+                connection.Open();
                 SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
+                command.Connection = connection;
 
                 //根据类型获取剩余微博
                 if (type == WeiboType.ImageWeibo)
@@ -193,7 +201,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 }
                 else
                 {
-                    DataBaseConnection.Close();
+                    connection.Close();
                     return 0;
                 }
                 command.ExecuteNonQuery();
@@ -203,7 +211,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 weiboCount = reader.GetInt32(0);
                 reader.Close();
             }
-            DataBaseConnection.Close();
+            connection.Close();
 
             return weiboCount;
         }
@@ -213,15 +221,16 @@ namespace SinaWeiboHouseKeeper.IOTools
         /// </summary>
         /// <param name="uid">个性域名或id，爬取微博用</param>
         /// <param name="oid">真实id，获取粉丝用</param>
-        public static void InsertUidAndOid(string uid,string oid)
+        public static void InsertUidAndOid(string uid,string oid, string userName)
         {
             try
             {
-                if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+                SQLiteConnection connection = DataBaseConnection(userName);
+                if (connection.State != System.Data.ConnectionState.Open)
                 {
-                    DataBaseConnection.Open();
+                    connection.Open();
                     SQLiteCommand command = new SQLiteCommand();
-                    command.Connection = DataBaseConnection;
+                    command.Connection = connection;
 
                     //判断是否已存在
                     command.CommandText = String.Format("SELECT COUNT(*) FROM users WHERE uid = '{0}'", uid);
@@ -235,7 +244,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                         command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}',false)", uid, oid);
                         command.ExecuteNonQuery();
                     }
-                    DataBaseConnection.Close();
+                    connection.Close();
                 }
             }
             catch (Exception ex)
@@ -245,16 +254,17 @@ namespace SinaWeiboHouseKeeper.IOTools
         }
 
         //获取一个随机用户的oid,用来获取粉丝
-        public static string GetRandomOid()
+        public static string GetRandomOid(string userName)
         {
+            SQLiteConnection connection = DataBaseConnection(userName);
             string uid = "";
             try
             {
-                if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+                if (connection.State != System.Data.ConnectionState.Open)
                 {
-                    DataBaseConnection.Open();
+                    connection.Open();
                     SQLiteCommand command = new SQLiteCommand();
-                    command.Connection = DataBaseConnection;
+                    command.Connection = connection;
                     command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM() limit 1";
                     command.ExecuteNonQuery();
                     SQLiteDataReader reader = command.ExecuteReader();
@@ -262,7 +272,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                     uid = reader.GetString(1);
 
                     reader.Close();
-                    DataBaseConnection.Close();
+                    connection.Close();
                 }
             }
             catch
@@ -273,14 +283,15 @@ namespace SinaWeiboHouseKeeper.IOTools
         }
 
         //获取所有用户uid，用来获取微博
-        public static List<string> GetAllUid()
+        public static List<string> GetAllUid(string userName)
         {
+            SQLiteConnection connection = DataBaseConnection(userName);
             List<string> uids = new List<string>();
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            if (connection.State != System.Data.ConnectionState.Open)
             {
-                DataBaseConnection.Open();
+                connection.Open();
                 SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
+                command.Connection = connection;
                 command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM()";
                 command.ExecuteNonQuery();
                 SQLiteDataReader reader = command.ExecuteReader();
@@ -289,7 +300,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                     uids.Add(reader.GetString(0));
                 }
                 reader.Close();
-                DataBaseConnection.Close();
+                connection.Close();
             }
             return uids;
         }
@@ -297,13 +308,15 @@ namespace SinaWeiboHouseKeeper.IOTools
 
         #region 私有方法
         //创建table
-        public static void CreateTables()
+        public static void CreateTables(string userName)
         {
-            if (DataBaseConnection.State != System.Data.ConnectionState.Open)
+            SQLiteConnection connection = DataBaseConnection(userName);
+
+            if (connection.State != System.Data.ConnectionState.Open)
             {
-                DataBaseConnection.Open();
+                connection.Open();
                 SQLiteCommand command = new SQLiteCommand();
-                command.Connection = DataBaseConnection;
+                command.Connection = connection;
 
                 //判断imageweibos table是否已经存在
                 command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = 'imageweibos'";
@@ -347,7 +360,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                     command.ExecuteNonQuery();
                 }
             }
-            DataBaseConnection.Close();
+            connection.Close();
         }
 
         #endregion

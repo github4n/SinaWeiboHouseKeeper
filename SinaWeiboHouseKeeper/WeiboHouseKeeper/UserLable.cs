@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeiboHouseKeeper.View;
 using WeiboControl;
+using System.Net;
 
 namespace WeiboHouseKeeper
 {
@@ -24,103 +25,170 @@ namespace WeiboHouseKeeper
         private bool IsFansSetted;
         //是否开启自动关注
         private bool IsAutoFollow;
-        private int AutoFollowCount;
+        public int AutoFollowCount { get; private set; }
         //是否开启自动取消关注
         private bool IsAutoUnFollow;
-        private int AutoUnFollowCount;
+        public int AutoUnFollowCount { get; private set; }
         //话题
-        private string Tags;
+        public string Tags { get; private set; }
         //话题前置
-        private bool IsFrontTagsSet;
+        public bool IsFrontTagsSet { get; private set; }
         //是否启用休眠时间
         private bool IsSleepTimeSetted;
         private int SleepTimeStart;
         private int SleepTimeEnd;
         //微博发布计时器
-        private Timer ImageWeiboTimer = new Timer() { Interval = 60000 };
-        private Timer VideoWeiboTimer = new Timer() { Interval = 60000 };
+        private Timer WeiboTimer = new Timer() { Interval = 60000 };
         //计时器计数
         private int ImageWeiboCounter = 0;
         private int VideoWeiboCounter = 0;
+        private int CookiesCounter = 1200;//cookies更新周期20小时
+        //微博发布标志
+        private bool IsImageWeiboEnabled;
+        private bool IsVideoWeiboEnabled;
+
+        public string UserName { get; private set; }
+        private string Password { get; set; }
+        public CookieContainer Cookies { get; set; }
+        public string DisplayName { get; private set; }
+
+        #region 委托事件
         /// <summary>
-        /// 微博昵称
+        /// 发布一条微博
         /// </summary>
-        public string NickName
-        {
-            get
-            {
-                return this.groupBox1.Text;
-            }
-            set
-            {
-                this.groupBox1.Text = value;
-            }
+        /// <param name="sender">发送者</param>
+        /// <param name="isImageWeibo">true:图文微博;false:视频微博</param>
+        public delegate void PublishWeiboHandler(object sender ,bool isImageWeibo);
+        public event PublishWeiboHandler PublishWeiboEvent;
 
-        }
+        /// <summary>
+        /// 更新cookies事件
+        /// </summary>
+        /// <param name="sender"></param>
+        public delegate void UpdateCookiesHandler(object sender);
+        public event UpdateCookiesHandler UpdateCookiesEvent;
 
+        /// <summary>
+        /// 邮件发送事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="message">邮件内容</param>
+        public delegate void SendEmailHandler(object sender,string message);
+        public event SendEmailHandler SendEmailEvent;
 
-        public UserLable()
+        /// <summary>
+        /// 写入日志事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="title">标题</param>
+        /// <param name="message">日志内容</param>
+        public delegate void WriteLogHandler(object sender, string title, string message);
+        public event WriteLogHandler WriteLogEvent;
+
+        /// <summary>
+        /// 更新数据库
+        /// </summary>
+        /// <param name="sender"></param>
+        public delegate void UpdateSQLiteHandler(object sender);
+        public event UpdateSQLiteHandler UpdateSQLiteEvent;
+
+        /// <summary>
+        /// 粉丝事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="isFollow">true:关注;false:取消关注</param>
+        public delegate void FollowFansHandler(object sender, bool isFollow);
+        public event FollowFansHandler FollowFansEvent;
+        #endregion
+
+        //public UserLable()
+        //{
+        //    InitializeComponent();
+
+        //}
+
+        public UserLable(CookieContainer cookie,string username,string password,string displayName )
         {
             InitializeComponent();
-            this.ImageWeiboTimer.Tick += ImageWeiboTimer_Tick;
-            this.VideoWeiboTimer.Tick += VideoWeiboTimer_Tick;
+
+            this.UserName = username;
+            this.Password = password;
+            this.Cookies = cookie;
+            this.DisplayName = displayName;
+            this.groupBox1.Text = displayName;
+
+            this.WeiboTimer.Tick += WeiboTimer_Tick;
+            this.WeiboTimer.Enabled = true;
         }
 
 
 
         #region 事件
-        //视频微博发布事件
-        private void VideoWeiboTimer_Tick(object sender, EventArgs e)
+        //视频、图文微博发送，cookies更新事件
+        private void WeiboTimer_Tick(object sender, EventArgs e)
         {
-            this.VideoWeiboCounter++;
-            if (this.VideoWeiboSet.IsRandomPublish)
+            //视频微博
+            if (this.IsVideoWeiboEnabled)
             {
-                if (this.VideoWeiboCounter >= this.VideoWeiboSet.RandomFrequency)
+                this.VideoWeiboCounter++;
+                if (this.VideoWeiboSet.IsRandomPublish)
                 {
-                    this.VideoWeiboCounter = 0;
-                    //发布微博
-                    this.PublishAVideoWeibo();
-                    this.VideoWeiboSet.ReSetRandomFrequency();
+                    if (this.VideoWeiboCounter >= this.VideoWeiboSet.RandomFrequency)
+                    {
+                        this.VideoWeiboCounter = 0;
+                        //发布微博
+                        this.PublishAVideoWeibo();
+                        this.VideoWeiboSet.ReSetRandomFrequency();
+                    }
+                }
+                else
+                {
+                    if (this.VideoWeiboCounter >= this.VideoWeiboSet.FixedFrequency)
+                    {
+                        this.VideoWeiboCounter = 0;
+                        //发布微博
+                        this.PublishAVideoWeibo();
+                    }
                 }
             }
-            else
+
+            //图文微博
+            if (this.IsImageWeiboEnabled)
             {
-                if (this.VideoWeiboCounter >= this.VideoWeiboSet.FixedFrequency)
+                this.ImageWeiboCounter++;
+                if (this.ImageWeiboSet.IsRandomPublish)
                 {
-                    this.VideoWeiboCounter = 0;
-                    //发布微博
-                    this.PublishAVideoWeibo();
+                    if (this.ImageWeiboCounter >= this.ImageWeiboSet.RandomFrequency)
+                    {
+                        this.ImageWeiboCounter = 0;
+                        //发布微博
+                        this.PublishAnImageWeibo();
+                        this.ImageWeiboSet.ReSetRandomFrequency();
+                    }
+                }
+                else
+                {
+                    if (this.ImageWeiboCounter >= this.ImageWeiboSet.FixedFrequency)
+                    {
+                        this.ImageWeiboCounter = 0;
+                        //发布微博
+                        this.PublishAnImageWeibo();
+                    }
                 }
             }
-        }
-        //图文微博发布事件
-        private void ImageWeiboTimer_Tick(object sender, EventArgs e)
-        {
-            this.ImageWeiboCounter++;
-            if (this.ImageWeiboSet.IsRandomPublish)
+
+            //cookies更新
+            this.CookiesCounter--;
+            if (this.CookiesCounter <= 0)
             {
-                if (this.ImageWeiboCounter >= this.ImageWeiboSet.RandomFrequency)
-                {
-                    this.ImageWeiboCounter = 0;
-                    //发布微博
-                    this.PublishAnImageWeibo();
-                    this.ImageWeiboSet.ReSetRandomFrequency();
-                }
-            }
-            else
-            {
-                if (this.ImageWeiboCounter >= this.ImageWeiboSet.FixedFrequency)
-                {
-                    this.ImageWeiboCounter = 0;
-                    //发布微博
-                    this.PublishAnImageWeibo();
-                }
+                this.CookiesCounter = 1200;
+                this.UpdateCookies();
             }
         }
         //设置按钮事件
         private void button1_Click(object sender, EventArgs e)
         {
-            this.WeiboSet.ShowSettingView(" zzz");
+            this.WeiboSet.ShowSettingView(this.DisplayName);
             this.ShowDisplayMessage();
             this.UpdateSettings();
         }
@@ -168,6 +236,7 @@ namespace WeiboHouseKeeper
         private void PublishAnImageWeibo()
         {
             //发布一条图文微博
+            PublishWeiboEvent(this, true);
         }
 
         /// <summary>
@@ -176,6 +245,13 @@ namespace WeiboHouseKeeper
         private void PublishAVideoWeibo()
         {
             //发布一条视频微博
+            PublishWeiboEvent(this, false);
+        }
+
+        private void UpdateCookies()
+        {
+            //更新cookies事件触发
+            UpdateCookiesEvent(this);
         }
 
         /// <summary>
@@ -186,13 +262,13 @@ namespace WeiboHouseKeeper
             if (this.ImageWeiboSet.IsEnabled)
             {
                 this.ImageWeiboSet.ReSetRandomFrequency();
-                this.ImageWeiboTimer.Enabled = true;
+                this.IsImageWeiboEnabled = true;
             }
 
             if (this.VideoWeiboSet.IsEnabled)
             {
                 this.VideoWeiboSet.ReSetRandomFrequency();
-                this.VideoWeiboTimer.Enabled = true;
+                this.IsVideoWeiboEnabled = true;
             }
         }
 
@@ -201,8 +277,8 @@ namespace WeiboHouseKeeper
         /// </summary>
         private void EndPublish()
         {
-            this.ImageWeiboTimer.Enabled = false;
-            this.VideoWeiboTimer.Enabled = false;
+            this.IsImageWeiboEnabled = false;
+            this.IsVideoWeiboEnabled = false;
         }
 
         /// <summary>

@@ -170,6 +170,7 @@
     <Compile Include="IOTools\MD5EncryptTool.cs" />
     <Compile Include="IOTools\SqliteTool.cs" />
     <Compile Include="IOTools\UserLog.cs" />
+    <Compile Include="IOTools\WeiboOperateTool.cs" />
     <Compile Include="IOTools\YunDaMaTool.cs" />
     <Compile Include="LoginView.cs">
       <SubType>Form</SubType>
@@ -185,6 +186,12 @@
     </Compile>
     <Compile Include="Views\ADFilePathView.Designer.cs">
       <DependentUpon>ADFilePathView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPageView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\MainPageView.Designer.cs">
+      <DependentUpon>MainPageView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\TagsView.cs">
       <SubType>Form</SubType>
@@ -214,6 +221,9 @@
     </Compile>
     <EmbeddedResource Include="Views\ADFilePathView.resx">
       <DependentUpon>ADFilePathView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\MainPageView.resx">
+      <DependentUpon>MainPageView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\TagsView.resx">
       <DependentUpon>TagsView.cs</DependentUpon>

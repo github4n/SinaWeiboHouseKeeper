@@ -129,28 +129,28 @@ namespace SinaWeiboHouseKeeper
         //发布图文微博
         private void PublishImageWeibo()
         {
-            if (SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo) != 0)
-            {
-                ImageWeibo weibo = SqliteTool.GetARandomImageWeiboIsNotPublished(SqliteTool.WeiboType.ImageWeibo);
+            //if (SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo) != 0)
+            //{
+            //    ImageWeibo weibo = SqliteTool.GetARandomImageWeiboIsNotPublished(SqliteTool.WeiboType.ImageWeibo);
 
-                if (weibo.Pictures == null || weibo.Pictures.Length == 0)
-                {
-                    UserLog.WriteNormalLog("获取微博失败，类型不明确");
-                    return;
-                }
+            //    if (weibo.Pictures == null || weibo.Pictures.Length == 0)
+            //    {
+            //        UserLog.WriteNormalLog("获取微博失败，类型不明确");
+            //        return;
+            //    }
 
-                //设置tags
-                string weiboText = this.isTagsBefore ?
-                    this.tagsText + weibo.WeiboMessage :
-                    weibo.WeiboMessage + this.tagsText;
+            //    //设置tags
+            //    string weiboText = this.isTagsBefore ?
+            //        this.tagsText + weibo.WeiboMessage :
+            //        weibo.WeiboMessage + this.tagsText;
 
-                WeiboOperate.SendAnImageWeibo(weiboText, weibo.Pictures);
-            }
-            else
-            {
-                this.richTextBox1.Text = this.richTextBox1.Text + "微博库已空\n";
-                this.timerImageWeibo.Enabled = false;
-            }
+            //    WeiboOperate.SendAnImageWeibo(weiboText, weibo.Pictures);
+            //}
+            //else
+            //{
+            //    this.richTextBox1.Text = this.richTextBox1.Text + "微博库已空\n";
+            //    this.timerImageWeibo.Enabled = false;
+            //}
         }
         //发布视频微博
         private void PublisVideoWeibo()
@@ -161,8 +161,8 @@ namespace SinaWeiboHouseKeeper
         //更新显示数据
         private void UpdateDisplayDataMessage()
         {
-            this.label12.Text = "当前数据库剩余图文微博数：" + SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo).ToString();
-            this.label12.Refresh();
+            //this.label12.Text = "当前数据库剩余图文微博数：" + SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo).ToString();
+            //this.label12.Refresh();
         }
         #endregion
 
@@ -398,26 +398,26 @@ namespace SinaWeiboHouseKeeper
             //获取图文微博
             if (this.checkBoxGetImageWeibo.Checked)
             {
-                int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                //int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
                 
-                List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text,out string oid);
+                //List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text,out string oid);
 
-                IOTools.SqliteTool.InsertImageWebos(imageWeibos);
+                //IOTools.SqliteTool.InsertImageWebos(imageWeibos);
 
-                int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                //int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
 
-                UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
+                //UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
 
-                string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString()+ "条";
-                this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
+                //string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString()+ "条";
+                //this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
 
-                //uid可以正常获取数据时说明有效，存入数据库
-                if (endCount - StartCount > 0)
-                {
-                    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text,oid);
-                }
+                ////uid可以正常获取数据时说明有效，存入数据库
+                //if (endCount - StartCount > 0)
+                //{
+                //    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text,oid);
+                //}
 
-                this.UpdateDisplayDataMessage();
+                //this.UpdateDisplayDataMessage();
             }
 
             //获取视频微博

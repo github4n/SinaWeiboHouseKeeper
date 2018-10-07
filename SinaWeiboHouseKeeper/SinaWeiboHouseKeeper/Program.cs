@@ -17,7 +17,7 @@ namespace SinaWeiboHouseKeeper
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginView());
+            Application.Run(new Views.MainPageView());
         }
     }
 }

@@ -108,7 +108,7 @@ namespace SinaWeiboHouseKeeper
             su = Convert.ToBase64String(suByte);
 
             updateCookiesTimer.Tick += UpdateCookiesTimer_Tick;
-            this.updateCookiesTimer.Enabled = true;
+            //this.updateCookiesTimer.Enabled = true;
         }
 
         /// <summary>
@@ -393,17 +393,17 @@ namespace SinaWeiboHouseKeeper
         //关注线程
         private static void ThreadFollow()
         {
-            string oid = SqliteTool.GetRandomOid();
-            if (!oid.Equals(""))
-            {
-                int count = WeiboOperate.FollowUsersFans(oid, 50);
-                if (count < 50)
-                {
-                    count += WeiboOperate.FollowUsersFans(SqliteTool.GetRandomOid(), 50 - count);
-                }
+            //string oid = SqliteTool.GetRandomOid();
+            //if (!oid.Equals(""))
+            //{
+            //    int count = WeiboOperate.FollowUsersFans(oid, 50);
+            //    if (count < 50)
+            //    {
+            //        count += WeiboOperate.FollowUsersFans(SqliteTool.GetRandomOid(), 50 - count);
+            //    }
                 
-                UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}", oid));
-            }
+            //    UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}", oid));
+            //}
         }
         //取消关注
         private static void ThreadUnFollow()
@@ -414,15 +414,15 @@ namespace SinaWeiboHouseKeeper
         //爬取用户微博线程
         private static void ThreadGetWeibo()
         {
-            List<string> uids = SqliteTool.GetAllUid();
-            foreach (string uid in uids)
-            {
-                int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
-                List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(uid, out string oid);
-                SqliteTool.InsertImageWebos(imageWeibos);
-                int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
-                UserLog.WriteNormalLog(String.Format("后台爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", uid));
-            }
+            //List<string> uids = SqliteTool.GetAllUid();
+            //foreach (string uid in uids)
+            //{
+            //    int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+            //    List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(uid, out string oid);
+            //    SqliteTool.InsertImageWebos(imageWeibos);
+            //    int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+            //    UserLog.WriteNormalLog(String.Format("后台爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", uid));
+            //}
         }
         #endregion
 

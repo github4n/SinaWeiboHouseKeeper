@@ -31,7 +31,7 @@ namespace Test
             uLabel.MinimumSize = new Size(449, 190);
             uLabel.Name = "userLable2";
 
-            uLabel.Size = new System.Drawing.Size(449, 190);
+            uLabel.Size = new Size(449, 190);
 
             this.panel1.Controls.Add(uLabel);
 

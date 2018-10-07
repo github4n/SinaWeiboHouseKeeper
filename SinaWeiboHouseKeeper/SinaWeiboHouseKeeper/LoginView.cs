@@ -14,7 +14,7 @@ namespace SinaWeiboHouseKeeper
 {
     public partial class LoginView : Skin_DevExpress
     {
-        WeiboLogin WBLogin { get; set; }
+        public WeiboLogin WBLogin { get; private set; }
 
         public LoginView()
         {
@@ -55,7 +55,7 @@ namespace SinaWeiboHouseKeeper
                 if (result.Equals("0"))
                 {
                     //登录成功
-                    this.OpenHomePage();
+                    this.ClosePage();
                 }
                 else if (result.Equals("2070") || result.Equals("4096"))
                 {
@@ -78,15 +78,14 @@ namespace SinaWeiboHouseKeeper
         }
 
         //登陆成功。打开首页
-        private void OpenHomePage()
+        private void ClosePage()
         {
-            this.Hide();
-            HomePageView homePage = new HomePageView(this.WBLogin);
-            homePage.Show();
-
             //创建用户文件夹并记录登陆日志
             UserLog.CreateUserLog(WBLogin.DisplayName);
             UserLog.WriteNormalLog(this.WBLogin.DisplayName + " 登陆成功","账号：" + this.UserNameBox.Text);
+
+            this.Close();
+            this.DialogResult = DialogResult.OK;
         }
 
 
@@ -97,7 +96,7 @@ namespace SinaWeiboHouseKeeper
         private void CancelButton_Click(object sender, EventArgs e)
         {
             //this.Close();
-            this.OpenHomePage();
+            this.ClosePage();
         }
 
         //登录验证
@@ -134,7 +133,7 @@ namespace SinaWeiboHouseKeeper
                     if (result == "0")
                     {
                         //登录成功
-                        this.OpenHomePage();
+                        this.ClosePage();
                     }
                     else if (result == "2070")
                     {
