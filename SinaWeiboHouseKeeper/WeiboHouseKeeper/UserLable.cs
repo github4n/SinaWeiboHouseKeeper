@@ -48,6 +48,24 @@ namespace WeiboHouseKeeper
         private bool IsImageWeiboEnabled;
         private bool IsVideoWeiboEnabled;
 
+        //微博剩余数设置
+        public string ImageWeiboCount
+        {
+            set
+            {
+                this.labelImageCount.Text = value;
+                this.Refresh();
+            }
+        }
+        public string VideoWeiboCount
+        {
+            set
+            {
+                this.labelVideoCount.Text = value;
+                this.Refresh();
+            }
+        }
+
         public string UserName { get; private set; }
         public string Password { get; private set; }
         public CookieContainer Cookies { get; set; }

@@ -43,9 +43,12 @@ namespace SinaWeiboHouseKeeper.Views
                 userLable.WriteLogEvent += WriteLogEvent;
                 userLable.UpdateSQLiteEvent += UpdateSQLiteEvent;
                 userLable.FollowFansEvent += FollowFansEvent;
-
+                
                 this.panel1.Controls.Add(userLable);
                 SqliteTool.CreateDataBase(userLable.DisplayName);
+                //更新微博剩余显示
+                userLable.ImageWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, login.WBLogin.DisplayName).ToString();
+                userLable.VideoWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.VideoWeibo, login.WBLogin.DisplayName).ToString();
             }
            
         }
@@ -90,7 +93,9 @@ namespace SinaWeiboHouseKeeper.Views
                 int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, ((UserLable)sender).DisplayName);
                 UserLog.WriteNormalLog(((UserLable)sender).DisplayName, String.Format("后台爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", uid));
             }
-
+            //更新微博显示
+            ((UserLable)sender).ImageWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, ((UserLable)sender).DisplayName).ToString();
+            ((UserLable)sender).VideoWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.VideoWeibo, ((UserLable)sender).DisplayName).ToString();
         }
         //日志记录事件
         private void WriteLogEvent(object sender, string title, string message)
@@ -132,6 +137,9 @@ namespace SinaWeiboHouseKeeper.Views
             {
                 this.PublishAVideoWeibo((UserLable)sender);
             }
+            //更新剩余微博数
+            ((UserLable)sender).ImageWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, ((UserLable)sender).DisplayName).ToString();
+            ((UserLable)sender).VideoWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.VideoWeibo, ((UserLable)sender).DisplayName).ToString();
         }
         #endregion
 
@@ -152,12 +160,13 @@ namespace SinaWeiboHouseKeeper.Views
                 //设置tags
                 string weiboText = userLable.IsFrontTagsSet ?
                     userLable.Tags + weibo.WeiboMessage :
-                    weibo.WeiboMessage + userLable.Tag;
+                    weibo.WeiboMessage + userLable.Tags;
                 WeiboOperateTool.SendAnImageWeibo(userLable.Cookies, weibo.WeiboMessage, weibo.Pictures);
             }
             else
             {
-                this.richTextBox1.Text = this.richTextBox1.Text + "微博库已空\n";
+                this.richTextBox1.Text = this.richTextBox1.Text + userLable.DisplayName +" 微博库已空\n";
+                EMailTool.SendMail("微博库已空", String.Format("用户昵称：{0}\n登录账号：{1}", userLable.DisplayName, userLable.UserName));
             }
         }
         //发布一条视频微博
