@@ -259,7 +259,7 @@ namespace SinaWeiboHouseKeeper
                 {
                     Image image = this.Start();
                     //解码
-                    string code = this.YUDMDecode(image ,out int resultId);
+                    string code = this.YUDMDecode(image, out int resultId);
 
                     if (code.Equals(""))
                     {
@@ -275,7 +275,7 @@ namespace SinaWeiboHouseKeeper
                     else
                     {
                         //登陆失败，验证码解码失败回报
-                        YunDaMaTool.YDM_EasyReport(YunDaMaUserName, YunDaMaPassword,YunDaMaAppId, YunDaMaAppKey, resultId, false);
+                        YunDaMaTool.YDM_EasyReport(YunDaMaUserName, YunDaMaPassword, YunDaMaAppId, YunDaMaAppKey, resultId, false);
                     }
                 }
                 IsSuccess = false;
@@ -284,7 +284,7 @@ namespace SinaWeiboHouseKeeper
         }
 
         //云打码解码
-        private string YUDMDecode(Image img , out int resultId)
+        private string YUDMDecode(Image img, out int resultId)
         {
             StringBuilder pCodeResult = new StringBuilder(new string(' ', 30));
 
@@ -314,55 +314,9 @@ namespace SinaWeiboHouseKeeper
                 return "";
             }
         }
-
-        ////更新cookies定时器、关注、取消关注、定时爬取微博内容
-        //private void UpdateCookiesTimer_Tick(object sender, EventArgs e)
-        //{
-        //    //更新Cookies
-        //    this.updateCount++;
-        //    if (this.updateCount >= 1200)
-        //    {
-        //        this.updateCount = 0;
-
-        //        string result = this.UpdateCookies(out bool isSuccess);
-
-        //        if (!isSuccess)
-        //        {
-        //            //更新失败，邮件通知
-        //            EMailTool.SendMail("运行错误", "Cookies更新失败，需要重新登陆！");
-        //        }
-
-        //        UserLog.WriteNormalLog(this.DisplayName + " " + result);
-        //    }
-
-        //    //关注  每24小时关注5次，每次关注50人
-        //    if (this.updateCount % 288 == 0)
-        //    {
-        //        threadSQL = new Thread(new ThreadStart(ThreadFollow));
-        //        threadSQL.Start();
-        //    }
-        //    //取消关注 24小时取消关注4次多，每次取消30人
-        //    if (this.updateCount % 320 == 0)
-        //    {
-        //        threadSQL = new Thread(new ThreadStart(ThreadUnFollow));
-        //        threadSQL.Start();
-        //    }
-
-        //    //每隔三天从已存储的用户列表中获取微博
-        //    if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour >= 4 && this.updateCount == 960 && isGettedWeibo == false)
-        //    {
-        //        this.isGettedWeibo = true;
-        //        threadSQL = new Thread(new ThreadStart(ThreadGetWeibo));
-        //        threadSQL.Start();
-        //    }
-        //    else if (isGettedWeibo == true)
-        //    {
-        //        isGettedWeibo = false;
-        //    }
-        //}
         #endregion
 
-        #region 获取昵称
+        #region 获取昵称和头像
         //获取用户名
         private string GetDisplayName()
         {
@@ -387,44 +341,21 @@ namespace SinaWeiboHouseKeeper
             }
             return "";
         }
+
+        //获取头像
+        public Image GetAvatarImage()
+        {
+            var userHomePageTxt = HttpHelper.Get("https://weibo.com", this.myCookies, true);
+
+            int indexStart = userHomePageTxt.IndexOf("$CONFIG['avatar_large']='") + "$CONFIG['avatar_large']='".Length;
+            userHomePageTxt = userHomePageTxt.Substring(indexStart);
+            string url = userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
+
+            WebClient wc = new WebClient();
+            return Image.FromStream(wc.OpenRead("http:" + url));
+        }
         #endregion
 
-        #region 多线程方法
-        //关注线程
-        private static void ThreadFollow()
-        {
-            //string oid = SqliteTool.GetRandomOid();
-            //if (!oid.Equals(""))
-            //{
-            //    int count = WeiboOperate.FollowUsersFans(oid, 50);
-            //    if (count < 50)
-            //    {
-            //        count += WeiboOperate.FollowUsersFans(SqliteTool.GetRandomOid(), 50 - count);
-            //    }
-                
-            //    UserLog.WriteNormalLog(String.Format("关注{0}人", count), String.Format("被抓取oid：{0}", oid));
-            //}
-        }
-        //取消关注
-        private static void ThreadUnFollow()
-        {
-            WeiboOperate.UnFollowMyFans(30);
-            //UserLog.WriteNormalLog("取消关注30人");
-        }
-        //爬取用户微博线程
-        private static void ThreadGetWeibo()
-        {
-            //List<string> uids = SqliteTool.GetAllUid();
-            //foreach (string uid in uids)
-            //{
-            //    int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
-            //    List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(uid, out string oid);
-            //    SqliteTool.InsertImageWebos(imageWeibos);
-            //    int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
-            //    UserLog.WriteNormalLog(String.Format("后台爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", uid));
-            //}
-        }
-        #endregion
 
     }
 }

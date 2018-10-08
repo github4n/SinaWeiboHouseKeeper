@@ -66,6 +66,16 @@ namespace WeiboHouseKeeper
             }
         }
 
+        //设置头像
+        public Image AvatarImage
+        {
+            set
+            {
+                this.pictureBox1.Image = value;
+                this.pictureBox1.Refresh();
+            }
+        }
+
         public string UserName { get; private set; }
         public string Password { get; private set; }
         public CookieContainer Cookies { get; set; }

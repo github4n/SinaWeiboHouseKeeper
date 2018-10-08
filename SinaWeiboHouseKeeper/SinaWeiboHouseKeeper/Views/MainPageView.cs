@@ -43,7 +43,9 @@ namespace SinaWeiboHouseKeeper.Views
                 userLable.WriteLogEvent += WriteLogEvent;
                 userLable.UpdateSQLiteEvent += UpdateSQLiteEvent;
                 userLable.FollowFansEvent += FollowFansEvent;
-                
+                //设置头像
+                userLable.AvatarImage = login.WBLogin.GetAvatarImage();
+
                 this.panel1.Controls.Add(userLable);
                 SqliteTool.CreateDataBase(userLable.DisplayName);
                 //更新微博剩余显示
