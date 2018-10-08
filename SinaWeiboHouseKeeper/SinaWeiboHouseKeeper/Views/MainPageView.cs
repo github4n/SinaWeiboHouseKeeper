@@ -161,7 +161,7 @@ namespace SinaWeiboHouseKeeper.Views
                 string weiboText = userLable.IsFrontTagsSet ?
                     userLable.Tags + weibo.WeiboMessage :
                     weibo.WeiboMessage + userLable.Tags;
-                WeiboOperateTool.SendAnImageWeibo(userLable.Cookies, weibo.WeiboMessage, weibo.Pictures);
+                WeiboOperateTool.SendAnImageWeibo(userLable.Cookies, weiboText, weibo.Pictures);
             }
             else
             {
