@@ -107,7 +107,7 @@ namespace SinaWeiboHouseKeeper
             byte[] suByte = myEncoding.GetBytes(HttpUtility.UrlEncode(username));
             su = Convert.ToBase64String(suByte);
 
-            updateCookiesTimer.Tick += UpdateCookiesTimer_Tick;
+            //updateCookiesTimer.Tick += UpdateCookiesTimer_Tick;
             //this.updateCookiesTimer.Enabled = true;
         }
 
@@ -315,51 +315,51 @@ namespace SinaWeiboHouseKeeper
             }
         }
 
-        //更新cookies定时器、关注、取消关注、定时爬取微博内容
-        private void UpdateCookiesTimer_Tick(object sender, EventArgs e)
-        {
-            //更新Cookies
-            this.updateCount++;
-            if (this.updateCount >= 1200)
-            {
-                this.updateCount = 0;
+        ////更新cookies定时器、关注、取消关注、定时爬取微博内容
+        //private void UpdateCookiesTimer_Tick(object sender, EventArgs e)
+        //{
+        //    //更新Cookies
+        //    this.updateCount++;
+        //    if (this.updateCount >= 1200)
+        //    {
+        //        this.updateCount = 0;
 
-                string result = this.UpdateCookies(out bool isSuccess);
+        //        string result = this.UpdateCookies(out bool isSuccess);
 
-                if (!isSuccess)
-                {
-                    //更新失败，邮件通知
-                    EMailTool.SendMail("运行错误", "Cookies更新失败，需要重新登陆！");
-                }
+        //        if (!isSuccess)
+        //        {
+        //            //更新失败，邮件通知
+        //            EMailTool.SendMail("运行错误", "Cookies更新失败，需要重新登陆！");
+        //        }
 
-                UserLog.WriteNormalLog(this.DisplayName + " " + result);
-            }
+        //        UserLog.WriteNormalLog(this.DisplayName + " " + result);
+        //    }
 
-            //关注  每24小时关注5次，每次关注50人
-            if (this.updateCount % 288 == 0)
-            {
-                threadSQL = new Thread(new ThreadStart(ThreadFollow));
-                threadSQL.Start();
-            }
-            //取消关注 24小时取消关注4次多，每次取消30人
-            if (this.updateCount % 320 == 0)
-            {
-                threadSQL = new Thread(new ThreadStart(ThreadUnFollow));
-                threadSQL.Start();
-            }
+        //    //关注  每24小时关注5次，每次关注50人
+        //    if (this.updateCount % 288 == 0)
+        //    {
+        //        threadSQL = new Thread(new ThreadStart(ThreadFollow));
+        //        threadSQL.Start();
+        //    }
+        //    //取消关注 24小时取消关注4次多，每次取消30人
+        //    if (this.updateCount % 320 == 0)
+        //    {
+        //        threadSQL = new Thread(new ThreadStart(ThreadUnFollow));
+        //        threadSQL.Start();
+        //    }
 
-            //每隔三天从已存储的用户列表中获取微博
-            if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour >= 4 && this.updateCount == 960 && isGettedWeibo == false)
-            {
-                this.isGettedWeibo = true;
-                threadSQL = new Thread(new ThreadStart(ThreadGetWeibo));
-                threadSQL.Start();
-            }
-            else if (isGettedWeibo == true)
-            {
-                isGettedWeibo = false;
-            }
-        }
+        //    //每隔三天从已存储的用户列表中获取微博
+        //    if (DateTime.Now.Day % 3 == 0 && DateTime.Now.Hour >= 4 && this.updateCount == 960 && isGettedWeibo == false)
+        //    {
+        //        this.isGettedWeibo = true;
+        //        threadSQL = new Thread(new ThreadStart(ThreadGetWeibo));
+        //        threadSQL.Start();
+        //    }
+        //    else if (isGettedWeibo == true)
+        //    {
+        //        isGettedWeibo = false;
+        //    }
+        //}
         #endregion
 
         #region 获取昵称
@@ -382,7 +382,7 @@ namespace SinaWeiboHouseKeeper
             }
             catch (Exception ex)
             {
-                UserLog.WriteNormalLog(this.Username + "：获取昵称失败，可能是账号异常！");
+                UserLog.WriteNormalLog("",this.Username + "：获取昵称失败，可能是账号异常！");
                 EMailTool.SendMail("运行错误", this.Username + "：获取昵称失败，可能是账号操作频繁引起的异常，请检查是否需要解除锁定");
             }
             return "";
@@ -409,7 +409,7 @@ namespace SinaWeiboHouseKeeper
         private static void ThreadUnFollow()
         {
             WeiboOperate.UnFollowMyFans(30);
-            UserLog.WriteNormalLog("取消关注30人");
+            //UserLog.WriteNormalLog("取消关注30人");
         }
         //爬取用户微博线程
         private static void ThreadGetWeibo()

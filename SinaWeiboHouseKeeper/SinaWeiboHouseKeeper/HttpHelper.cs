@@ -94,10 +94,6 @@ namespace SinaWeiboHouseKeeper
         {
             try
             {
-                //-->测试cookie过期时间修改
-
-                //<--
-
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
 
                 request.Method = "post";
@@ -130,7 +126,6 @@ namespace SinaWeiboHouseKeeper
             catch(Exception ex)
             {
                 return "";
-                UserLog.WriteNormalLog(DateTime.Now.ToShortTimeString() + "\n" + ex.Message);
 
             }
 

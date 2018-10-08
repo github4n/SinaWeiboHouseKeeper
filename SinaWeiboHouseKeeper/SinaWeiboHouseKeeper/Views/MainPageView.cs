@@ -28,7 +28,7 @@ namespace SinaWeiboHouseKeeper.Views
 
             if (login.DialogResult == DialogResult.OK)
             {
-                UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password,login.WBLogin.DisplayName);
+                UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password,login.WBLogin.DisplayName,login.WBLogin.UserId);
                 if (this.panel1.Controls.Count == 0)
                 {
                     userLable.Location = new Point(4, 4);
@@ -51,24 +51,56 @@ namespace SinaWeiboHouseKeeper.Views
         }
 
         #region userlable事件
+        //粉丝事件
         private void FollowFansEvent(object sender, bool isFollow)
         {
-            throw new NotImplementedException();
+            if (isFollow)
+            {
+                int countFans = ((UserLable)sender).AutoFollowCount;
+                //关注count个用户
+                string oid = SqliteTool.GetRandomOid(((UserLable)sender).DisplayName);
+                if (!oid.Equals(""))
+                {
+                    int count = WeiboOperateTool.FollowUsersFans(oid, countFans, ((UserLable)sender).Cookies);
+                    if (count < countFans)
+                    {
+                        count += WeiboOperateTool.FollowUsersFans(SqliteTool.GetRandomOid(((UserLable)sender).DisplayName), countFans - count, ((UserLable)sender).Cookies);
+                    }
+
+                    UserLog.WriteNormalLog(((UserLable)sender).DisplayName,String.Format("关注{0}人", count), String.Format("被抓取oid：{0}", oid));
+                }
+            }
+            else
+            {
+                int count = ((UserLable)sender).AutoUnFollowCount;
+                WeiboOperateTool.UnFollowMyFans(count, ((UserLable)sender).Cookies, ((UserLable)sender).UserId);
+                UserLog.WriteNormalLog(((UserLable)sender).DisplayName, String.Format("取消关注{0}人", count));
+            }
         }
         //更新数据库事件
         private void UpdateSQLiteEvent(object sender)
         {
-            throw new NotImplementedException();
+            List<string> uids =  SqliteTool.Get10Uid(((UserLable)sender).DisplayName);
+
+            foreach (string uid in uids)
+            {
+                int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, ((UserLable)sender).DisplayName);
+                List<ImageWeibo> imageWeibos = WeiboOperateTool.GetImageWeibos(uid, out string oid, ((UserLable)sender).Cookies);
+                SqliteTool.InsertImageWebos(imageWeibos, ((UserLable)sender).DisplayName);
+                int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, ((UserLable)sender).DisplayName);
+                UserLog.WriteNormalLog(((UserLable)sender).DisplayName, String.Format("后台爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", uid));
+            }
+
         }
         //日志记录事件
         private void WriteLogEvent(object sender, string title, string message)
         {
-            throw new NotImplementedException();
+            UserLog.WriteNormalLog(((UserLable)sender).DisplayName, title, message);
         }
         //发送邮件事件
         private void SendEmailEvent(object sender, string message)
         {
-            EMailTool.SendMail(((UserLable)sender).DisplayName + "运行错误", message);
+            EMailTool.SendMail(((UserLable)sender).DisplayName + " 运行错误", message);
         }
         //更新cookie事件
         private void UpdateCookiesEvent(object sender)
@@ -113,7 +145,7 @@ namespace SinaWeiboHouseKeeper.Views
 
                 if (weibo.Pictures == null || weibo.Pictures.Length == 0)
                 {
-                    UserLog.WriteNormalLog("获取微博失败，类型不明确");
+                    UserLog.WriteNormalLog(userLable.DisplayName,"获取微博失败，类型不明确");
                     return;
                 }
 

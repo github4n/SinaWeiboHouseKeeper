@@ -43,6 +43,7 @@ namespace WeiboHouseKeeper
         private int ImageWeiboCounter = 0;
         private int VideoWeiboCounter = 0;
         private int CookiesCounter = 1200;//cookies更新周期20小时
+        private int UpdateSQLiteCounter = 1440;
         //微博发布标志
         private bool IsImageWeiboEnabled;
         private bool IsVideoWeiboEnabled;
@@ -51,6 +52,7 @@ namespace WeiboHouseKeeper
         public string Password { get; private set; }
         public CookieContainer Cookies { get; set; }
         public string DisplayName { get; private set; }
+        public string UserId { get; private set; }
 
         #region 委托事件
         /// <summary>
@@ -107,7 +109,7 @@ namespace WeiboHouseKeeper
 
         //}
 
-        public UserLable(CookieContainer cookie,string username,string password,string displayName )
+        public UserLable(CookieContainer cookie,string username,string password,string displayName ,string uid)
         {
             InitializeComponent();
 
@@ -116,6 +118,7 @@ namespace WeiboHouseKeeper
             this.Cookies = cookie;
             this.DisplayName = displayName;
             this.groupBox1.Text = displayName;
+            this.UserId = uid;
 
             this.WeiboTimer.Tick += WeiboTimer_Tick;
             this.WeiboTimer.Enabled = true;
@@ -183,6 +186,25 @@ namespace WeiboHouseKeeper
             {
                 this.CookiesCounter = 1200;
                 this.UpdateCookies();
+            }
+
+            //24小时计时
+            this.UpdateSQLiteCounter--;
+            if (this.UpdateSQLiteCounter <= 0)
+            {
+                this.UpdateSQLiteCounter = 1440;
+                //sqlite更新事件
+                UpdateSQLiteEvent(this);
+            }
+            else if (this.UpdateSQLiteCounter == 480 && this.IsAutoUnFollow && this.IsFansSetted)
+            {
+                //取消关注
+                FollowFansEvent(this, false);
+            }
+            else if (this.UpdateSQLiteCounter == 960 && this.IsAutoFollow && this.IsFansSetted)
+            {
+                //关注
+                FollowFansEvent(this, true);
             }
         }
         //设置按钮事件

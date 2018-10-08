@@ -277,13 +277,13 @@ namespace SinaWeiboHouseKeeper.IOTools
             }
             catch
             {
-                UserLog.WriteNormalLog("获取用户oid失败，本次关注失败！");
+                //UserLog.WriteNormalLog("获取用户oid失败，本次关注失败！");
             }
             return uid;
         }
 
         //获取所有用户uid，用来获取微博
-        public static List<string> GetAllUid(string userName)
+        public static List<string> Get10Uid(string userName)
         {
             SQLiteConnection connection = DataBaseConnection(userName);
             List<string> uids = new List<string>();
@@ -292,7 +292,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 connection.Open();
                 SQLiteCommand command = new SQLiteCommand();
                 command.Connection = connection;
-                command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM()";
+                command.CommandText = "SELECT * FROM users WHERE isdeleted = false ORDER BY RANDOM() LIMIT 10";
                 command.ExecuteNonQuery();
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
