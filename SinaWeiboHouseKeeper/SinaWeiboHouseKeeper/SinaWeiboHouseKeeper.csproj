@@ -181,11 +181,23 @@
     <Compile Include="Views\ADFilePathView.Designer.cs">
       <DependentUpon>ADFilePathView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EmailSetView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EmailSetView.Designer.cs">
+      <DependentUpon>EmailSetView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPageView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\MainPageView.Designer.cs">
       <DependentUpon>MainPageView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\YunDaMaSetView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\YunDaMaSetView.Designer.cs">
+      <DependentUpon>YunDaMaSetView.cs</DependentUpon>
     </Compile>
     <Compile Include="WeiboData\ImageWeibo.cs" />
     <Compile Include="WeiboData\VideoWeibo.cs" />
@@ -206,8 +218,14 @@
     <EmbeddedResource Include="Views\ADFilePathView.resx">
       <DependentUpon>ADFilePathView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\EmailSetView.resx">
+      <DependentUpon>EmailSetView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\MainPageView.resx">
       <DependentUpon>MainPageView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\YunDaMaSetView.resx">
+      <DependentUpon>YunDaMaSetView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

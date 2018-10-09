@@ -284,7 +284,7 @@
             this.RestoreDownBack = null;
             this.RoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.Shadow = true;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "登录";
             this.TitleSuitColor = true;
             this.TopMost = true;

@@ -152,6 +152,18 @@ namespace SinaWeiboHouseKeeper.Views
             ADFilePathView adFilePath = new ADFilePathView();
             adFilePath.ShowDialog();
         }
+        //邮件设置
+        private void 邮件报告ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EmailSetView emailSetView = new EmailSetView();
+            emailSetView.ShowDialog();
+        }
+        //云打码账号设置
+        private void 验证码识别ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            YunDaMaSetView yunDaMaSetView = new YunDaMaSetView();
+            yunDaMaSetView.ShowDialog();
+        }
         #endregion
 
         #region 私有方法

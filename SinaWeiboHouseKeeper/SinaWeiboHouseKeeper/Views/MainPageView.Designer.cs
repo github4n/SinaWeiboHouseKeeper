@@ -99,12 +99,14 @@
             this.邮件报告ToolStripMenuItem.Name = "邮件报告ToolStripMenuItem";
             this.邮件报告ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.邮件报告ToolStripMenuItem.Text = "邮件报告";
+            this.邮件报告ToolStripMenuItem.Click += new System.EventHandler(this.邮件报告ToolStripMenuItem_Click);
             // 
             // 验证码识别ToolStripMenuItem
             // 
             this.验证码识别ToolStripMenuItem.Name = "验证码识别ToolStripMenuItem";
             this.验证码识别ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.验证码识别ToolStripMenuItem.Text = "Cookie更新";
+            this.验证码识别ToolStripMenuItem.Text = "云打码Cookie更新";
+            this.验证码识别ToolStripMenuItem.Click += new System.EventHandler(this.验证码识别ToolStripMenuItem_Click);
             // 
             // panel1
             // 
@@ -219,7 +221,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
             this.Name = "MainPageView";
-            this.Text = "MainPageView";
+            this.Text = "Sina Weibo House Keeper";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panelCollection.ResumeLayout(false);

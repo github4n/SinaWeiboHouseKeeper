@@ -1,6 +1,6 @@
 ﻿namespace SinaWeiboHouseKeeper.Views
 {
-    partial class ADFilePathView
+    partial class YunDaMaSetView
     {
         /// <summary>
         /// Required designer variable.
@@ -29,20 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonCancel = new CCWin.SkinControl.SkinButton();
             this.buttonOK = new CCWin.SkinControl.SkinButton();
-            this.buttonSelect = new CCWin.SkinControl.SkinButton();
-            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxUsername = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("宋体", 12F);
-            this.textBox1.Location = new System.Drawing.Point(37, 66);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(250, 26);
-            this.textBox1.TabIndex = 0;
             // 
             // buttonCancel
             // 
@@ -53,13 +46,13 @@
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.DownBack = null;
             this.buttonCancel.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonCancel.Location = new System.Drawing.Point(222, 136);
+            this.buttonCancel.Location = new System.Drawing.Point(188, 134);
             this.buttonCancel.MouseBack = null;
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.NormlBack = null;
             this.buttonCancel.RoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.buttonCancel.Size = new System.Drawing.Size(65, 29);
-            this.buttonCancel.TabIndex = 8;
+            this.buttonCancel.TabIndex = 17;
             this.buttonCancel.Tag = "1";
             this.buttonCancel.Text = "取消";
             this.buttonCancel.UseVisualStyleBackColor = false;
@@ -74,74 +67,75 @@
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOK.DownBack = null;
             this.buttonOK.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonOK.Location = new System.Drawing.Point(293, 136);
+            this.buttonOK.Location = new System.Drawing.Point(259, 134);
             this.buttonOK.MouseBack = null;
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.NormlBack = null;
             this.buttonOK.RoundStyle = CCWin.SkinClass.RoundStyle.All;
             this.buttonOK.Size = new System.Drawing.Size(65, 29);
-            this.buttonOK.TabIndex = 7;
+            this.buttonOK.TabIndex = 16;
             this.buttonOK.Tag = "1";
             this.buttonOK.Text = "确定";
             this.buttonOK.UseVisualStyleBackColor = false;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
-            // buttonSelect
+            // label3
             // 
-            this.buttonSelect.BackColor = System.Drawing.Color.Transparent;
-            this.buttonSelect.BaseColor = System.Drawing.Color.LightGray;
-            this.buttonSelect.BorderColor = System.Drawing.Color.Silver;
-            this.buttonSelect.ControlState = CCWin.SkinClass.ControlState.Normal;
-            this.buttonSelect.DownBack = null;
-            this.buttonSelect.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonSelect.Location = new System.Drawing.Point(293, 66);
-            this.buttonSelect.MouseBack = null;
-            this.buttonSelect.Name = "buttonSelect";
-            this.buttonSelect.NormlBack = null;
-            this.buttonSelect.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.buttonSelect.Size = new System.Drawing.Size(65, 29);
-            this.buttonSelect.TabIndex = 9;
-            this.buttonSelect.Tag = "1";
-            this.buttonSelect.Text = "浏览";
-            this.buttonSelect.UseVisualStyleBackColor = false;
-            this.buttonSelect.Click += new System.EventHandler(this.buttonSelect_Click);
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 12F);
+            this.label3.Location = new System.Drawing.Point(36, 95);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(88, 16);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "云打码密码";
             // 
-            // label1
+            // textBoxPassword
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(35, 108);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(339, 12);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "*广告特征词文件应为txt格式，关键词之间以“%”分隔。";
+            this.textBoxPassword.Font = new System.Drawing.Font("宋体", 12F);
+            this.textBoxPassword.Location = new System.Drawing.Point(151, 90);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
+            this.textBoxPassword.Size = new System.Drawing.Size(175, 26);
+            this.textBoxPassword.TabIndex = 14;
             // 
-            // ADFilePathView
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 12F);
+            this.label2.Location = new System.Drawing.Point(36, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 16);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "云打码账号";
+            // 
+            // textBoxUsername
+            // 
+            this.textBoxUsername.Font = new System.Drawing.Font("宋体", 12F);
+            this.textBoxUsername.Location = new System.Drawing.Point(151, 53);
+            this.textBoxUsername.Name = "textBoxUsername";
+            this.textBoxUsername.Size = new System.Drawing.Size(175, 26);
+            this.textBoxUsername.TabIndex = 12;
+            // 
+            // YunDaMaSetView
             // 
             this.AcceptButton = this.buttonOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.CancelButton = this.buttonCancel;
             this.CanResize = false;
-            this.ClientSize = new System.Drawing.Size(401, 185);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.buttonSelect);
+            this.ClientSize = new System.Drawing.Size(363, 185);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxPassword);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.textBoxUsername);
             this.MaximizeBox = false;
-            this.MdiAutoScroll = false;
             this.MinimizeBox = false;
-            this.Name = "ADFilePathView";
-            this.ShowDrawIcon = false;
-            this.ShowIcon = false;
+            this.Name = "YunDaMaSetView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "选择广告特征词过滤文件";
-            this.TopMost = true;
+            this.Text = "云打码Cookies更新设置";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,10 +143,11 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox textBox1;
         private CCWin.SkinControl.SkinButton buttonCancel;
         private CCWin.SkinControl.SkinButton buttonOK;
-        private CCWin.SkinControl.SkinButton buttonSelect;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxUsername;
     }
 }
