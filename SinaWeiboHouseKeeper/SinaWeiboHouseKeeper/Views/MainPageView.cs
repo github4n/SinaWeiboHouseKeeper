@@ -19,8 +19,12 @@ namespace SinaWeiboHouseKeeper.Views
         public MainPageView()
         {
             InitializeComponent();
+            this.FormClosing += MainPageView_FormClosing;
+            this.Load += MainPageView_Load;
         }
 
+        #region userlable事件
+        //登录账号
         private void 登录账号ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LoginView login = new LoginView();
@@ -28,7 +32,7 @@ namespace SinaWeiboHouseKeeper.Views
 
             if (login.DialogResult == DialogResult.OK)
             {
-                UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password,login.WBLogin.DisplayName,login.WBLogin.UserId);
+                UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password, login.WBLogin.DisplayName, login.WBLogin.UserId);
                 if (this.panel1.Controls.Count == 0)
                 {
                     userLable.Location = new Point(4, 4);
@@ -52,10 +56,7 @@ namespace SinaWeiboHouseKeeper.Views
                 userLable.ImageWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, login.WBLogin.DisplayName).ToString();
                 userLable.VideoWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.VideoWeibo, login.WBLogin.DisplayName).ToString();
             }
-           
         }
-
-        #region userlable事件
         //粉丝事件
         private void FollowFansEvent(object sender, bool isFollow)
         {
@@ -127,6 +128,7 @@ namespace SinaWeiboHouseKeeper.Views
                 EMailTool.SendMail("更新cookies失败", String.Format("账号【{0}({1})】更新cookies失败，请检查服务器运行状态！", username, ((UserLable)sender).DisplayName));
             }
             //记录日志
+            UserLog.WriteNormalLog(((UserLable)sender).DisplayName, result);
         }
         //发布微博事件
         private void PublishWeiboEvent(object sender, bool isImageWeibo)
@@ -163,6 +165,18 @@ namespace SinaWeiboHouseKeeper.Views
         {
             YunDaMaSetView yunDaMaSetView = new YunDaMaSetView();
             yunDaMaSetView.ShowDialog();
+        }
+        #endregion
+
+        #region 窗口事件
+        private void MainPageView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            UserLog.WriteProgramLog("Sina Weibo House Keeper 关闭");
+        }
+
+        private void MainPageView_Load(object sender, EventArgs e)
+        {
+            UserLog.WriteProgramLog("Sina Weibo House Keeper 启动");
         }
         #endregion
 

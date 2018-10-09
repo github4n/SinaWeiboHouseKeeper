@@ -37,6 +37,8 @@
             this.textBoxRecieveUserName = new System.Windows.Forms.TextBox();
             this.buttonCancel = new CCWin.SkinControl.SkinButton();
             this.buttonOK = new CCWin.SkinControl.SkinButton();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // textBoxSendUserName
@@ -103,7 +105,7 @@
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonCancel.DownBack = null;
             this.buttonCancel.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonCancel.Location = new System.Drawing.Point(182, 173);
+            this.buttonCancel.Location = new System.Drawing.Point(182, 210);
             this.buttonCancel.MouseBack = null;
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.NormlBack = null;
@@ -124,7 +126,7 @@
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOK.DownBack = null;
             this.buttonOK.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonOK.Location = new System.Drawing.Point(253, 173);
+            this.buttonOK.Location = new System.Drawing.Point(253, 210);
             this.buttonOK.MouseBack = null;
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.NormlBack = null;
@@ -136,6 +138,52 @@
             this.buttonOK.UseVisualStyleBackColor = false;
             this.buttonOK.Click += new System.EventHandler(this.buttonOK_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("宋体", 12F);
+            this.checkBox1.Location = new System.Drawing.Point(34, 172);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(155, 20);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.Text = "每日报告发送时间";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Font = new System.Drawing.Font("宋体", 12F);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "0:00",
+            "1:00",
+            "2:00",
+            "3:00",
+            "4:00",
+            "5:00",
+            "6:00",
+            "7:00",
+            "8:00",
+            "9:00",
+            "10:00",
+            "11:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00",
+            "18:00",
+            "19:00",
+            "20:00",
+            "21:00",
+            "22:00",
+            "23:00"});
+            this.comboBox1.Location = new System.Drawing.Point(211, 169);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(107, 24);
+            this.comboBox1.TabIndex = 13;
+            // 
             // EmailSetView
             // 
             this.AcceptButton = this.buttonOK;
@@ -144,7 +192,9 @@
             this.BackColor = System.Drawing.Color.Silver;
             this.CancelButton = this.buttonCancel;
             this.CanResize = false;
-            this.ClientSize = new System.Drawing.Size(352, 218);
+            this.ClientSize = new System.Drawing.Size(350, 254);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.label3);
@@ -177,5 +227,7 @@
         private System.Windows.Forms.TextBox textBoxRecieveUserName;
         private CCWin.SkinControl.SkinButton buttonCancel;
         private CCWin.SkinControl.SkinButton buttonOK;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }

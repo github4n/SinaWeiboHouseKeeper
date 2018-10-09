@@ -79,7 +79,7 @@ namespace SinaWeiboHouseKeeper.IOTools
             {
                 Directory.CreateDirectory(path);
             }
-            path = path + DateTime.Today.ToString("yyyyMMdd") + ".txt";
+            path = path + "\\" + DateTime.Today.ToString("yyyyMMdd") + ".txt";
 
             if (!File.Exists(path))
             {

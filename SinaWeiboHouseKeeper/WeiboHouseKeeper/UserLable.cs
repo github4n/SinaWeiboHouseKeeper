@@ -131,12 +131,6 @@ namespace WeiboHouseKeeper
         public event FollowFansHandler FollowFansEvent;
         #endregion
 
-        //public UserLable()
-        //{
-        //    InitializeComponent();
-
-        //}
-
         public UserLable(CookieContainer cookie,string username,string password,string displayName ,string uid)
         {
             InitializeComponent();
