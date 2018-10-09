@@ -58,12 +58,12 @@ namespace SinaWeiboHouseKeeper.IOTools
                 smtp.Credentials = new System.Net.NetworkCredential(username, password);
 
                 //超时时间 
-                smtp.Timeout = 10000;
+                smtp.Timeout = 30000;
                 smtp.Send(mail);
             }
             catch (Exception exp)
             {
-                UserLog.WriteNormalLog("邮件发送失败" , exp.Message);
+                UserLog.WriteProgramLog("邮件发送失败" , exp.Message);
             }
         }
 

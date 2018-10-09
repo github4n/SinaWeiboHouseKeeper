@@ -168,7 +168,7 @@ namespace SinaWeiboHouseKeeper.Views
             else
             {
                 this.richTextBox1.Text = this.richTextBox1.Text + userLable.DisplayName +" 微博库已空\n";
-                EMailTool.SendMail("微博库已空", String.Format("用户昵称：{0}\n登录账号：{1}", userLable.DisplayName, userLable.UserName));
+                EMailTool.SendMail("微博库已空", String.Format("用户昵称：{0}<br/>登录账号：{1}", userLable.DisplayName, userLable.UserName));
             }
         }
         //发布一条视频微博

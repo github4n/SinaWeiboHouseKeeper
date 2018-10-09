@@ -9,56 +9,6 @@ namespace SinaWeiboHouseKeeper.IOTools
 {
     public class UserLog
     {
-        //#region 存储路径
-        ////日志文件存储位置
-        //private static string logPath;
-        //private static string LogPath
-        //{
-        //    get
-        //    {
-        //        if (logPath == null)
-        //        {
-        //            logPath = Environment.CurrentDirectory;
-
-        //            //创建默认日志文件夹
-        //            if (!Directory.Exists(logPath += "\\LogData"))
-        //            {
-        //                Directory.CreateDirectory(logPath);
-        //            }
-        //        }
-        //        return logPath;
-        //    }
-        //    set
-        //    {
-        //        logPath = value;
-        //    }
-        //}
-        ////文件名称
-        //private static string logName;
-        //private static string LogName
-        //{
-        //    get
-        //    {
-        //        if (logName == null || !logName.Equals(DateTime.Today.ToString("yyyyMMdd") + ".txt"))
-        //        {
-        //            logName = DateTime.Today.ToString("yyyyMMdd") + ".txt";
-        //        }
-        //        return logName;
-        //    }
-        //    set
-        //    {
-        //        logName = value;
-        //    }
-        //}
-        ////全路径
-        //public static string FullPath
-        //{
-        //    get
-        //    {
-        //        return LogPath + "\\" + LogName;
-        //    }
-        //}
-        //#endregion
 
         /// <summary>
         /// 创建用户文件夹
@@ -73,36 +23,9 @@ namespace SinaWeiboHouseKeeper.IOTools
             }
         }
 
-        ///// <summary>
-        ///// 写入日志
-        ///// </summary>
-        ///// <param name="news">日志提要</param>
-        ///// <param name="details">详细信息，可以不写</param>
-        //public static void WriteNormalLog(string news,string details = "")
-        //{
-        //    if (!File.Exists(FullPath))
-        //    {
-        //        File.Create(FullPath).Close();
-        //    }
-
-        //    StringBuilder strBuilderErrorMessage = new StringBuilder();
-
-        //    strBuilderErrorMessage.Append("[" + System.DateTime.Now.ToString() + "]" + " [" + news + "]\r\n");
-        //    if (!details.Equals(""))
-        //    {
-        //        strBuilderErrorMessage.Append(details + "\r\n");
-        //    }
-        //    using (StreamWriter sw = File.AppendText(FullPath))
-        //    {
-        //        sw.Write(strBuilderErrorMessage);
-        //        sw.Flush();
-        //        sw.Close();
-        //    }
-        //}
-
+        //根据用户名的用户日志路径
         private static string UserPath(string userName)
         {
-
             string path = Environment.CurrentDirectory + "\\Users\\" + userName + "\\LogData";
             if (!Directory.Exists(path))
             {
@@ -114,9 +37,49 @@ namespace SinaWeiboHouseKeeper.IOTools
             return path + "\\" + txtName;
         }
 
+        /// <summary>
+        /// 用户日志
+        /// </summary>
+        /// <param name="userName">用户昵称</param>
+        /// <param name="news">日志内容</param>
+        /// <param name="details">详细内容</param>
         public static void WriteNormalLog(string userName, string news, string details = "")
         {
             string path = UserPath(userName);
+
+            if (!File.Exists(path))
+            {
+                File.Create(path).Close();
+            }
+
+            StringBuilder strBuilderErrorMessage = new StringBuilder();
+
+            strBuilderErrorMessage.Append("[" + DateTime.Now.ToString() + "]" + " [" + news + "]\r\n");
+            if (!details.Equals(""))
+            {
+                strBuilderErrorMessage.Append(details + "\r\n");
+            }
+            using (StreamWriter sw = File.AppendText(path))
+            {
+                sw.Write(strBuilderErrorMessage);
+                sw.Flush();
+                sw.Close();
+            }
+        }
+
+        /// <summary>
+        /// 程序总体日志
+        /// </summary>
+        /// <param name="news">日志内容</param>
+        /// <param name="details">详细内容可以为空</param>
+        public static void WriteProgramLog(string news, string details = "")
+        {
+            string path = Environment.CurrentDirectory + "\\LogData";
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            path = path + DateTime.Today.ToString("yyyyMMdd") + ".txt";
 
             if (!File.Exists(path))
             {
