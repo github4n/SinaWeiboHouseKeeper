@@ -158,12 +158,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HomePageView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HomePageView.Designer.cs">
-      <DependentUpon>HomePageView.cs</DependentUpon>
-    </Compile>
     <Compile Include="HttpHelper.cs" />
     <Compile Include="IOTools\AppConfigRWTool.cs" />
     <Compile Include="IOTools\EMailTool.cs" />
@@ -193,19 +187,9 @@
     <Compile Include="Views\MainPageView.Designer.cs">
       <DependentUpon>MainPageView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\TagsView.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\TagsView.Designer.cs">
-      <DependentUpon>TagsView.cs</DependentUpon>
-    </Compile>
     <Compile Include="WeiboData\ImageWeibo.cs" />
     <Compile Include="WeiboData\VideoWeibo.cs" />
     <Compile Include="WeiboLogin.cs" />
-    <Compile Include="WeiboOperate.cs" />
-    <EmbeddedResource Include="HomePageView.resx">
-      <DependentUpon>HomePageView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="LoginView.resx">
       <DependentUpon>LoginView.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,9 +208,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\MainPageView.resx">
       <DependentUpon>MainPageView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\TagsView.resx">
-      <DependentUpon>TagsView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />

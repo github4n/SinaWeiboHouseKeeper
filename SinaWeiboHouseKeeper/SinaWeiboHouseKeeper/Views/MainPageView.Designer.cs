@@ -33,7 +33,6 @@
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.登录账号ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AdFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.邮件报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.验证码识别ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +80,6 @@
             // 设置ToolStripMenuItem
             // 
             this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tagsToolStripMenuItem,
             this.AdFilterToolStripMenuItem,
             this.邮件报告ToolStripMenuItem,
             this.验证码识别ToolStripMenuItem});
@@ -89,28 +87,23 @@
             this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.设置ToolStripMenuItem.Text = "设置";
             // 
-            // tagsToolStripMenuItem
-            // 
-            this.tagsToolStripMenuItem.Name = "tagsToolStripMenuItem";
-            this.tagsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.tagsToolStripMenuItem.Text = "Tags";
-            // 
             // AdFilterToolStripMenuItem
             // 
             this.AdFilterToolStripMenuItem.Name = "AdFilterToolStripMenuItem";
-            this.AdFilterToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.AdFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.AdFilterToolStripMenuItem.Text = "广告特征词过滤";
+            this.AdFilterToolStripMenuItem.Click += new System.EventHandler(this.AdFilterToolStripMenuItem_Click);
             // 
             // 邮件报告ToolStripMenuItem
             // 
             this.邮件报告ToolStripMenuItem.Name = "邮件报告ToolStripMenuItem";
-            this.邮件报告ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.邮件报告ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.邮件报告ToolStripMenuItem.Text = "邮件报告";
             // 
             // 验证码识别ToolStripMenuItem
             // 
             this.验证码识别ToolStripMenuItem.Name = "验证码识别ToolStripMenuItem";
-            this.验证码识别ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.验证码识别ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.验证码识别ToolStripMenuItem.Text = "Cookie更新";
             // 
             // panel1
@@ -242,7 +235,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem tagsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AdFilterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 邮件报告ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 验证码识别ToolStripMenuItem;

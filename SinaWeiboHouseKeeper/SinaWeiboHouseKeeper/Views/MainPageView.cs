@@ -145,6 +145,15 @@ namespace SinaWeiboHouseKeeper.Views
         }
         #endregion
 
+        #region 工具条事件
+        //广告过滤
+        private void AdFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ADFilePathView adFilePath = new ADFilePathView();
+            adFilePath.ShowDialog();
+        }
+        #endregion
+
         #region 私有方法
         //发布一条图文微博
         private void PublishAnImageWeibo(UserLable userLable)
