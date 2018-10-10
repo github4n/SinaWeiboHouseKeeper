@@ -18,10 +18,10 @@ namespace SinaWeiboHouseKeeper.Views
         public YunDaMaSetView()
         {
             InitializeComponent();
-            this.textBoxUsername.Text = ConfigurationManager.AppSettings["YunDaMaUserName"];
+            this.textBoxUsername.Text = AppConfigRWTool.ReadSetting("YunDaMaUserName");
 
             //假数据
-            if (this.textBoxUsername.Text.Equals("") || ConfigurationManager.AppSettings["YunDaMaUserName"].Equals(""))
+            if (this.textBoxUsername.Text.Equals("") || AppConfigRWTool.ReadSetting("YunDaMaUserName").Equals(""))
             {
                 this.textBoxPassword.Text = "";
             }
@@ -40,12 +40,12 @@ namespace SinaWeiboHouseKeeper.Views
         {
             if (!(this.textBoxUsername.Text.Equals("") || this.textBoxPassword.Text.Equals("")))
             {
-                AppConfigRWTool.WriteConfig("YunDaMaUserName", this.textBoxUsername.Text);
+                AppConfigRWTool.WriteSetting("YunDaMaUserName", this.textBoxUsername.Text);
 
                 if (!this.textBoxPassword.Text.Equals("%%%%%%%%%%%%%"))
                 {
                     //密码以Md5形式存储
-                    AppConfigRWTool.WriteConfig("YunDaMaPasswordMd5", MD5EncryptTool.MD5Encrypt(this.textBoxPassword.Text));
+                    AppConfigRWTool.WriteSetting("YunDaMaPasswordMd5", MD5EncryptTool.MD5Encrypt(this.textBoxPassword.Text));
                 }
             }
         }

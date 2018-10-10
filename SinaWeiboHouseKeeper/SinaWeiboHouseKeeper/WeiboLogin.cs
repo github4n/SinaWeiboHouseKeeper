@@ -290,8 +290,8 @@ namespace SinaWeiboHouseKeeper
 
             if (YunDaMaPassword.Equals("") || YunDaMaUserName.Equals(""))
             {
-                YunDaMaUserName = ConfigurationManager.AppSettings["YunDaMaUserName"];
-                YunDaMaPassword = ConfigurationManager.AppSettings["YunDaMaPasswordMd5"];
+                YunDaMaUserName = AppConfigRWTool.ReadSetting("YunDaMaUserName");
+                YunDaMaPassword = AppConfigRWTool.ReadSetting("YunDaMaPasswordMd5");
             }
 
             //保存文件到本地

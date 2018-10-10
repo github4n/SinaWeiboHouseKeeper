@@ -15,7 +15,7 @@ namespace SinaWeiboHouseKeeper.IOTools
     public class WeiboOperateTool
     {
         //广告过滤文件路径
-        public static string filterADFilePath = ConfigurationManager.AppSettings["FilterADPath"];
+        public static string filterADFilePath = AppConfigRWTool.ReadSetting("FilterADPath");
 
         private static bool WeiboListIsEnd;
 

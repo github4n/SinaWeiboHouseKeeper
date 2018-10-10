@@ -21,6 +21,8 @@ namespace SinaWeiboHouseKeeper.Views
             InitializeComponent();
             this.FormClosing += MainPageView_FormClosing;
             this.Load += MainPageView_Load;
+
+            AppConfigRWTool.CreateConfigFile();
         }
 
         #region userlable事件

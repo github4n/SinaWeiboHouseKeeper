@@ -77,10 +77,10 @@ namespace SinaWeiboHouseKeeper.IOTools
         {
             if (UserName.Equals("") || Password.Equals("") || FromName.Equals("") || Receiver.Equals(""))
             {
-                UserName = ConfigurationManager.AppSettings["EMailSenderUserName"];
-                Password = ConfigurationManager.AppSettings["EMailSenderPassword"];
-                FromName = ConfigurationManager.AppSettings["EMailSenderDisplayName"];
-                Receiver = ConfigurationManager.AppSettings["EMailReceiverName"];
+                UserName = AppConfigRWTool.ReadSetting("EMailSenderUserName");
+                Password = AppConfigRWTool.ReadSetting("EMailSenderPassword");
+                FromName = AppConfigRWTool.ReadSetting("EMailSenderDisplayName");
+                Receiver = AppConfigRWTool.ReadSetting("EMailReceiverName");
             }
 
             SendMail(UserName, Password, FromName, Receiver, title, body);

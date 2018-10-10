@@ -18,7 +18,7 @@ namespace SinaWeiboHouseKeeper.Views
         public ADFilePathView()
         {
             InitializeComponent();
-            this.textBox1.Text = ConfigurationManager.AppSettings["FilterADPath"];
+            this.textBox1.Text = AppConfigRWTool.ReadSetting("FilterADPath");
         }
 
         private void buttonSelect_Click(object sender, EventArgs e)
@@ -39,7 +39,7 @@ namespace SinaWeiboHouseKeeper.Views
         {
             if (!this.textBox1.Text.Equals(""))
             {
-                AppConfigRWTool.WriteConfig("FilterADPath", this.textBox1.Text);
+                AppConfigRWTool.WriteSetting("FilterADPath", this.textBox1.Text);
             }
         }
     }

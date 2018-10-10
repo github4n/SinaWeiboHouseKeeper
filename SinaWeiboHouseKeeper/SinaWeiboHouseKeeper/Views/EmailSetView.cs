@@ -18,12 +18,12 @@ namespace SinaWeiboHouseKeeper.Views
         public EmailSetView()
         {
             InitializeComponent();
-            this.textBoxSendUserName.Text = ConfigurationManager.AppSettings["EMailSenderUserName"];
-            this.textBoxSendPassword.Text = ConfigurationManager.AppSettings["EMailSenderPassword"];
-            this.textBoxRecieveUserName.Text = ConfigurationManager.AppSettings["EMailReceiverName"];
+            this.textBoxSendUserName.Text = AppConfigRWTool.ReadSetting("EMailSenderUserName");
+            this.textBoxSendPassword.Text = AppConfigRWTool.ReadSetting("EMailSenderPassword");
+            this.textBoxRecieveUserName.Text = AppConfigRWTool.ReadSetting("EMailReceiverName");
 
-            this.checkBox1.Checked = ConfigurationManager.AppSettings["EmailRportChoose"].Equals("false") ? false : true;
-            this.comboBox1.SelectedIndex = Convert.ToInt32(ConfigurationManager.AppSettings["EmailReportTime"]);
+            this.checkBox1.Checked = AppConfigRWTool.ReadSetting("EmailRportChoose").Equals("false") ? false : true;
+            this.comboBox1.SelectedIndex = Convert.ToInt32(AppConfigRWTool.ReadSetting("EmailReportTime"));
 
             if (!this.checkBox1.Checked)
             {
@@ -35,12 +35,12 @@ namespace SinaWeiboHouseKeeper.Views
         {
             if (!(this.textBoxSendUserName.Text.Equals("") || this.textBoxSendPassword.Text.Equals("") || this.textBoxRecieveUserName.Text.Equals("")))
             {
-                AppConfigRWTool.WriteConfig("EMailSenderUserName", this.textBoxSendUserName.Text);
-                AppConfigRWTool.WriteConfig("EMailSenderPassword", this.textBoxSendPassword.Text);
-                AppConfigRWTool.WriteConfig("EMailReceiverName", this.textBoxRecieveUserName.Text);
+                AppConfigRWTool.WriteSetting("EMailSenderUserName", this.textBoxSendUserName.Text);
+                AppConfigRWTool.WriteSetting("EMailSenderPassword", this.textBoxSendPassword.Text);
+                AppConfigRWTool.WriteSetting("EMailReceiverName", this.textBoxRecieveUserName.Text);
 
-                AppConfigRWTool.WriteConfig("EmailReportTime", this.comboBox1.SelectedIndex.ToString());
-                AppConfigRWTool.WriteConfig("EmailRportChoose" ,(this.checkBox1.Checked ? "true" : "false"));
+                AppConfigRWTool.WriteSetting("EmailReportTime", this.comboBox1.SelectedIndex.ToString());
+                AppConfigRWTool.WriteSetting("EmailRportChoose" ,(this.checkBox1.Checked ? "true" : "false"));
             }
         }
 
