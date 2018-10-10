@@ -30,6 +30,12 @@ namespace SinaWeiboHouseKeeper.Views
             LoginView login = new LoginView();
             login.ShowDialog();
 
+            if (login.IsLocked)
+            {
+                MessageBox.Show("账号异常，请登陆网页微博解除锁定", "提示");
+                return;
+            }
+
             if (login.DialogResult == DialogResult.OK)
             {
                 UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password, login.WBLogin.DisplayName, login.WBLogin.UserId);

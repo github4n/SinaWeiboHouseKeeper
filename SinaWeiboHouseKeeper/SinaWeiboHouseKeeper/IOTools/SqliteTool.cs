@@ -118,7 +118,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                         UserLog.WriteNormalLog("插入图片微博失败", ex.Message);
                     }
                 }
-                reader.Close();
+                //reader.Close();
                 connection.Close();
             }
         }

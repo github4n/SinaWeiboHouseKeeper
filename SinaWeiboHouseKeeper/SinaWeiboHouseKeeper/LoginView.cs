@@ -16,6 +16,9 @@ namespace SinaWeiboHouseKeeper
     {
         public WeiboLogin WBLogin { get; private set; }
 
+        //账号是否被锁定
+        public bool IsLocked { get; private set; }
+
         public LoginView()
         {
             InitializeComponent();
@@ -54,8 +57,16 @@ namespace SinaWeiboHouseKeeper
                 string result = WBLogin.End();
                 if (result.Equals("0"))
                 {
-                    //登录成功
-                    this.ClosePage();
+                    if (WBLogin.DisplayName.IndexOf('<') > -1)
+                    {
+                        this.IsLocked = true;
+                        this.Close();
+                    }
+                    else
+                    {
+                        //登录成功
+                        this.ClosePage();
+                    }
                 }
                 else if (result.Equals("2070") || result.Equals("4096"))
                 {
@@ -131,8 +142,16 @@ namespace SinaWeiboHouseKeeper
 
                     if (result == "0")
                     {
-                        //登录成功
-                        this.ClosePage();
+                        if (WBLogin.DisplayName.IndexOf('<') > -1)
+                        {
+                            this.IsLocked = true;
+                            this.Close();
+                        }
+                        else
+                        {
+                            //登录成功
+                            this.ClosePage();
+                        }
                     }
                     else if (result == "2070")
                     {
