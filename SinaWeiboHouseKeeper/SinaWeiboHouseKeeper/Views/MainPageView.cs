@@ -16,6 +16,7 @@ namespace SinaWeiboHouseKeeper.Views
 {
     public partial class MainPageView : Skin_DevExpress
     {
+        Timer EmailTimer = new Timer() { Interval = 36 };
         public MainPageView()
         {
             InitializeComponent();
@@ -23,6 +24,8 @@ namespace SinaWeiboHouseKeeper.Views
             this.Load += MainPageView_Load;
 
             AppConfigRWTool.CreateConfigFile();
+            EmailTimer.Tick += EmailTimer_Tick;
+            EmailTimer.Enabled = true;
         }
 
         #region userlable事件
@@ -185,6 +188,25 @@ namespace SinaWeiboHouseKeeper.Views
         private void MainPageView_Load(object sender, EventArgs e)
         {
             UserLog.WriteProgramLog("Sina Weibo House Keeper 启动");
+        }
+        //emial发送计时
+        private void EmailTimer_Tick(object sender, EventArgs e)
+        {
+            if (AppConfigRWTool.ReadSetting("EmailRportChoose").Equals("true") &&
+                Convert.ToInt32(AppConfigRWTool.ReadSetting("EmailReportTime")) == DateTime.Now.Hour)
+            {
+                string message = String.Format("<h2>当前正在运行的微博账号共有{0}个</h2><br/>", this.panel1.Controls.Count);
+
+                for (int i = 1; i <= this.panel1.Controls.Count; i++)
+                {
+                    message += (i + ".<br/>");
+                    message += ((UserLable)this.panel1.Controls[i - 1]).GetHtmlEmailMessage();
+                    message += "<br/>";
+                }
+
+                EMailTool.SendMail("微博管家日报告", message);
+                UserLog.WriteProgramLog("日报告已发送", message);
+            }
         }
         #endregion
 

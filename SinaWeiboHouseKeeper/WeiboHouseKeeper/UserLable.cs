@@ -451,5 +451,14 @@ namespace WeiboHouseKeeper
 
         }
         #endregion
+
+        #region 公有方法
+        //获取日报邮件内容
+        public string GetHtmlEmailMessage()
+        {
+            string message = String.Format("账号：{0}<br/>昵称：{1}<br/>剩余图文微博数：{2}<br/>剩余视频微博数：{3}<br/>", this.UserName, this.DisplayName, this.labelImageCount.Text, this.labelVideoCount.Text);
+            return message;
+        }
+        #endregion
     }
 }
