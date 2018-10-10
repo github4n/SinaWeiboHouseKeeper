@@ -16,7 +16,8 @@ namespace SinaWeiboHouseKeeper.Views
 {
     public partial class MainPageView : Skin_DevExpress
     {
-        Timer EmailTimer = new Timer() { Interval = 36 };
+        //一小时
+        Timer EmailTimer = new Timer() { Interval = 3600000 };
         public MainPageView()
         {
             InitializeComponent();
