@@ -30,45 +30,6 @@ namespace SinaWeiboHouseKeeper.Views
         }
 
         #region userlable事件
-        //登录账号
-        private void 登录账号ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            LoginView login = new LoginView();
-            login.ShowDialog();
-
-            if (login.IsLocked)
-            {
-                MessageBox.Show("账号异常，请登陆网页微博解除锁定", "提示");
-                return;
-            }
-
-            if (login.DialogResult == DialogResult.OK)
-            {
-                UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password, login.WBLogin.DisplayName, login.WBLogin.UserId);
-                if (this.panel1.Controls.Count == 0)
-                {
-                    userLable.Location = new Point(4, 4);
-                }
-                else
-                {
-                    userLable.Location = new Point(4, this.panel1.Controls[this.panel1.Controls.Count - 1].Location.Y + 190 + 6);
-                }
-                userLable.PublishWeiboEvent += PublishWeiboEvent;
-                userLable.UpdateCookiesEvent += UpdateCookiesEvent;
-                userLable.SendEmailEvent += SendEmailEvent;
-                userLable.WriteLogEvent += WriteLogEvent;
-                userLable.UpdateSQLiteEvent += UpdateSQLiteEvent;
-                userLable.FollowFansEvent += FollowFansEvent;
-                //设置头像
-                userLable.AvatarImage = login.WBLogin.GetAvatarImage();
-
-                this.panel1.Controls.Add(userLable);
-                SqliteTool.CreateDataBase(userLable.DisplayName);
-                //更新微博剩余显示
-                userLable.ImageWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, login.WBLogin.DisplayName).ToString();
-                userLable.VideoWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.VideoWeibo, login.WBLogin.DisplayName).ToString();
-            }
-        }
         //粉丝事件
         private void FollowFansEvent(object sender, bool isFollow)
         {
@@ -160,6 +121,47 @@ namespace SinaWeiboHouseKeeper.Views
         #endregion
 
         #region 工具条事件
+        //登录账号
+        private void 登录账号ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LoginView login = new LoginView();
+            login.ShowDialog();
+
+            if (login.IsLocked)
+            {
+                MessageBox.Show("账号异常，请登陆网页微博解除锁定", "提示");
+                return;
+            }
+
+            if (login.DialogResult == DialogResult.OK)
+            {
+                UserLable userLable = new UserLable(login.WBLogin.MyCookies, login.WBLogin.Username, login.WBLogin.Password, login.WBLogin.DisplayName, login.WBLogin.UserId);
+                if (this.panel1.Controls.Count == 0)
+                {
+                    userLable.Location = new Point(4, 4);
+                }
+                else
+                {
+                    userLable.Location = new Point(4, this.panel1.Controls[this.panel1.Controls.Count - 1].Location.Y + 190 + 6);
+                }
+                userLable.PublishWeiboEvent += PublishWeiboEvent;
+                userLable.UpdateCookiesEvent += UpdateCookiesEvent;
+                userLable.SendEmailEvent += SendEmailEvent;
+                userLable.WriteLogEvent += WriteLogEvent;
+                userLable.UpdateSQLiteEvent += UpdateSQLiteEvent;
+                userLable.FollowFansEvent += FollowFansEvent;
+                //设置头像
+                userLable.AvatarImage = login.WBLogin.GetAvatarImage();
+
+                this.panel1.Controls.Add(userLable);
+                SqliteTool.CreateDataBase(userLable.DisplayName);
+                //更新微博剩余显示
+                userLable.ImageWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo, login.WBLogin.DisplayName).ToString();
+                userLable.VideoWeiboCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.VideoWeibo, login.WBLogin.DisplayName).ToString();
+
+                this.checkedListBox1.Items.Add(login.WBLogin.DisplayName);
+            }
+        }
         //广告过滤
         private void AdFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {

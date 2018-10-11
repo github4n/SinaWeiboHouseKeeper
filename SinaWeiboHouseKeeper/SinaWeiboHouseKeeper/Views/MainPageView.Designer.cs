@@ -45,6 +45,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.textBoxGetWeibo = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.menuStrip1.SuspendLayout();
             this.panelCollection.SuspendLayout();
             this.groupBoxGetWeibo.SuspendLayout();
@@ -90,21 +91,21 @@
             // AdFilterToolStripMenuItem
             // 
             this.AdFilterToolStripMenuItem.Name = "AdFilterToolStripMenuItem";
-            this.AdFilterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.AdFilterToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.AdFilterToolStripMenuItem.Text = "广告特征词过滤";
             this.AdFilterToolStripMenuItem.Click += new System.EventHandler(this.AdFilterToolStripMenuItem_Click);
             // 
             // 邮件报告ToolStripMenuItem
             // 
             this.邮件报告ToolStripMenuItem.Name = "邮件报告ToolStripMenuItem";
-            this.邮件报告ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.邮件报告ToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.邮件报告ToolStripMenuItem.Text = "邮件报告";
             this.邮件报告ToolStripMenuItem.Click += new System.EventHandler(this.邮件报告ToolStripMenuItem_Click);
             // 
             // 验证码识别ToolStripMenuItem
             // 
             this.验证码识别ToolStripMenuItem.Name = "验证码识别ToolStripMenuItem";
-            this.验证码识别ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.验证码识别ToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.验证码识别ToolStripMenuItem.Text = "云打码Cookie更新";
             this.验证码识别ToolStripMenuItem.Click += new System.EventHandler(this.验证码识别ToolStripMenuItem_Click);
             // 
@@ -134,14 +135,15 @@
             // 
             // groupBoxGetWeibo
             // 
+            this.groupBoxGetWeibo.Controls.Add(this.checkedListBox1);
             this.groupBoxGetWeibo.Controls.Add(this.buttonStartGetWeibo);
             this.groupBoxGetWeibo.Controls.Add(this.checkBoxGetVideoWeibo);
             this.groupBoxGetWeibo.Controls.Add(this.checkBoxGetImageWeibo);
             this.groupBoxGetWeibo.Controls.Add(this.label18);
             this.groupBoxGetWeibo.Controls.Add(this.textBoxGetWeibo);
-            this.groupBoxGetWeibo.Location = new System.Drawing.Point(3, 304);
+            this.groupBoxGetWeibo.Location = new System.Drawing.Point(3, 266);
             this.groupBoxGetWeibo.Name = "groupBoxGetWeibo";
-            this.groupBoxGetWeibo.Size = new System.Drawing.Size(329, 161);
+            this.groupBoxGetWeibo.Size = new System.Drawing.Size(329, 199);
             this.groupBoxGetWeibo.TabIndex = 1;
             this.groupBoxGetWeibo.TabStop = false;
             this.groupBoxGetWeibo.Text = "获取数据";
@@ -155,7 +157,7 @@
             this.buttonStartGetWeibo.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonStartGetWeibo.DownBack = null;
             this.buttonStartGetWeibo.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonStartGetWeibo.Location = new System.Drawing.Point(85, 121);
+            this.buttonStartGetWeibo.Location = new System.Drawing.Point(51, 148);
             this.buttonStartGetWeibo.MouseBack = null;
             this.buttonStartGetWeibo.Name = "buttonStartGetWeibo";
             this.buttonStartGetWeibo.NormlBack = null;
@@ -169,7 +171,7 @@
             // checkBoxGetVideoWeibo
             // 
             this.checkBoxGetVideoWeibo.AutoSize = true;
-            this.checkBoxGetVideoWeibo.Location = new System.Drawing.Point(154, 92);
+            this.checkBoxGetVideoWeibo.Location = new System.Drawing.Point(125, 108);
             this.checkBoxGetVideoWeibo.Name = "checkBoxGetVideoWeibo";
             this.checkBoxGetVideoWeibo.Size = new System.Drawing.Size(72, 16);
             this.checkBoxGetVideoWeibo.TabIndex = 14;
@@ -179,7 +181,7 @@
             // checkBoxGetImageWeibo
             // 
             this.checkBoxGetImageWeibo.AutoSize = true;
-            this.checkBoxGetImageWeibo.Location = new System.Drawing.Point(52, 92);
+            this.checkBoxGetImageWeibo.Location = new System.Drawing.Point(23, 108);
             this.checkBoxGetImageWeibo.Name = "checkBoxGetImageWeibo";
             this.checkBoxGetImageWeibo.Size = new System.Drawing.Size(72, 16);
             this.checkBoxGetImageWeibo.TabIndex = 13;
@@ -189,7 +191,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(40, 26);
+            this.label18.Location = new System.Drawing.Point(21, 40);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(143, 12);
             this.label18.TabIndex = 2;
@@ -198,7 +200,7 @@
             // textBoxGetWeibo
             // 
             this.textBoxGetWeibo.Font = new System.Drawing.Font("宋体", 15F);
-            this.textBoxGetWeibo.Location = new System.Drawing.Point(40, 49);
+            this.textBoxGetWeibo.Location = new System.Drawing.Point(6, 72);
             this.textBoxGetWeibo.Name = "textBoxGetWeibo";
             this.textBoxGetWeibo.Size = new System.Drawing.Size(209, 30);
             this.textBoxGetWeibo.TabIndex = 0;
@@ -207,9 +209,17 @@
             // 
             this.richTextBox1.Location = new System.Drawing.Point(3, 4);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(329, 294);
+            this.richTextBox1.Size = new System.Drawing.Size(329, 256);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(221, 26);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(102, 164);
+            this.checkedListBox1.TabIndex = 16;
             // 
             // MainPageView
             // 
@@ -250,5 +260,6 @@
         private System.Windows.Forms.TextBox textBoxGetWeibo;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ToolStripMenuItem 登录账号ToolStripMenuItem;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
     }
 }
