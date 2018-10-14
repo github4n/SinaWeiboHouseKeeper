@@ -248,7 +248,10 @@ namespace SinaWeiboHouseKeeper.Views
 
         private void buttonStartGetWeibo_Click(object sender, EventArgs e)
         {
-            if (!this.checkBoxGetImageWeibo.Checked && !this.checkBoxGetVideoWeibo.Checked || this.textBoxGetWeibo.Text.Equals(""))
+            //判断有效条件
+            if ((!this.checkBoxGetImageWeibo.Checked && !this.checkBoxGetVideoWeibo.Checked) || 
+                this.textBoxGetWeibo.Text.Equals("") || 
+                this.checkedListBox1.CheckedItems.Count == 0)
             {
                 return;
             }

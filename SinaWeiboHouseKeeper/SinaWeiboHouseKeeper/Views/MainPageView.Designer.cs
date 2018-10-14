@@ -39,13 +39,14 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelCollection = new CCWin.SkinControl.SkinPanel();
             this.groupBoxGetWeibo = new System.Windows.Forms.GroupBox();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.buttonStartGetWeibo = new CCWin.SkinControl.SkinButton();
             this.checkBoxGetVideoWeibo = new System.Windows.Forms.CheckBox();
             this.checkBoxGetImageWeibo = new System.Windows.Forms.CheckBox();
             this.label18 = new System.Windows.Forms.Label();
             this.textBoxGetWeibo = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panelCollection.SuspendLayout();
             this.groupBoxGetWeibo.SuspendLayout();
@@ -135,6 +136,7 @@
             // 
             // groupBoxGetWeibo
             // 
+            this.groupBoxGetWeibo.Controls.Add(this.label1);
             this.groupBoxGetWeibo.Controls.Add(this.checkedListBox1);
             this.groupBoxGetWeibo.Controls.Add(this.buttonStartGetWeibo);
             this.groupBoxGetWeibo.Controls.Add(this.checkBoxGetVideoWeibo);
@@ -148,6 +150,14 @@
             this.groupBoxGetWeibo.TabStop = false;
             this.groupBoxGetWeibo.Text = "获取数据";
             // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(6, 45);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(123, 148);
+            this.checkedListBox1.TabIndex = 16;
+            // 
             // buttonStartGetWeibo
             // 
             this.buttonStartGetWeibo.BackColor = System.Drawing.Color.Transparent;
@@ -157,7 +167,7 @@
             this.buttonStartGetWeibo.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonStartGetWeibo.DownBack = null;
             this.buttonStartGetWeibo.Font = new System.Drawing.Font("宋体", 12F);
-            this.buttonStartGetWeibo.Location = new System.Drawing.Point(51, 148);
+            this.buttonStartGetWeibo.Location = new System.Drawing.Point(179, 152);
             this.buttonStartGetWeibo.MouseBack = null;
             this.buttonStartGetWeibo.Name = "buttonStartGetWeibo";
             this.buttonStartGetWeibo.NormlBack = null;
@@ -171,7 +181,7 @@
             // checkBoxGetVideoWeibo
             // 
             this.checkBoxGetVideoWeibo.AutoSize = true;
-            this.checkBoxGetVideoWeibo.Location = new System.Drawing.Point(125, 108);
+            this.checkBoxGetVideoWeibo.Location = new System.Drawing.Point(239, 119);
             this.checkBoxGetVideoWeibo.Name = "checkBoxGetVideoWeibo";
             this.checkBoxGetVideoWeibo.Size = new System.Drawing.Size(72, 16);
             this.checkBoxGetVideoWeibo.TabIndex = 14;
@@ -181,7 +191,7 @@
             // checkBoxGetImageWeibo
             // 
             this.checkBoxGetImageWeibo.AutoSize = true;
-            this.checkBoxGetImageWeibo.Location = new System.Drawing.Point(23, 108);
+            this.checkBoxGetImageWeibo.Location = new System.Drawing.Point(147, 119);
             this.checkBoxGetImageWeibo.Name = "checkBoxGetImageWeibo";
             this.checkBoxGetImageWeibo.Size = new System.Drawing.Size(72, 16);
             this.checkBoxGetImageWeibo.TabIndex = 13;
@@ -191,7 +201,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(21, 40);
+            this.label18.Location = new System.Drawing.Point(145, 38);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(143, 12);
             this.label18.TabIndex = 2;
@@ -200,9 +210,9 @@
             // textBoxGetWeibo
             // 
             this.textBoxGetWeibo.Font = new System.Drawing.Font("宋体", 15F);
-            this.textBoxGetWeibo.Location = new System.Drawing.Point(6, 72);
+            this.textBoxGetWeibo.Location = new System.Drawing.Point(147, 66);
             this.textBoxGetWeibo.Name = "textBoxGetWeibo";
-            this.textBoxGetWeibo.Size = new System.Drawing.Size(209, 30);
+            this.textBoxGetWeibo.Size = new System.Drawing.Size(164, 30);
             this.textBoxGetWeibo.TabIndex = 0;
             // 
             // richTextBox1
@@ -213,13 +223,14 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
-            // checkedListBox1
+            // label1
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(221, 26);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(102, 164);
-            this.checkedListBox1.TabIndex = 16;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 12);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "待更新数据库选择：";
             // 
             // MainPageView
             // 
@@ -261,5 +272,6 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ToolStripMenuItem 登录账号ToolStripMenuItem;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Label label1;
     }
 }
