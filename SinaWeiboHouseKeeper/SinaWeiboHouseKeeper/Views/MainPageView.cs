@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeiboHouseKeeper;
+using static System.Windows.Forms.ListBox;
 
 namespace SinaWeiboHouseKeeper.Views
 {
@@ -265,26 +266,31 @@ namespace SinaWeiboHouseKeeper.Views
             //获取图文微博
             if (this.checkBoxGetImageWeibo.Checked)
             {
-                //int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                for (int i = 0; i < this.checkedListBox1.Items.Count; i++)
+                {
+                    if (this.checkedListBox1.GetItemChecked(i))
+                    {
+                        string nickName = this.checkedListBox1.Items[i].ToString();
+                        int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo,nickName);
 
-                //List<ImageWeibo> imageWeibos = WeiboOperate.GetImageWeibos(this.textBoxGetWeibo.Text,out string oid);
+                        //List<ImageWeibo> imageWeibos = WeiboOperateTool.GetImageWeibos(this.textBoxGetWeibo.Text, out string oid);
 
-                //IOTools.SqliteTool.InsertImageWebos(imageWeibos);
+                        //IOTools.SqliteTool.InsertImageWebos(imageWeibos);
 
-                //int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                        //int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
 
-                //UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
+                        //UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
 
-                //string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString()+ "条";
-                //this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
+                        //string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString() + "条";
+                        //this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
 
-                ////uid可以正常获取数据时说明有效，存入数据库
-                //if (endCount - StartCount > 0)
-                //{
-                //    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text,oid);
-                //}
-
-                //this.UpdateDisplayDataMessage();
+                        ////uid可以正常获取数据时说明有效，存入数据库
+                        //if (endCount - StartCount > 0)
+                        //{
+                        //    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text, oid);
+                        //}
+                    }
+                }
             }
 
             //获取视频微博
