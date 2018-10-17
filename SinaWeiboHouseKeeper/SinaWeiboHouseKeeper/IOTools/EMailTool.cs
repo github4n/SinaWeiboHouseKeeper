@@ -60,6 +60,7 @@ namespace SinaWeiboHouseKeeper.IOTools
                 //超时时间 
                 smtp.Timeout = 30000;
                 smtp.Send(mail);
+                UserLog.WriteProgramLog("日报告已发送", body);
             }
             catch (Exception exp)
             {

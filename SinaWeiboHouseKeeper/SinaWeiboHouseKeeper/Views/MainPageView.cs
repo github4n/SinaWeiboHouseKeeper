@@ -209,7 +209,6 @@ namespace SinaWeiboHouseKeeper.Views
                 }
 
                 EMailTool.SendMail("微博管家日报告", message);
-                UserLog.WriteProgramLog("日报告已发送", message);
             }
         }
         #endregion
