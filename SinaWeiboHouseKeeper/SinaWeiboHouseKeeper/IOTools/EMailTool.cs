@@ -65,6 +65,7 @@ namespace SinaWeiboHouseKeeper.IOTools
             catch (Exception exp)
             {
                 UserLog.WriteProgramLog("邮件发送失败" , exp.Message);
+                UserLog.WriteProgramLog("未发送成功内容", body);
             }
         }
 
