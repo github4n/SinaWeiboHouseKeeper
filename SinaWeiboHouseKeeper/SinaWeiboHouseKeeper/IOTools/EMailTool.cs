@@ -47,9 +47,14 @@ namespace SinaWeiboHouseKeeper.IOTools
                 //是否HTML形式发送 
                 mail.IsBodyHtml = true;
 
+                mail.Priority = MailPriority.High;
+
                 //网易邮件服务器和端口 （只支持网易邮箱）
-                SmtpClient smtp = new SmtpClient("smtp.163.com", 25);
-                smtp.UseDefaultCredentials = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.qq.com";
+                smtp.Port = 587;
+
+                smtp.UseDefaultCredentials = false;
 
                 //指定发送方式 
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -57,14 +62,19 @@ namespace SinaWeiboHouseKeeper.IOTools
                 //指定登录名和密码 
                 smtp.Credentials = new System.Net.NetworkCredential(username, password);
 
+                smtp.EnableSsl = true;
+
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+
                 //超时时间 
                 smtp.Timeout = 30000;
                 smtp.Send(mail);
                 UserLog.WriteProgramLog("日报告已发送", body);
+                mail.Dispose();
             }
             catch (Exception exp)
             {
-                UserLog.WriteProgramLog("邮件发送失败" , exp.Message);
+                UserLog.WriteProgramLog("邮件发送失败", exp.Message);
                 UserLog.WriteProgramLog("未发送成功内容", body);
             }
         }
@@ -87,5 +97,6 @@ namespace SinaWeiboHouseKeeper.IOTools
 
             SendMail(UserName, Password, FromName, Receiver, title, body);
         }
+
     }
 }
