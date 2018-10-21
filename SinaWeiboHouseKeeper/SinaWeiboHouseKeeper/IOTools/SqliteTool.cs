@@ -249,7 +249,7 @@ namespace SinaWeiboHouseKeeper.IOTools
             }
             catch (Exception ex)
             {
-                UserLog.WriteNormalLog("插入oid失败",ex.Message);
+                UserLog.WriteNormalLog(userName, "插入oid失败", oid + "\n" + ex.Message);
             }
         }
 
@@ -282,7 +282,7 @@ namespace SinaWeiboHouseKeeper.IOTools
             return uid;
         }
 
-        //获取所有用户uid，用来获取微博
+        //获取10个用户uid，用来获取微博
         public static List<string> Get10Uid(string userName)
         {
             SQLiteConnection connection = DataBaseConnection(userName);

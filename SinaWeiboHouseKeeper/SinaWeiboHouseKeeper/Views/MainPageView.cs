@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -252,7 +253,7 @@ namespace SinaWeiboHouseKeeper.Views
             //判断有效条件
             if ((!this.checkBoxGetImageWeibo.Checked && !this.checkBoxGetVideoWeibo.Checked) || 
                 this.textBoxGetWeibo.Text.Equals("") || 
-                this.checkedListBox1.CheckedItems.Count == 0)
+                this.checkedListBox1.CheckedItems.Count == 0 )
             {
                 return;
             }
@@ -266,6 +267,10 @@ namespace SinaWeiboHouseKeeper.Views
             //获取图文微博
             if (this.checkBoxGetImageWeibo.Checked)
             {
+                //获取微博
+                CookieContainer cookies = (this.panel1.Controls[0] as UserLable).Cookies;
+                List<ImageWeibo> imageWeibos = WeiboOperateTool.GetImageWeibos(this.textBoxGetWeibo.Text, out string oid, cookies);
+
                 for (int i = 0; i < this.checkedListBox1.Items.Count; i++)
                 {
                     if (this.checkedListBox1.GetItemChecked(i))
@@ -273,22 +278,20 @@ namespace SinaWeiboHouseKeeper.Views
                         string nickName = this.checkedListBox1.Items[i].ToString();
                         int StartCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo,nickName);
 
-                        //List<ImageWeibo> imageWeibos = WeiboOperateTool.GetImageWeibos(this.textBoxGetWeibo.Text, out string oid);
+                        SqliteTool.InsertImageWebos(imageWeibos,nickName);
 
-                        //IOTools.SqliteTool.InsertImageWebos(imageWeibos);
+                        int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo,nickName);
 
-                        //int endCount = SqliteTool.GetLaveWeiboCount(SqliteTool.WeiboType.ImageWeibo);
+                        UserLog.WriteNormalLog(nickName, String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
 
-                        //UserLog.WriteNormalLog(String.Format("爬取图文微博{0}条", endCount - StartCount), String.Format("被爬取用户ID:{0}", this.textBoxGetWeibo.Text));
+                        string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n[" + nickName +"]获取结束：此次共取得图文微博" + (endCount - StartCount).ToString() + "条";
+                        this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
 
-                        //string requestStr = DateTime.Now.ToString("yyyy-MM-dd HH:MM:ss") + "\n" + "获取结束：此次共取得图文微博" + (endCount - StartCount).ToString() + "条";
-                        //this.richTextBox1.Text = this.richTextBox1.Text + requestStr + "\n";
-
-                        ////uid可以正常获取数据时说明有效，存入数据库
-                        //if (endCount - StartCount > 0)
-                        //{
-                        //    SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text, oid);
-                        //}
+                        //uid可以正常获取数据时说明有效，存入数据库
+                        if (endCount - StartCount > 0)
+                        {
+                            SqliteTool.InsertUidAndOid(this.textBoxGetWeibo.Text, oid, nickName);
+                        }
                     }
                 }
             }
