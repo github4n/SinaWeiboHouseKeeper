@@ -39,6 +39,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelCollection = new CCWin.SkinControl.SkinPanel();
             this.groupBoxGetWeibo = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.buttonStartGetWeibo = new CCWin.SkinControl.SkinButton();
             this.checkBoxGetVideoWeibo = new System.Windows.Forms.CheckBox();
@@ -46,7 +47,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.textBoxGetWeibo = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.panelCollection.SuspendLayout();
             this.groupBoxGetWeibo.SuspendLayout();
@@ -150,6 +150,15 @@
             this.groupBoxGetWeibo.TabStop = false;
             this.groupBoxGetWeibo.Text = "获取数据";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(113, 12);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "待更新数据库选择：";
+            // 
             // checkedListBox1
             // 
             this.checkedListBox1.FormattingEnabled = true;
@@ -223,15 +232,6 @@
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 24);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(113, 12);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "待更新数据库选择：";
-            // 
             // MainPageView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -241,6 +241,7 @@
             this.Controls.Add(this.panelCollection);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainPageView";
             this.Text = "Sina Weibo House Keeper";
             this.menuStrip1.ResumeLayout(false);

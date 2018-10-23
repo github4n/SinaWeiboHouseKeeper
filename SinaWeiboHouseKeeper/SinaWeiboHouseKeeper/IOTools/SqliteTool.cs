@@ -115,10 +115,9 @@ namespace SinaWeiboHouseKeeper.IOTools
                     }
                     catch (Exception ex)
                     {
-                        UserLog.WriteNormalLog("插入图片微博失败", ex.Message);
+                        UserLog.WriteNormalLog(userName, "插入图片微博失败", ex.Message);
                     }
                 }
-                //reader.Close();
                 connection.Close();
             }
         }
