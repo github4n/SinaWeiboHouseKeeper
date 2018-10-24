@@ -19,15 +19,22 @@ namespace SinaWeiboHouseKeeper
         /// <returns>返回字符串</returns>
         public static string Get(string url, CookieContainer myCookieContainer, bool autoRedirect)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            request.CookieContainer = myCookieContainer;
-            request.AllowAutoRedirect = autoRedirect;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-            string retStr = sr.ReadToEnd();
-            sr.Close();
-            return retStr;
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                request.CookieContainer = myCookieContainer;
+                request.AllowAutoRedirect = autoRedirect;
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                string retStr = sr.ReadToEnd();
+                sr.Close();
+                return retStr;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
         }
 
         /// <summary>
